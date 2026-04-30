@@ -15,10 +15,7 @@ const islands = [
   },
 ];
 
-async function init() {
-  await whenDOMReady;
-  await whenOdysseyLoaded;
-
+function observeIslands() {
   const islandMap = new Map<HTMLElement, Island>();
 
   const observer = new IntersectionObserver((entries) => {
@@ -28,7 +25,6 @@ async function init() {
 
       if (entry.isIntersecting) {
         mount(island.component, { target: entry.target as HTMLElement });
-
         observer.unobserve(entry.target);
       }
     });
@@ -40,6 +36,13 @@ async function init() {
     islandMap.set(target, island);
     observer.observe(target);
   });
+}
+
+async function init() {
+  await whenDOMReady;
+  await whenOdysseyLoaded;
+
+  observeIslands();
 }
 
 const app = init();
