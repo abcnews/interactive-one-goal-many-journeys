@@ -2,47 +2,30 @@ import { mount } from "svelte";
 import "./app.css";
 import App from "./App.svelte";
 import { whenDOMReady, whenOdysseyLoaded } from "@abcnews/env-utils";
+import { type Island, observeIslands } from "./lib/islands";
 
-type Island = {
-  name: string;
-  component: typeof App;
-};
-
-const islands = [
+const islands: Island[] = [
   {
     name: "app",
     component: App,
   },
 ];
 
-function observeIslands() {
-  const islandMap = new Map<HTMLElement, Island>();
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const island = islandMap.get(entry.target as HTMLElement);
-      if (!island) return;
-
-      if (entry.isIntersecting) {
-        mount(island.component, { target: entry.target as HTMLElement });
-        observer.unobserve(entry.target);
-      }
-    });
-  });
-
-  islands.forEach((island) => {
-    const target = document.getElementById(island.name);
-    if (!target) return;
-    islandMap.set(target, island);
-    observer.observe(target);
-  });
-}
+const mountIsland = ({
+  island,
+  entry,
+}: {
+  island: Island;
+  entry: IntersectionObserverEntry;
+}) => {
+  mount(island.component, { target: entry.target as HTMLElement });
+};
 
 async function init() {
   await whenDOMReady;
   await whenOdysseyLoaded;
 
-  observeIslands();
+  observeIslands({ islands, onObservation: mountIsland });
 }
 
 const app = init();
