@@ -1,13 +1,18 @@
 import { mount } from "svelte";
-import "./app.css";
+import "./styles/main.css";
 import App from "./App.svelte";
+import Cobe from "./islands/Cobe.svelte";
 import { whenDOMReady, whenOdysseyLoaded } from "@abcnews/env-utils";
 import { type Island, observeIslands } from "./lib/islands";
 
 const islands: Island[] = [
+  // {
+  //   name: "app",
+  //   component: App,
+  // },
   {
-    name: "app",
-    component: App,
+    name: "globe",
+    component: Cobe,
   },
 ];
 
