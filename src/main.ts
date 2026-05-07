@@ -1,4 +1,5 @@
 import { mount } from "svelte";
+import { proxy } from "@abcnews/dev-proxy";
 import "./styles/main.css";
 import App from "./App.svelte";
 import Cobe from "./islands/Cobe.svelte";
@@ -33,5 +34,10 @@ async function init() {
   observeIslands({ islands, onObservation: mountIsland });
 }
 
-const app = init();
-export default app;
+proxy("interactive-one-goal-many-journeys", { type: "module" }).then(() => {
+  console.log("Proxy test");
+  init();
+});
+
+// const app = init();
+// export default app;
