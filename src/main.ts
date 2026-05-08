@@ -1,16 +1,13 @@
 import { mount } from "svelte";
-import { proxy } from "@abcnews/dev-proxy";
-import "./styles/main.css";
-import App from "./App.svelte";
-import Cobe from "./islands/Cobe.svelte";
 import { whenDOMReady, whenOdysseyLoaded } from "@abcnews/env-utils";
+
+// Types
 import { type Island, observeIslands } from "./lib/islands";
 
+// Components
+import Cobe from "./islands/Cobe.svelte";
+
 const islands: Island[] = [
-  // {
-  //   name: "app",
-  //   component: App,
-  // },
   {
     name: "globe",
     component: Cobe,
@@ -34,10 +31,5 @@ async function init() {
   observeIslands({ islands, onObservation: mountIsland });
 }
 
-proxy("interactive-one-goal-many-journeys", { type: "module" }).then(() => {
-  console.log("Proxy test");
-  init();
-});
-
-// const app = init();
-// export default app;
+const app = init();
+export default app;

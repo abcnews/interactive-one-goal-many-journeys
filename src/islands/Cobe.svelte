@@ -21,9 +21,11 @@
       glowColor: [1, 1, 1],
       markers: [
         { location: [-33.8558549, 151.1140441], size: 0.03, id: "Sydney" },
-        { location: [49.2577062,-123.2063036,], size: 0.03, id: "Vancouver" },
+        { location: [49.2577062, -123.2063036], size: 0.03, id: "Vancouver" },
       ],
-      arcs: [{ from: [-33.8558549, 151.1140441], to: [49.2577062,-123.2063036,] }],
+      arcs: [
+        { from: [-33.8558549, 151.1140441], to: [49.2577062, -123.2063036] },
+      ],
       arcColor: [0.3, 0.5, 1],
       arcWidth: 0.9,
       arcHeight: 0.4,
