@@ -30,8 +30,9 @@ export function observeIslands({
     }
   };
 
-  const handleIntersection = (entries: IntersectionObserverEntry[]) =>
+  const handleIntersection = (entries: IntersectionObserverEntry[]) => {
     entries.forEach(handleEntry);
+  };
 
   const observer = new IntersectionObserver(handleIntersection);
 
