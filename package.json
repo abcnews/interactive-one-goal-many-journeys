@@ -24,6 +24,7 @@
   "dependencies": {
     "@abcnews/env-utils": "^6.0.0",
     "cobe": "^2.0.1",
-    "d3": "^7.9.0"
+    "d3": "^7.9.0",
+    "effect": "^3.21.2"
   }
 }

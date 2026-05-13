@@ -7,11 +7,12 @@ import { type Island, observeIslands } from "./lib/islands";
 // Components
 import Cobe from "./islands/Cobe.svelte";
 import Chord from "./islands/Chord.svelte";
+import Chord2 from "./islands/Chord2.svelte";
 
 const islands: Island[] = [
   {
     name: "chord",
-    component: Chord,
+    component: Chord2,
   },
 ];
 
