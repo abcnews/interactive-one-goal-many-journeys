@@ -14,9 +14,7 @@ const islands: Island[] = [
 const initProgram = Effect.gen(function* () {
   yield* waitForDOM;
   yield* waitForOdyssey;
-
-  observeIslands({ islands, onObservation: mountIsland });
+  observeIslands({ islands });
 });
 
-const app = Effect.runPromise(initProgram);
-export default app;
+Effect.runPromise(initProgram);

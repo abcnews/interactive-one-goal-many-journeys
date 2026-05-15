@@ -13,12 +13,12 @@ export const mountIsland = ({
   island: Island;
   entry: IntersectionObserverEntry;
 }) => {
-  mount(island.component, { target: entry.target as HTMLElement });
+  return mount(island.component, { target: entry.target as HTMLElement });
 };
 
 export function observeIslands({
   islands = [],
-  onObservation = () => {},
+  onObservation = mountIsland,
 }: {
   islands: Island[];
   onObservation?: ({
