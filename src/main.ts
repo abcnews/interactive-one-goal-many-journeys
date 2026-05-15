@@ -1,12 +1,7 @@
-import { mount } from "svelte";
-import { whenDOMReady, whenOdysseyLoaded } from "@abcnews/env-utils";
+import { Effect } from "effect";
+import { type Island, observeIslands, mountIsland } from "./lib/islands";
+import { waitForDOM, waitForOdyssey } from "./lib/env";
 
-// Types
-import { type Island, observeIslands } from "./lib/islands";
-
-// Components
-import Cobe from "./islands/Cobe.svelte";
-import Chord from "./islands/Chord.svelte";
 import Chord2 from "./islands/Chord2.svelte";
 
 const islands: Island[] = [
@@ -16,22 +11,12 @@ const islands: Island[] = [
   },
 ];
 
-const mountIsland = ({
-  island,
-  entry,
-}: {
-  island: Island;
-  entry: IntersectionObserverEntry;
-}) => {
-  mount(island.component, { target: entry.target as HTMLElement });
-};
-
-async function init() {
-  await whenDOMReady;
-  await whenOdysseyLoaded;
+const initProgram = Effect.gen(function* () {
+  yield* waitForDOM;
+  yield* waitForOdyssey;
 
   observeIslands({ islands, onObservation: mountIsland });
-}
+});
 
-const app = init();
+const app = Effect.runPromise(initProgram);
 export default app;

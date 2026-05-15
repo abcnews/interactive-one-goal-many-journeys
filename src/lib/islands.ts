@@ -1,8 +1,19 @@
 import type { Component } from "svelte";
+import { mount } from "svelte";
 
 export type Island = {
   name: string;
   component: Component;
+};
+
+export const mountIsland = ({
+  island,
+  entry,
+}: {
+  island: Island;
+  entry: IntersectionObserverEntry;
+}) => {
+  mount(island.component, { target: entry.target as HTMLElement });
 };
 
 export function observeIslands({
