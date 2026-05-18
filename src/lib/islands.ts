@@ -27,7 +27,7 @@ export function observeIslands({
   }: {
     island: Island;
     entry: IntersectionObserverEntry;
-  }) => void;
+  }) => {};
 }) {
   const islandMap = new Map<HTMLElement, Island>();
 
