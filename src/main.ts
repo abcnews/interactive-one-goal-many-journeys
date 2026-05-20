@@ -4,7 +4,14 @@ import { waitForDOM, waitForOdyssey } from "./lib/env";
 
 import "./main.scss";
 
-const islands: Island[] = [];
+import Map from "./islands/Map.svelte";
+
+const islands: Island[] = [
+  {
+    name: "map",
+    component: Map,
+  },
+];
 
 const initProgram = Effect.gen(function* () {
   yield* waitForDOM;
@@ -13,4 +20,6 @@ const initProgram = Effect.gen(function* () {
   return "Initialised";
 });
 
-Effect.runPromise(initProgram).then(console.log, console.error);
+Effect.runPromise(initProgram)
+  .then((result) => console.log("Started:", result))
+  .catch((error) => console.error("Failed:", error));

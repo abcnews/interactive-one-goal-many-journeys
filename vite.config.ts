@@ -8,7 +8,8 @@ import path from "node:path";
 export default defineConfig({
   plugins: [svelte(), mkcert(), moduleLoader()],
   server: {
-    origin: "https://localhost:5173",
+    host: 'abc-xdtyqmn915.aus.aunty.abc.net.au',
+    // origin: "https://localhost:5173",
     cors: true,
   },
   build: {
