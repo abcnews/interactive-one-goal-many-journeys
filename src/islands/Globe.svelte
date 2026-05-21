@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Map, LngLatLike } from "maplibre-gl";
-  import { DeckGLOverlay } from "@svelte-maplibre-gl/deckgl";
-  import { ArcLayer } from "@deck.gl/layers";
+  import { MapLibre, Marker, Projection, Light, Sky } from "svelte-maplibre-gl";
 
   import openFreeMap from "../assets/open-free-map.json?url";
 
@@ -11,27 +10,21 @@
     lng: 153.0204415,
     lat: -27.4752564,
   };
-
-  const svelteMaplibreGl = import("svelte-maplibre-gl");
 </script>
 
 <div class="map u-full sticky-container">
-  {#await Promise.all([svelteMaplibreGl])}
-    <div class="map-placeholder">Loading map…</div>
-  {:then [{ MapLibre, Marker, Projection }]}
-    <div class="sticky-block">
-      <MapLibre
-        bind:map
-        zoom={8}
-        center={brisbane}
-        style={openFreeMap}
-        scrollZoom={false}
-      >
-        <Projection type="globe" />
-        <Marker lnglat={brisbane} />
-      </MapLibre>
-    </div>
-  {/await}
+  <div class="sticky-block">
+    <MapLibre
+      bind:map
+      zoom={8}
+      center={brisbane}
+      style={openFreeMap}
+      scrollZoom={false}
+    >
+      <Projection type="globe" />
+      <Marker lnglat={brisbane} />
+    </MapLibre>
+  </div>
 </div>
 
 <style lang="scss">
