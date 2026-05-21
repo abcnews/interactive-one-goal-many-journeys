@@ -5,6 +5,8 @@
   import { ArcLayer } from "@deck.gl/layers";
 
   import openFreeMap from "../assets/open-free-map.json?url";
+  import darkMatter from "../assets/dark_matter.json?url";
+  import toner from "../assets/toner.json?url";
 
   let map: maplibregl.Map | undefined = $state.raw();
 
@@ -25,22 +27,16 @@
       map?.getStyle().layers.forEach((l) => console.log(l.id, l.type));
     }, 500);
 
-    map?.on("load", () => {
-      ["label_country_1", "label_country_2"].forEach((id) => {
-        map?.setLayoutProperty(id, "visibility", "visible");
-      });
-    });
+    // map?.on("load", () => {
+    //   ["label_country_1", "label_country_2"].forEach((id) => {
+    //     map?.setLayoutProperty(id, "visibility", "visible");
+    //   });
+    // });
   });
 </script>
 
 <div class="map">
-  <MapLibre
-    zoom={8}
-    center={brisbane}
-    class="h-[400px]"
-    style={openFreeMap}
-    bind:map
-  >
+  <MapLibre zoom={8} center={brisbane} class="h-[400px]" style={toner} bind:map>
     <Projection type="globe" />
 
     <DeckGLOverlay
