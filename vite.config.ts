@@ -25,6 +25,7 @@ export default defineConfig({
       output: {
         format: "iife",
         entryFileNames: "[name].js",
+        codeSplitting: true,
         intro:
           "var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;" +
           `var ${importMetaUrlPolyfillVariableName} = (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('main.js', document.baseURI).href)`,
