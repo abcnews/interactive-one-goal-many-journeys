@@ -4,13 +4,12 @@ import { waitForDOM, waitForOdyssey } from "./lib/env";
 
 import "./main.scss";
 
-import Map from "./islands/Map.svelte";
-import Globe from "./islands/Globe.svelte";
+import GlobeMount from "./islands/GlobeMount.svelte";
 
 const islands: Island[] = [
   {
     name: "globe",
-    component: Globe,
+    component: GlobeMount,
   },
 ];
 

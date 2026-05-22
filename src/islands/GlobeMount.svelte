@@ -1,8 +1,14 @@
 <script lang="ts">
   import type { Map, LngLatLike } from "maplibre-gl";
-  import { MapLibre, Marker, Projection, Light, Sky } from "svelte-maplibre-gl";
+  import { MapLibre, Projection } from "svelte-maplibre-gl";
 
-  import openFreeMap from "../assets/open-free-map.json?url";
+  // ABC hosted:
+  // https://www.abc.net.au/res/sites/news-projects/map-vector-style-light/style.json
+  import darkTest from "../assets/dark_test.json?url";
+
+  import Globe from "../components/Globe.svelte";
+
+  let {} = $props();
 
   let map: Map | undefined = $state.raw();
 
@@ -10,20 +16,13 @@
     lng: 153.0204415,
     lat: -27.4752564,
   };
+
+  const plumpton: LngLatLike = { lng: 150.839167, lat: -33.753056 };
 </script>
 
 <div class="map u-full sticky-container">
   <div class="sticky-block">
-    <MapLibre
-      bind:map
-      zoom={8}
-      center={brisbane}
-      style={openFreeMap}
-      scrollZoom={false}
-    >
-      <Projection type="globe" />
-      <Marker lnglat={brisbane} />
-    </MapLibre>
+    <Globe />
   </div>
 </div>
 
