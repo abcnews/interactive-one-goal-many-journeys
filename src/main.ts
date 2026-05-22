@@ -1,22 +1,28 @@
 import { Effect } from "effect";
-import { type Island, observeIslands, mountIsland } from "./lib/islands";
+import { type Island, prepareIslands } from "./lib/islands";
 import { waitForDOM, waitForOdyssey } from "./lib/env";
 
 import "./main.scss";
-
 import GlobeMount from "./islands/GlobeMount.svelte";
+import Utils from "./islands/Utils.svelte";
 
 const islands: Island[] = [
   {
+    name: "utils",
+    component: Utils,
+    mountOn: "load"
+  },
+  {
     name: "globe",
     component: GlobeMount,
+    mountOn: "visible",
   },
 ];
 
 const initProgram = Effect.gen(function* () {
   yield* waitForDOM;
   yield* waitForOdyssey;
-  observeIslands({ islands });
+  prepareIslands({ islands });
   return "Initialised";
 });
 

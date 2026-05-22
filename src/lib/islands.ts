@@ -1,9 +1,15 @@
 import type { Component } from "svelte";
 import { mount } from "svelte";
+import { Match } from "effect";
+
+const { when, exhaustive } = Match;
+
+type MountMethod = "load" | "visible";
 
 export type Island = {
   name: string;
   component: Component;
+  mountOn: MountMethod;
 };
 
 export const mountIsland = ({
@@ -16,7 +22,7 @@ export const mountIsland = ({
   return mount(island.component, { target: entry.target as HTMLElement });
 };
 
-export function observeIslands({
+export function prepareIslands({
   islands = [],
   onObservation = mountIsland,
 }: {
@@ -29,10 +35,10 @@ export function observeIslands({
     entry: IntersectionObserverEntry;
   }) => {};
 }) {
-  const islandMap = new Map<HTMLElement, Island>();
+  const islandObservationMap = new Map<HTMLElement, Island>();
 
   const handleEntry = (entry: IntersectionObserverEntry) => {
-    const island = islandMap.get(entry.target as HTMLElement);
+    const island = islandObservationMap.get(entry.target as HTMLElement);
     if (!island) return;
 
     if (entry.isIntersecting) {
@@ -47,10 +53,24 @@ export function observeIslands({
 
   const observer = new IntersectionObserver(handleIntersection);
 
-  islands.forEach((island) => {
+  function instantMount(island: Island) {
     const target = document.getElementById(island.name);
     if (!target) return;
-    islandMap.set(target, island);
+    mount(island.component, { target: target as HTMLElement });
+  }
+
+  function addToObserver(island: Island) {
+    const target = document.getElementById(island.name);
+    if (!target) return;
+    islandObservationMap.set(target, island);
     observer.observe(target);
+  }
+
+  islands.forEach((island) => {
+    Match.value<MountMethod>(island.mountOn).pipe(
+      when("load", () => instantMount(island)),
+      when("visible", () => addToObserver(island)),
+      exhaustive,
+    );
   });
 }
