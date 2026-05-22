@@ -10,6 +10,7 @@ export type Island = {
   name: string;
   component: Component;
   mountOn: MountMethod;
+  mountTo?: HTMLElement;
 };
 
 export const mountIsland = ({
@@ -54,13 +55,13 @@ export function prepareIslands({
   const observer = new IntersectionObserver(handleIntersection);
 
   function instantMount(island: Island) {
-    const target = document.getElementById(island.name);
+    const target = island.mountTo || document.getElementById(island.name);
     if (!target) return;
     mount(island.component, { target: target as HTMLElement });
   }
 
   function addToObserver(island: Island) {
-    const target = document.getElementById(island.name);
+    const target = island.mountTo || document.getElementById(island.name);
     if (!target) return;
     islandObservationMap.set(target, island);
     observer.observe(target);

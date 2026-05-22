@@ -10,7 +10,8 @@ const islands: Island[] = [
   {
     name: "utils",
     component: Utils,
-    mountOn: "load"
+    mountOn: "load",
+    mountTo: document.body,
   },
   {
     name: "globe",
