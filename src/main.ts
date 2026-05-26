@@ -7,7 +7,7 @@ import GlobeMount from "./islands/GlobeMount.svelte";
 import Utils from "./islands/Utils.svelte";
 import Map from "./islands/Map.svelte";
 
-const IS_PRODUCTION = false;
+const IS_PRODUCTION: boolean = false;
 
 const articleIslands: Island[] = [
   {
