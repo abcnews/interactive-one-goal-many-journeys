@@ -1,4 +1,5 @@
 <script lang="ts">
+  /** Detects ABC News app */
   let isNewsApp = $state(false);
 
   $effect(() => {
