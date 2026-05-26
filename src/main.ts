@@ -3,7 +3,7 @@ import { type Island, prepareIslands } from "./lib/islands";
 import { waitForDOM, waitForOdyssey } from "./lib/env";
 
 import "./main.scss";
-import GlobeMount from "./islands/GlobeMount.svelte";
+import BackgroundStage from "./islands/BackgroundStage.svelte";
 import Utils from "./islands/Utils.svelte";
 import Map from "./islands/Map.svelte";
 
@@ -17,15 +17,15 @@ const articleIslands: Island[] = [
     mountTo: document.body,
   },
   {
-    name: "globe",
-    component: GlobeMount,
+    name: "stage",
+    component: BackgroundStage,
     mountOn: "visible",
   },
 ];
 
 const demoIslands: Island[] = [
   {
-    name: "map", // Demo map in index.html
+    name: "map",
     component: Map,
     mountOn: "visible",
   },
