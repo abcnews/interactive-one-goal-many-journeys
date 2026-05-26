@@ -31,13 +31,15 @@ const demoIslands: Island[] = [
   },
 ];
 
-const islands = Match.value(IS_PRODUCTION).pipe(
+const getIslands = Match.type<boolean>().pipe(
   Match.when(
     (isProd) => isProd,
     () => articleIslands,
   ),
   Match.orElse(() => [...articleIslands, ...demoIslands]),
 );
+
+const islands = getIslands(IS_PRODUCTION);
 
 const initProgram = Effect.gen(function* () {
   yield* waitForDOM;
