@@ -16,7 +16,6 @@
     lat: -27.4752564,
   };
 
-
   const arcs = [
     { from: [153.02512, -27.46977], to: [-123.1124, 49.2767] }, // Brisbane
     { from: [153.399994, -28.016666], to: [-123.1124, 49.2767] }, // Gold Coast
@@ -54,7 +53,13 @@
 </script>
 
 <div class="map">
-  <MapLibre zoom={3} center={brisbane} class="h-[400px]" style={darkTest} bind:map>
+  <MapLibre
+    zoom={3}
+    center={brisbane}
+    class="h-[400px]"
+    style={darkTest}
+    bind:map
+  >
     <Projection type="globe" />
 
     <DeckGLOverlay

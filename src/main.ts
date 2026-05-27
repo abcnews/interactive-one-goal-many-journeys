@@ -1,51 +1,20 @@
 import { Effect, Match } from "effect";
-import { type Island, prepareIslands } from "./lib/islands";
 import { waitForDOM, waitForOdyssey } from "./lib/env";
+import { mount } from "svelte";
 
 import "./main.scss";
-import BackgroundStage from "./islands/BackgroundStage.svelte";
-import Utils from "./islands/Utils.svelte";
-import Map from "./islands/Map.svelte";
 
-const IS_PRODUCTION: boolean = false;
-
-const articleIslands: Island[] = [
-  {
-    name: "utils",
-    component: Utils,
-    mountOn: "load",
-    mountTo: document.body,
-  },
-  {
-    name: "stage",
-    component: BackgroundStage,
-    mountOn: "visible",
-  },
-];
-
-const demoIslands: Island[] = [
-  {
-    name: "map",
-    component: Map,
-    mountOn: "visible",
-  },
-];
-
-const getIslands = Match.type<boolean>().pipe(
-  Match.when(
-    (isProd) => isProd,
-    () => articleIslands,
-  ),
-  Match.orElse(() => [...articleIslands, ...demoIslands]),
-);
-
-const islands = getIslands(IS_PRODUCTION);
+import App from "./App.svelte";
 
 const initProgram = Effect.gen(function* () {
   yield* waitForDOM;
   yield* waitForOdyssey;
-  prepareIslands({ islands });
-  return "Interactive Initialised";
+
+  mount(App, {
+    target: document.getElementById("stage")!,
+  });
+
+  return "Interactive initialised...";
 });
 
 Effect.runPromise(initProgram)
