@@ -1,4 +1,4 @@
-import { Effect, Match } from "effect";
+import { Effect, Match, Duration } from "effect";
 import { waitForDOM, waitForOdyssey } from "./lib/env";
 import { mount } from "svelte";
 
@@ -6,9 +6,14 @@ import "./main.scss";
 
 import App from "./App.svelte";
 
+const task = Effect.gen(function* () {
+  const odyssey = yield* waitForOdyssey;
+  return odyssey;
+});
+
 const initProgram = Effect.gen(function* () {
   yield* waitForDOM;
-  yield* waitForOdyssey;
+  yield* task.pipe(Effect.timeout(Duration.seconds(10)));
 
   mount(App, {
     target: document.getElementById("stage")!,
