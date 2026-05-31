@@ -4,7 +4,7 @@
 
 <div class="background-stage u-full">
   <div class="floating">
-    <Globe />
+    <!-- <Globe /> -->
   </div>
 </div>
 
@@ -12,17 +12,13 @@
   :global {
     main#content {
       position: relative;
-      padding-block: 6em;
-
-      /* > *:not(#stage) {
-        position: relative;
-      } */
+      padding-block: 1em 1em;
     }
   }
   .background-stage {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    background: hsl(0, 0%, 5.9%);
     margin-block: 0 !important;
     z-index: -1;
   }

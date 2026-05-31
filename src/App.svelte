@@ -1,14 +1,17 @@
 <script lang="ts">
-  import Utils from "./islands/Utils.svelte";
-  import BackgroundStage from "./islands/BackgroundStage.svelte";
+  import { reducedMotion } from "@stores/reducedMotion.svelte";
+  import Utils from "./components/Utils.svelte";
+  import BackgroundStage from "./components/BackgroundStage.svelte";
+  import LandingCollage from "./components/LandingCollage/LandingCollage.svelte";
+  import Panels from "./components/Panels.svelte";
 
-
-  $effect(() => {
-    console.log("App.svelte mounted...");
-  });
+  // Start reactive observation of reduced motion toggle setting
+  $effect(() => reducedMotion.observe());
 </script>
 
 <BackgroundStage />
+<LandingCollage />
+<Panels />
 <Utils />
 
 <style lang="scss">

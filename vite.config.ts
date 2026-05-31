@@ -3,13 +3,18 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 import mkcert from "vite-plugin-mkcert";
 import { moduleLoader } from "vite-plugin-module-loader";
 import path from "node:path";
-import { analyzer } from "vite-bundle-analyzer";
+// import { analyzer } from "vite-bundle-analyzer";
 
 const importMetaUrlPolyfillVariableName = "__import_meta_url__";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [svelte(), mkcert(), moduleLoader(), analyzer()],
+  plugins: [
+    svelte(),
+    mkcert(),
+    moduleLoader(),
+    // analyzer()
+  ],
   server: {
     host: "abc-xdtyqmn915.aus.aunty.abc.net.au",
     origin: "https://localhost:5173",
@@ -35,6 +40,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@lib": path.resolve("./src/lib"),
+      "@stores": path.resolve("./src/stores"),
+      "@assets": path.resolve("./src/assets"),
     },
   },
 });

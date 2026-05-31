@@ -6,6 +6,9 @@
 
 <style lang="scss">
   :global {
+    body {
+      overflow-x: clip !important;
+    }
     body[data-newsapp] {
       overflow: clip;
       isolation: isolate;
