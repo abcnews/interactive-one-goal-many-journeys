@@ -32,7 +32,8 @@
     "@turf/turf": "^7.3.5",
     "cobe": "^2.0.1",
     "d3": "^7.9.0",
-    "effect": "^3.21.2"
+    "effect": "^3.21.2",
+    "runed": "^0.37.1"
   },
   "trustedDependencies": [
     "@parcel/watcher"
