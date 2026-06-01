@@ -11,6 +11,9 @@ importers:
       '@abcnews/env-utils':
         specifier: ^6.0.0
         version: 6.0.0
+      '@abcnews/mount-utils':
+        specifier: ^3.0.1
+        version: 3.0.1
       '@deck.gl/layers':
         specifier: ^9.3.2
         version: 9.3.2(@deck.gl/core@9.3.2)(@loaders.gl/core@4.4.2)(@luma.gl/core@9.3.3)(@luma.gl/engine@9.3.3(@luma.gl/core@9.3.3)(@luma.gl/shadertools@9.3.3(@luma.gl/core@9.3.3)))
@@ -81,6 +84,10 @@ packages:
   '@abcnews/env-utils@6.0.0':
     resolution: {integrity: sha512-MNJB5qIneMxDwc+qh1lPbxdCQ2Uj7yszc9hHhWHp3rXPXZ02G5dq1yBJfcSa/EdKj6x0Rcq7fXVR493VUQdW3g==}
     engines: {node: '>=20', npm: '>=9'}
+
+  '@abcnews/mount-utils@3.0.1':
+    resolution: {integrity: sha512-+c4mJigNlCKHPkpD4oFb4f5bOU+1PLAITUD5hEBRsGWnvuugD3MX49p5mnPmd5wqj4/vBB34NFCEnSeh4HLgoQ==}
+    engines: {node: '>=18'}
 
   '@bufbuild/protobuf@2.12.0':
     resolution: {integrity: sha512-B/XlCaFIP8LOwzo+bz5uFzATYokcwCKQcghqnlfwSmM5eX/qTkvDBnDPs+gXtX/RyjxJ4DRikECcPJbyALA8FA==}
@@ -1791,6 +1798,8 @@ packages:
 snapshots:
 
   '@abcnews/env-utils@6.0.0': {}
+
+  '@abcnews/mount-utils@3.0.1': {}
 
   '@bufbuild/protobuf@2.12.0': {}
 
