@@ -2,7 +2,7 @@ import { Effect, Match, Duration } from "effect";
 import { waitForDOM, waitForOdyssey } from "./lib/env";
 import { mount } from "svelte";
 
-import "./main.scss";
+import "./styles/main.scss";
 
 import App from "./App.svelte";
 
