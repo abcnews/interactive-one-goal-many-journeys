@@ -1,5 +1,11 @@
 <script lang="ts">
-  const panels = document.querySelectorAll('[data-key="panel"]');
+  import { onMount } from "svelte";
+
+  const doMount = () => {
+    const panels = document.querySelectorAll('[data-key="panel"]');
+    panels[0]?.classList.add("is-first");
+  };
+  onMount(doMount);
 </script>
 
 <style lang="scss">
@@ -17,6 +23,10 @@
       @include breakpoints.for-size(desktop-up) {
         transform: translateX(50%);
         max-width: 45vw;
+      }
+
+      &.is-first {
+        margin-block-start: 20vh;
       }
     }
   }
