@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@abcnews/alternating-case-to-object':
+        specifier: ^3.2.0
+        version: 3.2.0
       '@abcnews/env-utils':
         specifier: ^6.0.0
         version: 6.0.0
@@ -23,6 +26,9 @@ importers:
       '@turf/turf':
         specifier: ^7.3.5
         version: 7.3.5
+      '@types/d3-interpolate':
+        specifier: ^3.0.4
+        version: 3.0.4
       cobe:
         specifier: ^2.0.1
         version: 2.0.1
@@ -48,6 +54,9 @@ importers:
       '@types/node':
         specifier: ^24.12.2
         version: 24.12.4
+      d3-interpolate:
+        specifier: ^3.0.1
+        version: 3.0.1
       maplibre-gl:
         specifier: ^5.24.0
         version: 5.24.0
@@ -80,6 +89,10 @@ importers:
         version: 0.0.1
 
 packages:
+
+  '@abcnews/alternating-case-to-object@3.2.0':
+    resolution: {integrity: sha512-oJm6s2C4nK/ksogWaHAqnDjHb+oJu6Qu44XzamZCbJiGBllmI2gUzoVKvTFBVDTbGdVkUcLnLYYIix+ZOLVl6w==}
+    engines: {node: '>=16'}
 
   '@abcnews/env-utils@6.0.0':
     resolution: {integrity: sha512-MNJB5qIneMxDwc+qh1lPbxdCQ2Uj7yszc9hHhWHp3rXPXZ02G5dq1yBJfcSa/EdKj6x0Rcq7fXVR493VUQdW3g==}
@@ -1796,6 +1809,10 @@ packages:
     resolution: {integrity: sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ==}
 
 snapshots:
+
+  '@abcnews/alternating-case-to-object@3.2.0':
+    dependencies:
+      tslib: 2.8.1
 
   '@abcnews/env-utils@6.0.0': {}
 

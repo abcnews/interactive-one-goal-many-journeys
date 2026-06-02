@@ -28,4 +28,6 @@ Effect.runPromise(initProgram)
     appState.setIsLoaded();
     console.log("Started:", result);
   })
-  .catch((error) => console.error("Failed:", error));
+  .catch((error) => {
+    console.error("Failed:", error);
+  });

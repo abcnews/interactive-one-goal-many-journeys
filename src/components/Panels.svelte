@@ -27,7 +27,7 @@
       } */
 
       &.is-first {
-        margin-block-start: 80vh;
+        margin-block-start: 150vh;
       }
     }
   }

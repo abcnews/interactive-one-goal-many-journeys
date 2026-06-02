@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Globe from "../components/Globe.svelte";
+  let { children = null } = $props();
 </script>
 
 <div class="background-stage u-full">
   <div class="floating">
-    <Globe />
+    {@render children?.()}
   </div>
 </div>
 

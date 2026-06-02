@@ -13,6 +13,7 @@
     "@sveltejs/vite-plugin-svelte": "^7.1.1",
     "@tsconfig/svelte": "^5.0.8",
     "@types/d3": "^7.4.3",
+    "d3-interpolate": "^3.0.1",
     "@types/node": "^24.12.2",
     "maplibre-gl": "^5.24.0",
     "sass-embedded": "^1.99.0",
@@ -26,11 +27,13 @@
     "vite-plugin-module-loader": "^0.0.1"
   },
   "dependencies": {
+    "@abcnews/alternating-case-to-object": "^3.2.0",
     "@abcnews/env-utils": "^6.0.0",
     "@abcnews/mount-utils": "^3.0.1",
     "@deck.gl/layers": "^9.3.2",
     "@svelte-maplibre-gl/deckgl": "^2.0.1",
     "@turf/turf": "^7.3.5",
+    "@types/d3-interpolate": "^3.0.4",
     "cobe": "^2.0.1",
     "d3": "^7.9.0",
     "effect": "^3.21.2",
