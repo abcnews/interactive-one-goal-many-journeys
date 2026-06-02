@@ -20,13 +20,14 @@
       padding: 32px 48px;
       background: #222;
 
-      @include breakpoints.for-size(desktop-up) {
+      // Push to right on Desktop
+      /* @include breakpoints.for-size(desktop-up) {
         transform: translateX(50%);
         max-width: 45vw;
-      }
+      } */
 
       &.is-first {
-        margin-block-start: 50vh;
+        margin-block-start: 80vh;
       }
     }
   }

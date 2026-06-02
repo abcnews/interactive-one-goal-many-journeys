@@ -1,6 +1,7 @@
 import { Effect, Match, Duration } from "effect";
 import { waitForDOM, waitForOdyssey } from "./lib/env";
 import { mount } from "svelte";
+import { appState } from "@stores/appState.svelte";
 
 import "./styles/main.scss";
 
@@ -23,5 +24,8 @@ const initProgram = Effect.gen(function* () {
 });
 
 Effect.runPromise(initProgram)
-  .then((result) => console.log("Started:", result))
+  .then((result) => {
+    appState.setIsLoaded();
+    console.log("Started:", result);
+  })
   .catch((error) => console.error("Failed:", error));

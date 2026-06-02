@@ -1,8 +1,9 @@
 <script lang="ts">
   import { onMount, untrack } from "svelte";
-  import { ScrollState, ElementSize, watch } from "runed";
+  import { ScrollState, ElementSize, watch, watchOnce } from "runed";
 
   import { reducedMotion } from "@stores/reducedMotion.svelte";
+  import { appState } from "@stores/appState.svelte";
 
   import Utils from "./components/Utils.svelte";
   import BackgroundStage from "./components/BackgroundStage.svelte";
@@ -33,18 +34,24 @@
       null,
   );
 
-  $inspect(currentPanel);
-
   // Start reactive observation of reduced motion toggle setting
   onMount(() => reducedMotion.observe());
+
+  $inspect(appState.isLoaded);
 </script>
 
 <BackgroundStage />
-<LandingCollage />
+
+<!-- <LandingCollage /> -->
 <Panels />
 <Utils />
 
-<svelte:window bind:innerHeight={windowInnerHeight} />
+<svelte:window
+  bind:innerHeight={windowInnerHeight}
+  onload={() => {
+    console.log("Window loaded");
+  }}
+/>
 
 <style lang="scss">
   :global(.maplibregl-map) {

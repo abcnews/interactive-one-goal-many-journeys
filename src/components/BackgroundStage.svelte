@@ -4,7 +4,7 @@
 
 <div class="background-stage u-full">
   <div class="floating">
-    <!-- <Globe /> -->
+    <Globe />
   </div>
 </div>
 
