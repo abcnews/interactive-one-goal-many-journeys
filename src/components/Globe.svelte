@@ -32,7 +32,7 @@
   style={darkTest}
   scrollZoom={false}
   onload={() => {
-    // Hack to get latitude loading initially
+    // Hack to get correct latitude loading initially
     if (
       view.zoom === INITIAL_ZOOM &&
       view.lng === INITIAL_LNG &&

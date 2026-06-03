@@ -1,7 +1,7 @@
 {
   "name": "interactive-one-goal-many-journeys",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,8 +13,8 @@
     "@sveltejs/vite-plugin-svelte": "^7.1.1",
     "@tsconfig/svelte": "^5.0.8",
     "@types/d3": "^7.4.3",
-    "d3-interpolate": "^3.0.1",
     "@types/node": "^24.12.2",
+    "d3-interpolate": "^3.0.1",
     "maplibre-gl": "^5.24.0",
     "sass-embedded": "^1.99.0",
     "svelte": "^5.55.5",
@@ -37,7 +37,8 @@
     "cobe": "^2.0.1",
     "d3": "^7.9.0",
     "effect": "^3.21.2",
-    "runed": "^0.37.1"
+    "runed": "^0.37.1",
+    "valibot": "^1.4.1"
   },
   "trustedDependencies": [
     "@parcel/watcher"

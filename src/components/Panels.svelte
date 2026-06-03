@@ -19,6 +19,7 @@
       margin-block-end: 90vh;
       padding: 32px 48px;
       background: #222;
+      color: white;
 
       // Push to right on Desktop
       /* @include breakpoints.for-size(desktop-up) {

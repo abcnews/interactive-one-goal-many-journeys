@@ -5,8 +5,8 @@
   import { interpolateNumber, interpolateZoom } from "d3-interpolate";
   import { parse, stringify } from "@abcnews/alternating-case-to-object";
   import { SvelteMap } from "svelte/reactivity";
+  import * as v from "valibot";
   import { Match } from "effect";
-  const { when, orElse } = Match;
 
   import { reducedMotion } from "@stores/reducedMotion.svelte";
   import { appState } from "@stores/appState.svelte";
@@ -17,39 +17,32 @@
   import Panels from "./components/Panels.svelte";
   import Globe from "./components/Globe.svelte";
 
-  const BASE = 360;
+  import configData from "./assets/config.json";
 
-  type Config = {
-    zoom: number;
-    lng: number;
-    lat: number;
+  const { when, orElse } = Match;
+
+  const BASE = 360;
+  const DEFAULT_LOCATION = {
+    lng: 150.839167,
+    lat: -33.753056,
   };
 
-  let config = new SvelteMap<string, Config>();
-
-  config.set("initial", {
-    zoom: 1,
-    lng: 150.839167,
-    lat: -33.753056,
+  const ConfigSchema = v.object({
+    zoom: v.number(),
+    lng: v.number(),
+    lat: v.number(),
   });
 
-  config.set("start", {
-    zoom: 2,
-    lng: 150.839167,
-    lat: -33.753056,
-  });
+  const ConfigMapSchema = v.record(v.string(), ConfigSchema);
 
-  config.set("sydney", {
-    zoom: 5,
-    lng: 150.839167,
-    lat: -33.753056,
-  });
+  type Config = v.InferOutput<typeof ConfigSchema>;
 
-  config.set("brisbane", {
-    zoom: 7,
-    lng: 153.021072,
-    lat: -27.470125,
-  });
+  const config = new SvelteMap<string, Config>(
+    Object.entries(v.parse(ConfigMapSchema, configData)),
+  );
+
+  // Assume always defined, for typing (be sure it is!)
+  const initialConfig = config.get("initial")!;
 
   const widthFromZoom = (zoom: number) => BASE / Math.pow(2, zoom);
   const zoomFromWidth = (width: number) => Math.log2(BASE / width);
@@ -60,22 +53,46 @@
     element: () => window,
   });
 
-  let panelStates = $derived.by(() => {
+  const PanelTagSchema = v.object({
+    name: v.string(),
+  });
+
+  type PanelState = {
+    name: string;
+    top: number;
+  };
+
+  function filterMap<T, U>(arr: T[], fn: (item: T) => U | null): U[] {
+    return arr.flatMap((item) => {
+      const result = fn(item);
+      return result ? [result] : [];
+    });
+  }
+
+  function parsePanelState(
+    panel: HTMLElement,
+    scrollY: number,
+  ): PanelState | null {
+    const result = v.safeParse(PanelTagSchema, parse(panel.dataset.tag || ""));
+    if (!result.success) return null;
+
+    return {
+      name: result.output.name,
+      top: panel.getBoundingClientRect().top + scrollY,
+    };
+  }
+
+  let panelStates: PanelState[] = $derived.by(() => {
     if (!bodySize.height) return []; // For reactivity mostly
 
-    const panels = document.querySelectorAll(
-      '[data-key^="panel"]',
-    ) as NodeListOf<HTMLElement>;
+    const currentScrollY = untrack(() => scroll.y);
+    const panels = Array.from(
+      document.querySelectorAll(
+        '[data-key^="panel"]',
+      ) as NodeListOf<HTMLElement>,
+    );
 
-    return Array.from(panels).map((panel) => {
-      const parsedTag = parse(panel.dataset.tag || "");
-      const { name } = parsedTag;
-
-      return {
-        name: name as string,
-        top: panel.getBoundingClientRect().top + untrack(() => scroll.y),
-      };
-    });
+    return filterMap(panels, (panel) => parsePanelState(panel, currentScrollY));
   });
 
   const currentPanel = $derived(
@@ -93,7 +110,7 @@
   });
 
   let targetConfig = $derived.by(() => {
-    return config.get(currentPanel?.name ?? "initial") ?? config.get("initial");
+    return config.get(currentPanel?.name ?? "initial") ?? initialConfig;
   });
 
   let previousConfig = $derived.by(() => {
@@ -107,15 +124,11 @@
 
   let view = $derived.by(() => {
     const prev = previousConfig ?? targetConfig;
-    const fromView: d3View = [
-      prev?.lng ?? 150.839167,
-      prev?.lat ?? -33.753056,
-      widthFromZoom(prev?.zoom ?? 1),
-    ];
+    const fromView: d3View = [prev.lng, prev.lat, widthFromZoom(prev.zoom)];
     const toView: d3View = [
-      targetConfig?.lng ?? 150.839167,
-      targetConfig?.lat ?? -33.753056,
-      widthFromZoom(targetConfig?.zoom ?? 1),
+      targetConfig.lng,
+      targetConfig.lat,
+      widthFromZoom(targetConfig.zoom),
     ];
 
     const [cx, cy, width] = interpolateZoom(
@@ -125,12 +138,18 @@
     return { lng: cx, lat: cy, zoom: zoomFromWidth(width) };
   });
 
+  let viewReducedMotion = $derived({
+    lng: targetConfig.lng,
+    lat: targetConfig.lat,
+    zoom: targetConfig.zoom,
+  });
+
   // Start reactive observation of reduced motion toggle setting
   onMount(() => reducedMotion.observe());
 </script>
 
 <BackgroundStage>
-  <Globe {view} />
+  <Globe view={reducedMotion.current ? viewReducedMotion : view} />
 </BackgroundStage>
 
 <!-- <LandingCollage /> -->
