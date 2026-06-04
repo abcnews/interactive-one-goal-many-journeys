@@ -1,5 +1,11 @@
 {
-  "initial": { "globe": true, "zoom": 1, "lng": 150.839167, "lat": -33.753056 },
+  "initial": { "globe": true, "zoom": 1, "lng": 134.354806, "lat": -25.610111 },
+  "auscentre": {
+    "globe": true,
+    "zoom": 1,
+    "lng": 134.354806,
+    "lat": -25.610111
+  },
   "start": { "globe": true, "zoom": 2, "lng": 150.839167, "lat": -33.753056 },
   "sydney": {
     "globe": true,

@@ -14,12 +14,24 @@
   :global {
     .u-layout > [data-key="panel"] {
       border: 1px solid #333;
-      border-radius: 9999px;
+      border-radius: 16px;
       margin-block-start: 90vh;
       margin-block-end: 90vh;
-      padding: 32px 48px;
+      padding: 16px 32px;
       background: hsla(0, 0%, 15%, 0.95);
       color: white;
+      line-height: 1.8em;
+
+      // Mobile: 16px gutters on each side
+      margin-inline: 8px !important;
+      width: calc(100% - 16px);
+
+
+      // Desktop: re-center
+      @include breakpoints.for-size(tablet-portrait-up) {
+        margin-inline: auto !important;
+        max-width: 600px;
+      }
 
       // Push to right on Desktop
       /* @include breakpoints.for-size(desktop-up) {

@@ -60,6 +60,7 @@
   type PanelState = {
     name: string;
     top: number;
+    config: Config | null;
   };
 
   function filterMap<T, U>(arr: T[], fn: (item: T) => U | null): U[] {
@@ -76,9 +77,11 @@
     const result = v.safeParse(PanelTagSchema, parse(panel.dataset.tag || ""));
     if (!result.success) return null;
 
+    const name = result.output.name;
     return {
-      name: result.output.name,
+      name,
       top: panel.getBoundingClientRect().top + scrollY,
+      config: config.get(name) ?? null,
     };
   }
 
@@ -114,10 +117,20 @@
   });
 
   let previousConfig = $derived.by(() => {
-    const keys = [...config.keys()];
-    const currentIndex = keys.indexOf(currentPanel?.name ?? "initial");
-    if (currentIndex <= 0) return null;
-    return config.get(keys[currentIndex - 1]);
+    const currentIndex = panelStates.findLastIndex(
+      (p) => p.name === currentPanel?.name,
+    );
+
+    // Either haven't reached first panel, or are at first panel
+    if (currentIndex <= 0) return initialConfig;
+
+    // Loop through until config found
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      const temporaryConfig = panelStates[i].config;
+      if (temporaryConfig) return temporaryConfig;
+    }
+
+    return initialConfig;
   });
 
   type d3View = [number, number, number];
