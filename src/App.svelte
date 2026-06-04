@@ -23,7 +23,8 @@
   const { when, orElse } = Match;
 
   const BASE = 360;
-  const UP_PAGE_THRESHOLD = 0.3;
+  const UP_PAGE_THRESHOLD = 0.0; // No longer pushing trigger animations up so 0.0
+  const SCROLL_OFFSET = 0.1; // fraction of window height
 
   const ConfigSchema = v.object({
     globe: v.optional(v.boolean()),
@@ -113,22 +114,43 @@
   });
 
   const currentPanel = $derived(
-    panelStates.findLast((panel) => scroll.y + windowInnerHeight > panel.top) ??
-      null,
+    panelStates.findLast(
+      (panel) => scroll.y + windowInnerHeight * (1 - SCROLL_OFFSET) > panel.top,
+    ) ?? null,
   );
 
   const nextPanel = $derived(
-    panelStates.find((panel) => scroll.y + windowInnerHeight <= panel.top) ??
-      null,
+    panelStates.find(
+      (panel) =>
+        scroll.y + windowInnerHeight * (1 - SCROLL_OFFSET) <= panel.top,
+    ) ?? null,
   );
 
+  // const currentPanel = $derived(
+  //   panelStates.findLast((panel) => scroll.y + windowInnerHeight > panel.top) ??
+  //     null,
+  // );
+
+  // const nextPanel = $derived(
+  //   panelStates.find((panel) => scroll.y + windowInnerHeight <= panel.top) ??
+  //     null,
+  // );
+
   const progress = $derived.by(() => {
-    if (!currentPanel) return 0;
+    const panel = currentPanel ?? nextPanel;
+    if (!panel) return 0;
 
     const totalDistance = window.innerHeight;
-    const scrolled = scroll.y + window.innerHeight - currentPanel.top;
+    const scrolled =
+      scroll.y + windowInnerHeight * (1 - SCROLL_OFFSET) - panel.top;
 
     return Math.min(1, Math.max(0, scrolled / totalDistance));
+    // if (!currentPanel) return 0;
+
+    // const totalDistance = window.innerHeight;
+    // const scrolled = scroll.y + window.innerHeight - currentPanel.top;
+
+    // return Math.min(1, Math.max(0, scrolled / totalDistance));
   });
 
   let targetConfig = $derived.by(() => {
@@ -146,9 +168,32 @@
     return initialConfig;
   });
 
+  // const ZOOM_START = 0.3;
+  // const ZOOM_END = 1.0;
+
+  // function remapProgress(p: number, start: number, end: number): number {
+  //   return Math.min(1, Math.max(0, (p - start) / (end - start)));
+  // }
+
   type d3View = [number, number, number];
 
   let view = $derived.by(() => {
+    // const prev = previousConfig ?? targetConfig;
+    // const fromView: d3View = [prev.lng, prev.lat, widthFromZoom(prev.zoom)];
+    // const toView: d3View = [
+    //   targetConfig.lng,
+    //   targetConfig.lat,
+    //   widthFromZoom(targetConfig.zoom),
+    // ];
+
+    // const remapped = remapProgress(progress, ZOOM_START, ZOOM_END);
+
+    // const [cx, cy, width] = interpolateZoom(
+    //   fromView,
+    //   toView,
+    // )(sineInOut(remapped));
+    // return { lng: cx, lat: cy, zoom: zoomFromWidth(width) };
+
     const prev = previousConfig ?? targetConfig;
     const fromView: d3View = [prev.lng, prev.lat, widthFromZoom(prev.zoom)];
     const toView: d3View = [

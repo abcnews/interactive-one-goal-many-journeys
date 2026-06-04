@@ -43,7 +43,7 @@
     };
   });
 
-  const DOT_SIZE = 80;
+  const DOT_SIZE = 70;
 
   function createPulsingDot(map: Map): StyleImageInterface {
     return {
