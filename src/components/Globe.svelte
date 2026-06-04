@@ -1,14 +1,15 @@
 <script lang="ts">
-  import type { Map, LngLatLike } from "maplibre-gl";
-  import { MapLibre, Projection, Sky, Light } from "svelte-maplibre-gl";
+  import type { Map, LngLatLike, StyleImageInterface } from "maplibre-gl";
+  import {
+    MapLibre,
+    Projection,
+    Sky,
+    Light,
+    GeoJSONSource,
+    SymbolLayer,
+  } from "svelte-maplibre-gl";
 
-  let skyEnabled = $state(true);
-  let skyColor = $state("#001560");
-  let horizonColor = $state("#0090c0");
-  let fogColor = $state("#ffffff");
-  let skyHorizonBlend = $state(1);
-  let horizonFogBlend = $state(1);
-  let fogGroundBlend = $state(1);
+  let dotReady = $state(false);
 
   // ABC hosted:
   // https://www.abc.net.au/res/sites/news-projects/map-vector-style-light/style.json
@@ -16,13 +17,16 @@
   import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
 
   const INITIAL_ZOOM = 1;
-  const INITIAL_LNG = 150.839167;
-  const INITIAL_LAT = -33.753056;
+  const INITIAL_LNG = 134.354806;
+  const INITIAL_LAT = -25.610111;
 
   const plumpton: LngLatLike = { lng: INITIAL_LNG, lat: INITIAL_LAT };
   const initialView = { ...plumpton, zoom: INITIAL_ZOOM };
 
-  let { view = initialView } = $props();
+  let { view = initialView, dotLocation = $bindable(null) } = $props<{
+    view: typeof initialView;
+    dotLocation?: LngLatLike | null;
+  }>();
 
   let map: Map | undefined = $state.raw();
 
@@ -31,6 +35,71 @@
       lng: view.lng,
       lat: view.lat,
     };
+  });
+
+  const DOT_SIZE = 80;
+
+  function createPulsingDot(map: Map): StyleImageInterface {
+    return {
+      width: DOT_SIZE,
+      height: DOT_SIZE,
+      data: new Uint8Array(DOT_SIZE * DOT_SIZE * 4),
+      context: null as CanvasRenderingContext2D | null,
+
+      onAdd() {
+        const canvas = document.createElement("canvas");
+        canvas.width = DOT_SIZE;
+        canvas.height = DOT_SIZE;
+        this.context = canvas.getContext("2d", { willReadFrequently: true });
+      },
+
+      render() {
+        const duration = 1500;
+        const t = (performance.now() % duration) / duration;
+        const ctx = this.context!;
+        const center = DOT_SIZE / 2;
+        const innerRadius = DOT_SIZE * 0.15;
+        const maxRadius = DOT_SIZE * 0.45;
+        const radius = innerRadius + (maxRadius - innerRadius) * t;
+
+        ctx.clearRect(0, 0, DOT_SIZE, DOT_SIZE);
+
+        // Pulsing ring
+        ctx.beginPath();
+        ctx.arc(center, center, radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 100, 100, ${1 - t})`;
+        ctx.fill();
+
+        // Solid inner dot, no outline
+        ctx.beginPath();
+        ctx.arc(center, center, innerRadius, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255, 80, 80, 1)";
+        ctx.fill();
+
+        this.data = ctx.getImageData(0, 0, DOT_SIZE, DOT_SIZE).data;
+        map.triggerRepaint();
+        return true;
+      },
+    } as StyleImageInterface & { context: CanvasRenderingContext2D | null };
+  }
+
+  const dotGeoJSON = $derived({
+    type: "FeatureCollection" as const,
+    features: dotLocation
+      ? [
+          {
+            type: "Feature" as const,
+            geometry: {
+              type: "Point" as const,
+              coordinates:
+                "lng" in dotLocation
+                  ? [dotLocation.lng, dotLocation.lat]
+                  : [dotLocation[0], dotLocation[1]],
+            },
+            properties: {},
+          },
+        ]
+      : [],
   });
 </script>
 
@@ -49,21 +118,26 @@
     ) {
       map?.jumpTo({
         zoom: view.zoom,
-        center: { lng: 150.839167, lat: -33.753056 },
+        center: { lng: INITIAL_LNG, lat: INITIAL_LAT },
       });
+    }
+
+    if (map) {
+      map.addImage("pulsing-dot", createPulsingDot(map), { pixelRatio: 2 });
+      dotReady = true;
     }
   }}
 >
   <Projection type="globe" />
-  <Sky
-    sky-color={skyColor}
-    horizon-color={horizonColor}
-    fog-color={fogColor}
-    sky-horizon-blend={skyHorizonBlend}
-    horizon-fog-blend={horizonFogBlend}
-    fog-ground-blend={fogGroundBlend}
-    atmosphere-blend={0.7}
-
-  />
+  <Sky fog-color={"white"} atmosphere-blend={1.0} />
   <Light anchor="viewport" position={[1, 0, 0]} intensity={0} />
+
+  {#if dotReady}
+    <GeoJSONSource id="dot-source" data={dotGeoJSON}>
+      <SymbolLayer
+        id="dot-layer"
+        layout={{ "icon-image": "pulsing-dot", "icon-allow-overlap": true }}
+      />
+    </GeoJSONSource>
+  {/if}
 </MapLibre>

@@ -176,7 +176,10 @@
 </script>
 
 <BackgroundStage>
-  <Globe view={reducedMotion.current ? viewReducedMotion : view} />
+  <Globe
+    view={reducedMotion.current ? viewReducedMotion : view}
+    dotLocation={{ lng: 150.839167, lat: -33.753056 }}
+  />
 </BackgroundStage>
 
 <!-- <LandingCollage /> -->
