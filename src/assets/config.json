@@ -1,6 +1,23 @@
 {
-  "initial": { "zoom": 1, "lng": 150.839167, "lat": -33.753056 },
-  "start": { "zoom": 2, "lng": 150.839167, "lat": -33.753056 },
-  "sydney": { "zoom": 5, "lng": 150.839167, "lat": -33.753056 },
-  "brisbane": { "zoom": 7, "lng": 153.021072, "lat": -27.470125 }
+  "initial": { "globe": true, "zoom": 1, "lng": 150.839167, "lat": -33.753056 },
+  "start": { "globe": true, "zoom": 2, "lng": 150.839167, "lat": -33.753056 },
+  "sydney": {
+    "globe": true,
+    "zoom": 5,
+    "lng": 150.839167,
+    "lat": -33.753056,
+    "image": "babymatthewryan"
+  },
+  "brisbane": {
+    "globe": true,
+    "zoom": 7,
+    "lng": 153.021072,
+    "lat": -27.470125
+  },
+  "globeoff": {
+    "globe": false,
+    "zoom": 7,
+    "lng": 153.021072,
+    "lat": -27.470125
+  }
 }

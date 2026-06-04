@@ -16,21 +16,21 @@
   import LandingCollage from "./components/LandingCollage/LandingCollage.svelte";
   import Panels from "./components/Panels.svelte";
   import Globe from "./components/Globe.svelte";
+  import Image from "./components/Image.svelte";
 
   import configData from "./assets/config.json";
 
   const { when, orElse } = Match;
 
   const BASE = 360;
-  const DEFAULT_LOCATION = {
-    lng: 150.839167,
-    lat: -33.753056,
-  };
+  const UP_PAGE_THRESHOLD = 0.3;
 
   const ConfigSchema = v.object({
+    globe: v.optional(v.boolean()),
     zoom: v.number(),
     lng: v.number(),
     lat: v.number(),
+    image: v.optional(v.string()),
   });
 
   const ConfigMapSchema = v.record(v.string(), ConfigSchema);
@@ -138,10 +138,24 @@
     return { lng: cx, lat: cy, zoom: zoomFromWidth(width) };
   });
 
-  let viewReducedMotion = $derived({
-    lng: targetConfig.lng,
-    lat: targetConfig.lat,
-    zoom: targetConfig.zoom,
+  const currentWithThreshold = $derived(
+    progress > UP_PAGE_THRESHOLD
+      ? targetConfig
+      : (previousConfig ?? targetConfig),
+  );
+
+  let viewReducedMotion = $derived.by(() => {
+    return {
+      lng: currentWithThreshold.lng,
+      lat: currentWithThreshold.lat,
+      zoom: currentWithThreshold.zoom,
+    };
+  });
+
+  let backgroundImage = $derived.by(() => {
+    return {
+      name: currentWithThreshold.image ?? null,
+    };
   });
 
   // Start reactive observation of reduced motion toggle setting
@@ -153,15 +167,11 @@
 </BackgroundStage>
 
 <!-- <LandingCollage /> -->
+<Image imageName={backgroundImage.name} />
 <Panels />
 <Utils />
 
-<svelte:window
-  bind:innerHeight={windowInnerHeight}
-  onload={() => {
-    console.log("Window loaded");
-  }}
-/>
+<svelte:window bind:innerHeight={windowInnerHeight} />
 
 <style lang="scss">
   :global(.maplibregl-map) {

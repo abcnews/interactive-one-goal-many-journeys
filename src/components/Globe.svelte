@@ -1,10 +1,19 @@
 <script lang="ts">
   import type { Map, LngLatLike } from "maplibre-gl";
-  import { MapLibre, Projection } from "svelte-maplibre-gl";
+  import { MapLibre, Projection, Sky, Light } from "svelte-maplibre-gl";
+
+  let skyEnabled = $state(true);
+  let skyColor = $state("#001560");
+  let horizonColor = $state("#0090c0");
+  let fogColor = $state("#ffffff");
+  let skyHorizonBlend = $state(1);
+  let horizonFogBlend = $state(1);
+  let fogGroundBlend = $state(1);
 
   // ABC hosted:
   // https://www.abc.net.au/res/sites/news-projects/map-vector-style-light/style.json
-  import darkTest from "../assets/dark_test.json?url";
+  // import darkTest from "../assets/dark_test.json?url";
+  import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
 
   const INITIAL_ZOOM = 1;
   const INITIAL_LNG = 150.839167;
@@ -29,7 +38,7 @@
   bind:map
   zoom={view.zoom}
   {center}
-  style={darkTest}
+  style={mapStyles}
   scrollZoom={false}
   onload={() => {
     // Hack to get correct latitude loading initially
@@ -46,4 +55,15 @@
   }}
 >
   <Projection type="globe" />
+  <Sky
+    sky-color={skyColor}
+    horizon-color={horizonColor}
+    fog-color={fogColor}
+    sky-horizon-blend={skyHorizonBlend}
+    horizon-fog-blend={horizonFogBlend}
+    fog-ground-blend={fogGroundBlend}
+    atmosphere-blend={0.7}
+
+  />
+  <Light anchor="viewport" position={[1, 0, 0]} intensity={0} />
 </MapLibre>

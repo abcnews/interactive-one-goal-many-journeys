@@ -18,7 +18,7 @@
       margin-block-start: 90vh;
       margin-block-end: 90vh;
       padding: 32px 48px;
-      background: #222;
+      background: hsla(0, 0%, 15%, 0.95);
       color: white;
 
       // Push to right on Desktop
