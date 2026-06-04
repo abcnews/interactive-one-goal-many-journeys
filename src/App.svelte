@@ -31,6 +31,12 @@
     lng: v.number(),
     lat: v.number(),
     image: v.optional(v.string()),
+    dot: v.optional(
+      v.object({
+        lng: v.number(),
+        lat: v.number(),
+      }),
+    ),
   });
 
   const ConfigMapSchema = v.record(v.string(), ConfigSchema);
@@ -58,14 +64,18 @@
   });
 
   type PanelState = {
+    index: number;
     name: string;
     top: number;
     config: Config | null;
   };
 
-  function filterMap<T, U>(arr: T[], fn: (item: T) => U | null): U[] {
-    return arr.flatMap((item) => {
-      const result = fn(item);
+  function filterMap<T, U>(
+    arr: T[],
+    fn: (item: T, index: number) => U | null,
+  ): U[] {
+    return arr.flatMap((item, i) => {
+      const result = fn(item, i);
       return result ? [result] : [];
     });
   }
@@ -73,20 +83,22 @@
   function parsePanelState(
     panel: HTMLElement,
     scrollY: number,
+    index: number,
   ): PanelState | null {
     const result = v.safeParse(PanelTagSchema, parse(panel.dataset.tag || ""));
     if (!result.success) return null;
 
     const name = result.output.name;
     return {
+      index,
       name,
       top: panel.getBoundingClientRect().top + scrollY,
       config: config.get(name) ?? null,
     };
   }
 
-  let panelStates: PanelState[] = $derived.by(() => {
-    if (!bodySize.height) return []; // For reactivity mostly
+  const panelStates: PanelState[] = $derived.by(() => {
+    if (!bodySize.height) return [];
 
     const currentScrollY = untrack(() => scroll.y);
     const panels = Array.from(
@@ -95,11 +107,18 @@
       ) as NodeListOf<HTMLElement>,
     );
 
-    return filterMap(panels, (panel) => parsePanelState(panel, currentScrollY));
+    return filterMap(panels, (panel, i) =>
+      parsePanelState(panel, currentScrollY, i),
+    );
   });
 
   const currentPanel = $derived(
     panelStates.findLast((panel) => scroll.y + windowInnerHeight > panel.top) ??
+      null,
+  );
+
+  const nextPanel = $derived(
+    panelStates.find((panel) => scroll.y + windowInnerHeight <= panel.top) ??
       null,
   );
 
@@ -113,23 +132,17 @@
   });
 
   let targetConfig = $derived.by(() => {
-    return config.get(currentPanel?.name ?? "initial") ?? initialConfig;
+    return currentPanel?.config ?? nextPanel?.config ?? initialConfig;
   });
 
   let previousConfig = $derived.by(() => {
-    const currentIndex = panelStates.findLastIndex(
-      (p) => p.name === currentPanel?.name,
-    );
-
-    // Either haven't reached first panel, or are at first panel
+    const currentIndex = currentPanel?.index ?? -1;
     if (currentIndex <= 0) return initialConfig;
 
-    // Loop through until config found
     for (let i = currentIndex - 1; i >= 0; i--) {
-      const temporaryConfig = panelStates[i].config;
-      if (temporaryConfig) return temporaryConfig;
+      const cfg = panelStates[i].config;
+      if (cfg && panelStates[i].name !== currentPanel?.name) return cfg;
     }
-
     return initialConfig;
   });
 
@@ -178,7 +191,7 @@
 <BackgroundStage>
   <Globe
     view={reducedMotion.current ? viewReducedMotion : view}
-    dotLocation={{ lng: 150.839167, lat: -33.753056 }}
+    dotLocation={currentWithThreshold.dot ?? null}
   />
 </BackgroundStage>
 

@@ -8,8 +8,14 @@
     GeoJSONSource,
     SymbolLayer,
   } from "svelte-maplibre-gl";
+  import { Tween } from "svelte/motion";
+  import { sineInOut } from "svelte/easing";
+
+  const DOT_FADE_DURATION = 600;
 
   let dotReady = $state(false);
+  let dotOpacity = new Tween(0, { duration: 600, easing: sineInOut });
+  let lastDotLocation = $state<{ lng: number; lat: number } | null>(null);
 
   // ABC hosted:
   // https://www.abc.net.au/res/sites/news-projects/map-vector-style-light/style.json
@@ -67,13 +73,13 @@
         // Pulsing ring
         ctx.beginPath();
         ctx.arc(center, center, radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 100, 100, ${1 - t})`;
+        ctx.fillStyle = `rgba(243, 188, 0, ${1 - t})`;
         ctx.fill();
 
-        // Solid inner dot, no outline
+        // Solid inner dot
         ctx.beginPath();
         ctx.arc(center, center, innerRadius, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255, 80, 80, 1)";
+        ctx.fillStyle = "rgba(243, 188, 0, 1)";
         ctx.fill();
 
         this.data = ctx.getImageData(0, 0, DOT_SIZE, DOT_SIZE).data;
@@ -85,21 +91,31 @@
 
   const dotGeoJSON = $derived({
     type: "FeatureCollection" as const,
-    features: dotLocation
+    features: lastDotLocation
       ? [
           {
             type: "Feature" as const,
             geometry: {
               type: "Point" as const,
-              coordinates:
-                "lng" in dotLocation
-                  ? [dotLocation.lng, dotLocation.lat]
-                  : [dotLocation[0], dotLocation[1]],
+              coordinates: [lastDotLocation.lng, lastDotLocation.lat],
             },
             properties: {},
           },
         ]
       : [],
+  });
+
+  $effect(() => {
+    if (dotLocation) {
+      lastDotLocation = dotLocation; // update position while visible
+      dotOpacity.target = 1;
+    } else {
+      dotOpacity.target = 0;
+      // Clear lastDotLocation only after fade completes
+      setTimeout(() => {
+        lastDotLocation = null;
+      }, DOT_FADE_DURATION); // match tween duration
+    }
   });
 </script>
 
@@ -137,6 +153,7 @@
       <SymbolLayer
         id="dot-layer"
         layout={{ "icon-image": "pulsing-dot", "icon-allow-overlap": true }}
+        paint={{ "icon-opacity": dotOpacity.current }}
       />
     </GeoJSONSource>
   {/if}
