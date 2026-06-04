@@ -1,6 +1,6 @@
 {
   "initial": { "globe": true, "zoom": 1, "lng": 134.354806, "lat": -25.610111 },
-  "auscentre": {
+  "plumptonblip": {
     "globe": true,
     "zoom": 1,
     "lng": 134.354806,
@@ -24,7 +24,8 @@
     "globe": true,
     "zoom": 12,
     "lng": 150.839167,
-    "lat": -33.753056
+    "lat": -33.753056,
+    "geojson": "plumpton"
   },
   "brisbane": {
     "globe": true,

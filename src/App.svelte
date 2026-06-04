@@ -38,6 +38,7 @@
         lat: v.number(),
       }),
     ),
+    geojson: v.optional(v.string()),
   });
 
   const ConfigMapSchema = v.record(v.string(), ConfigSchema);
@@ -60,9 +61,13 @@
     element: () => window,
   });
 
+  // Alternating case to object schema eg #startpanelNAMEsydneyZOOM100
   const PanelTagSchema = v.object({
     name: v.string(),
+    zoom: v.optional(v.number()),
   });
+
+  type PanelTag = v.InferOutput<typeof PanelTagSchema>;
 
   type PanelState = {
     index: number;
@@ -89,12 +94,23 @@
     const result = v.safeParse(PanelTagSchema, parse(panel.dataset.tag || ""));
     if (!result.success) return null;
 
-    const name = result.output.name;
+    const panelState: PanelTag = result.output;
+    const name = panelState.name;
+    const zoomOverride = panelState.zoom;
+
+    const configFromName: Config | undefined = config.get(name);
+
+    const overriddenConfig: Config | null = configFromName
+      ? zoomOverride
+        ? { ...configFromName, zoom: zoomOverride }
+        : configFromName
+      : null;
+
     return {
       index,
       name,
       top: panel.getBoundingClientRect().top + scrollY,
-      config: config.get(name) ?? null,
+      config: overriddenConfig,
     };
   }
 
@@ -126,16 +142,6 @@
     ) ?? null,
   );
 
-  // const currentPanel = $derived(
-  //   panelStates.findLast((panel) => scroll.y + windowInnerHeight > panel.top) ??
-  //     null,
-  // );
-
-  // const nextPanel = $derived(
-  //   panelStates.find((panel) => scroll.y + windowInnerHeight <= panel.top) ??
-  //     null,
-  // );
-
   const progress = $derived.by(() => {
     const panel = currentPanel ?? nextPanel;
     if (!panel) return 0;
@@ -145,12 +151,6 @@
       scroll.y + windowInnerHeight * (1 - SCROLL_OFFSET) - panel.top;
 
     return Math.min(1, Math.max(0, scrolled / totalDistance));
-    // if (!currentPanel) return 0;
-
-    // const totalDistance = window.innerHeight;
-    // const scrolled = scroll.y + window.innerHeight - currentPanel.top;
-
-    // return Math.min(1, Math.max(0, scrolled / totalDistance));
   });
 
   let targetConfig = $derived.by(() => {
@@ -168,32 +168,9 @@
     return initialConfig;
   });
 
-  // const ZOOM_START = 0.3;
-  // const ZOOM_END = 1.0;
-
-  // function remapProgress(p: number, start: number, end: number): number {
-  //   return Math.min(1, Math.max(0, (p - start) / (end - start)));
-  // }
-
   type d3View = [number, number, number];
 
   let view = $derived.by(() => {
-    // const prev = previousConfig ?? targetConfig;
-    // const fromView: d3View = [prev.lng, prev.lat, widthFromZoom(prev.zoom)];
-    // const toView: d3View = [
-    //   targetConfig.lng,
-    //   targetConfig.lat,
-    //   widthFromZoom(targetConfig.zoom),
-    // ];
-
-    // const remapped = remapProgress(progress, ZOOM_START, ZOOM_END);
-
-    // const [cx, cy, width] = interpolateZoom(
-    //   fromView,
-    //   toView,
-    // )(sineInOut(remapped));
-    // return { lng: cx, lat: cy, zoom: zoomFromWidth(width) };
-
     const prev = previousConfig ?? targetConfig;
     const fromView: d3View = [prev.lng, prev.lat, widthFromZoom(prev.zoom)];
     const toView: d3View = [
@@ -237,6 +214,7 @@
   <Globe
     view={reducedMotion.current ? viewReducedMotion : view}
     dotLocation={currentWithThreshold.dot ?? null}
+    geojson={currentWithThreshold.geojson ?? null}
   />
 </BackgroundStage>
 

@@ -7,20 +7,30 @@
     Light,
     GeoJSONSource,
     SymbolLayer,
+    FillLayer,
+    LineLayer,
   } from "svelte-maplibre-gl";
   import { Tween } from "svelte/motion";
   import { sineInOut } from "svelte/easing";
 
-  const DOT_FADE_DURATION = 600;
+  const FADE_DURATION = 600;
 
   let dotReady = $state(false);
-  let dotOpacity = new Tween(0, { duration: 600, easing: sineInOut });
+  let dotOpacity = new Tween(0, { duration: FADE_DURATION, easing: sineInOut });
   let lastDotLocation = $state<{ lng: number; lat: number } | null>(null);
+
+  const geojsonOpacity = new Tween(0, {
+    duration: FADE_DURATION,
+    easing: sineInOut,
+  });
+  let lastGeojsonUrl = $state<string | null>(null);
 
   // ABC hosted:
   // https://www.abc.net.au/res/sites/news-projects/map-vector-style-light/style.json
   // import darkTest from "../assets/dark_test.json?url";
   import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
+
+  import plumptonOutline from "../assets/geojson/plumpton.geojson?url";
 
   const INITIAL_ZOOM = 1;
   const INITIAL_LNG = 134.354806;
@@ -29,9 +39,14 @@
   const plumpton: LngLatLike = { lng: INITIAL_LNG, lat: INITIAL_LAT };
   const initialView = { ...plumpton, zoom: INITIAL_ZOOM };
 
-  let { view = initialView, dotLocation = $bindable(null) } = $props<{
+  let {
+    view = initialView,
+    dotLocation = null,
+    geojson = null,
+  } = $props<{
     view: typeof initialView;
     dotLocation?: LngLatLike | null;
+    geojson?: string | null;
   }>();
 
   let map: Map | undefined = $state.raw();
@@ -44,6 +59,12 @@
   });
 
   const DOT_SIZE = 70;
+
+  const geojsonMap: Record<string, string> = {
+    plumpton: plumptonOutline,
+  };
+
+  const geojsonUrl = $derived(geojson ? (geojsonMap[geojson] ?? null) : null);
 
   function createPulsingDot(map: Map): StyleImageInterface {
     return {
@@ -114,7 +135,19 @@
       // Clear lastDotLocation only after fade completes
       setTimeout(() => {
         lastDotLocation = null;
-      }, DOT_FADE_DURATION); // match tween duration
+      }, FADE_DURATION); // match tween duration
+    }
+  });
+
+  $effect(() => {
+    if (geojsonUrl) {
+      lastGeojsonUrl = geojsonUrl;
+      geojsonOpacity.target = 1;
+    } else {
+      geojsonOpacity.target = 0;
+      setTimeout(() => {
+        lastGeojsonUrl = null;
+      }, 600);
     }
   });
 </script>
@@ -154,6 +187,24 @@
         id="dot-layer"
         layout={{ "icon-image": "pulsing-dot", "icon-allow-overlap": true }}
         paint={{ "icon-opacity": dotOpacity.current }}
+      />
+    </GeoJSONSource>
+  {/if}
+
+  {#if lastGeojsonUrl}
+    <GeoJSONSource id="geojson-source" data={lastGeojsonUrl}>
+      <FillLayer
+        paint={{
+          "fill-color": "#ff6464",
+          "fill-opacity": geojsonOpacity.current * 0.4,
+        }}
+      />
+      <LineLayer
+        paint={{
+          "line-color": "#ff6464",
+          "line-width": 1,
+          "line-opacity": geojsonOpacity.current,
+        }}
       />
     </GeoJSONSource>
   {/if}
