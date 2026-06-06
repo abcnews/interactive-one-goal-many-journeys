@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { ScrollState, watch } from "runed";
   import { pageState } from "@stores/pageState.svelte";
 
   let { children = null } = $props();

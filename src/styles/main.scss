@@ -2,11 +2,7 @@
   margin-block: 0px !important;
 }
 
-/* .maplibregl-ctrl.maplibregl-ctrl-attrib.maplibregl-compact.maplibregl-compact-show {
-  background-color: #222226;
+// MapLibre copyright dark mode
+.maplibregl-ctrl.maplibregl-ctrl-attrib.maplibregl-compact.maplibregl-compact-show {
+  filter: invert(1);
 }
-
-.maplibregl-ctrl.maplibregl-ctrl-attrib.maplibregl-compact.maplibregl-compact-show
-  * {
-  color: #eee;
-} */

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { blur } from "svelte/transition";
   import babyMatthewRyan from "@assets/images/babymatthewryan.jpg";
 
   type Props = {
@@ -16,17 +17,12 @@
     return imageMap.get(filename) ?? null;
   };
 
-  let visible = $derived.by(() => {
-    if (imageName === null) return false;
-    else return true;
-  });
+  let src = $derived(getImage(imageName));
 </script>
 
-<img
-  src={getImage("babymatthewryan") || ""}
-  alt="Baby Matthew Ryan"
-  class={{ visible: visible }}
-/>
+{#if src !== null}
+  <img {src} alt="Baby Matthew Ryan" transition:blur />
+{/if}
 
 <style lang="scss">
   img {
@@ -36,15 +32,5 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 16px;
-    opacity: 0;
-    filter: blur(6px);
-    transition:
-      opacity 0.9s ease-in-out,
-      filter 0.9s ease-in-out;
-
-    &.visible {
-      opacity: 1;
-      filter: blur(0px);
-    }
   }
 </style>
