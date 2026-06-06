@@ -1,8 +1,29 @@
 <script lang="ts">
+  import { ScrollState, watch } from "runed";
+  import { pageState } from "@stores/pageState.svelte";
+
   let { children = null } = $props();
+
+  const TOP_OFFSET = 300;
+
+  const containerHeight = $derived.by(() => {
+    if (!pageState.bodySize.height) return null;
+
+    const headerContent = document.querySelector(".Header-content");
+    if (!headerContent) return null;
+    const headerDownpage =
+      headerContent.getBoundingClientRect().top + pageState.scrollY;
+
+    return headerDownpage;
+  });
 </script>
 
-<div class="background-stage u-full">
+<div
+  class="background-stage u-full"
+  style:max-height={containerHeight
+    ? `${containerHeight - TOP_OFFSET}px`
+    : "unset"}
+>
   <div class="floating">
     {@render children?.()}
   </div>

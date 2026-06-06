@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount, untrack } from "svelte";
   import { sineInOut } from "svelte/easing";
-  import { ScrollState, ElementSize, watch, watchOnce, Previous } from "runed";
+  import { ScrollState } from "runed";
   import { interpolateNumber, interpolateZoom } from "d3-interpolate";
   import { parse, stringify } from "@abcnews/alternating-case-to-object";
   import { SvelteMap } from "svelte/reactivity";
@@ -10,6 +10,7 @@
 
   import { reducedMotion } from "@stores/reducedMotion.svelte";
   import { appState } from "@stores/appState.svelte";
+  import { pageState } from "@stores/pageState.svelte";
 
   import Utils from "./components/Utils.svelte";
   import BackgroundStage from "./components/BackgroundStage.svelte";
@@ -56,9 +57,12 @@
   const zoomFromWidth = (width: number) => Math.log2(BASE / width);
 
   let windowInnerHeight = $state(600);
-  const bodySize = new ElementSize(() => document.body);
   const scroll = new ScrollState({
     element: () => window,
+  });
+
+  $effect(() => {
+    pageState.scrollY = scroll.y;
   });
 
   // Alternating case to object schema eg #startpanelNAMEsydneyZOOM100
@@ -115,7 +119,7 @@
   }
 
   const panelStates: PanelState[] = $derived.by(() => {
-    if (!bodySize.height) return [];
+    if (!pageState.bodySize.height) return [];
 
     const currentScrollY = untrack(() => scroll.y);
     const panels = Array.from(
