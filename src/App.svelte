@@ -49,8 +49,15 @@
     Object.entries(v.parse(ConfigMapSchema, configData)),
   );
 
-  // Assume always defined, for typing (be sure it is!)
-  const initialConfig = config.get("initial")!;
+  const INITIAL_ZOOM = 1;
+  const INITIAL_LNG = 134.354806;
+  const INITIAL_LAT = -25.610111;
+
+  const initialConfig = config.get("initial") ?? {
+    zoom: INITIAL_ZOOM,
+    lng: INITIAL_LNG,
+    lat: INITIAL_LAT,
+  };
 
   const widthFromZoom = (zoom: number) => BASE / Math.pow(2, zoom);
   const zoomFromWidth = (width: number) => Math.log2(BASE / width);
@@ -161,13 +168,19 @@
   });
 
   let previousConfig = $derived.by(() => {
-    const currentIndex = currentPanel?.index ?? -1;
-    if (currentIndex <= 0) return initialConfig;
+    if (!currentPanel) return initialConfig;
 
-    for (let i = currentIndex - 1; i >= 0; i--) {
-      const cfg = panelStates[i].config;
-      if (cfg && panelStates[i].name !== currentPanel?.name) return cfg;
+    const currentPanelIndex = panelStates.findIndex(
+      (p) => p.index === currentPanel.index,
+    );
+
+    if (currentPanelIndex <= 0) return initialConfig;
+
+    for (let i = currentPanelIndex - 1; i >= 0; i--) {
+      const panel = panelStates[i];
+      if (panel.config && panel.name !== currentPanel.name) return panel.config;
     }
+
     return initialConfig;
   });
 
