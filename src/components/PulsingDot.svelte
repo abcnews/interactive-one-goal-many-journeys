@@ -3,6 +3,7 @@
   import { GeoJSONSource, SymbolLayer } from "svelte-maplibre-gl";
   import { Tween } from "svelte/motion";
   import { sineInOut } from "svelte/easing";
+  import { untrack } from "svelte";
 
   const FADE_DURATION = 600;
   const DOT_SIZE = 70;
@@ -10,9 +11,11 @@
   let {
     map,
     dotLocation = null,
+    center,
   }: {
     map: Map;
     dotLocation?: any;
+    center: { lng: number; lat: number };
   } = $props();
 
   let dotReady = $state(false);
@@ -68,20 +71,40 @@
     dotReady = true;
   });
 
-  const dotGeoJSON = $derived({
-    type: "FeatureCollection" as const,
-    features: lastDotLocation
-      ? [
-          {
-            type: "Feature" as const,
-            geometry: {
-              type: "Point" as const,
-              coordinates: [lastDotLocation.lng, lastDotLocation.lat],
+  const dotGeoJSON = $derived.by(() => {
+    if (!lastDotLocation)
+      return { type: "FeatureCollection" as const, features: [] };
+
+    const toRad = (d: number) => (d * Math.PI) / 180;
+
+    const dotLat = toRad(lastDotLocation.lat);
+    const dotLng = toRad(lastDotLocation.lng);
+    const centerLat = toRad(center.lat);
+    const centerLng = toRad(center.lng);
+
+    // Dot product of the two unit vectors on the sphere
+    const dotProduct =
+      Math.sin(dotLat) * Math.sin(centerLat) +
+      Math.cos(dotLat) * Math.cos(centerLat) * Math.cos(dotLng - centerLng);
+
+    // Visible if angular distance < 90° (dot product > 0)
+    const isVisible = dotProduct > 0;
+
+    return {
+      type: "FeatureCollection" as const,
+      features: isVisible
+        ? [
+            {
+              type: "Feature" as const,
+              geometry: {
+                type: "Point" as const,
+                coordinates: [lastDotLocation.lng, lastDotLocation.lat],
+              },
+              properties: {},
             },
-            properties: {},
-          },
-        ]
-      : [],
+          ]
+        : [],
+    };
   });
 
   $effect(() => {
@@ -90,8 +113,30 @@
         clearTimeout(dotFadeTimeout);
         dotFadeTimeout = null;
       }
-      lastDotLocation = dotLocation;
-      dotOpacity.target = 1;
+
+      const isSameLocation =
+        lastDotLocation?.lng === dotLocation.lng &&
+        lastDotLocation?.lat === dotLocation.lat;
+
+      if (isSameLocation) {
+        // Same spot — just make sure it's visible
+        dotOpacity.target = 1;
+        return;
+      }
+
+      if (untrack(() => dotOpacity.target) > 0) {
+        // Different location, currently visible — fade out first, then move
+        dotOpacity.target = 0;
+        dotFadeTimeout = setTimeout(() => {
+          lastDotLocation = dotLocation;
+          dotOpacity.target = 1;
+          dotFadeTimeout = null;
+        }, FADE_DURATION);
+      } else {
+        // Not visible — fade in at new position
+        lastDotLocation = dotLocation;
+        dotOpacity.target = 1;
+      }
     } else {
       dotOpacity.target = 0;
       dotFadeTimeout = setTimeout(() => {
@@ -100,6 +145,23 @@
       }, FADE_DURATION);
     }
   });
+
+  // $effect(() => {
+  //   if (dotLocation) {
+  //     if (dotFadeTimeout) {
+  //       clearTimeout(dotFadeTimeout);
+  //       dotFadeTimeout = null;
+  //     }
+  //     lastDotLocation = dotLocation;
+  //     dotOpacity.target = 1;
+  //   } else {
+  //     dotOpacity.target = 0;
+  //     dotFadeTimeout = setTimeout(() => {
+  //       lastDotLocation = null;
+  //       dotFadeTimeout = null;
+  //     }, FADE_DURATION);
+  //   }
+  // });
 </script>
 
 {#if dotReady}
