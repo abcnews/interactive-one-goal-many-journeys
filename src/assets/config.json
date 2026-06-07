@@ -49,6 +49,21 @@
     "lat": 44.041389,
     "geojson": "knin"
   },
+  "orlic": {
+    "zoom": 8,
+    "lng": 16.234775,
+    "lat": 43.975842
+  },
+  "arandjelovac": {
+    "zoom": 8,
+    "lng": 20.566667,
+    "lat": 44.3
+  },
+  "croatiaserbia": {
+    "zoom": 4,
+    "lng": 17.7595961,
+    "lat": 45.1797254
+  },
   "brisbane": {
     "zoom": 7,
     "lng": 153.021072,

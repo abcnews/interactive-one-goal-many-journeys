@@ -18,7 +18,7 @@
       border-radius: 16px;
       margin-block-start: 90vh;
       margin-block-end: 90vh;
-      padding: 16px 32px;
+      padding: 0px 18px;
       background: hsla(0, 0%, 15%, 0.95);
       color: white;
       line-height: 1.8em;
@@ -31,17 +31,26 @@
         font-weight: 900;
       }
 
-      // Desktop: re-center
+
       @include breakpoints.for-size(tablet-portrait-up) {
+        // non-mobile: re-center
         margin-inline: auto !important;
         max-width: 600px;
+
+        // Extra padding
+        padding: 8px 32px;
       }
 
-      // Push to right on Desktop
-      /* @include breakpoints.for-size(desktop-up) {
-        transform: translateX(50%);
-        max-width: 45vw;
-      } */
+
+
+
+      @include breakpoints.for-size(desktop-up) {
+        // Push to right on Desktop
+        /* transform: translateX(50%);
+        max-width: 45vw; */
+
+        font-size: 18px;
+      }
 
       &.is-first {
         margin-block-start: 140vh;
