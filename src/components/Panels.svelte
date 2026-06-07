@@ -4,6 +4,7 @@
   const doMount = () => {
     const panels = document.querySelectorAll('[data-key="panel"]');
     panels[0]?.classList.add("is-first");
+    panels[panels.length - 1]?.classList.add("is-last");
   };
   onMount(doMount);
 </script>
@@ -26,6 +27,9 @@
       margin-inline: 8px !important;
       width: calc(100% - 16px);
 
+      strong {
+        font-weight: 900;
+      }
 
       // Desktop: re-center
       @include breakpoints.for-size(tablet-portrait-up) {
@@ -40,7 +44,11 @@
       } */
 
       &.is-first {
-        margin-block-start: 150vh;
+        margin-block-start: 140vh;
+      }
+
+      &.is-last {
+        margin-block-end: 115vh;
       }
     }
   }

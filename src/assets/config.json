@@ -1,7 +1,6 @@
 {
-  "initial": { "globe": true, "zoom": 1, "lng": 134.354806, "lat": -25.610111 },
+  "initial": { "zoom": 1, "lng": 134.354806, "lat": -25.610111 },
   "plumptonblip": {
-    "globe": true,
     "zoom": 1,
     "lng": 134.354806,
     "lat": -25.610111,
@@ -11,31 +10,46 @@
     }
   },
   "sydney": {
-    "globe": true,
     "zoom": 5,
     "lng": 150.839167,
     "lat": -33.753056,
-    "image": "babymatthewryan",
     "dot": {
       "lng": 150.839167,
       "lat": -33.753056
     }
   },
   "plumpton": {
-    "globe": true,
     "zoom": 12,
     "lng": 150.839167,
     "lat": -33.753056,
     "geojson": "plumpton"
   },
-  "brisbane": {
-    "globe": true,
-    "zoom": 7,
-    "lng": 153.021072,
-    "lat": -27.470125
+  "sydneytransition": {
+    "zoom": 5,
+    "lng": 150.839167,
+    "lat": -33.753056
   },
-  "globeoff": {
-    "globe": false,
+  "croatiainitial": {
+    "zoom": 1,
+    "lng": 16.5,
+    "lat": 44.45
+  },
+  "kninblip": {
+    "zoom": 1,
+    "lng": 16.5,
+    "lat": 44.45,
+    "dot": {
+      "lng": 16.1801,
+      "lat": 44.0313
+    }
+  },
+  "kninoutline": {
+    "zoom": 8,
+    "lng": 16.198611,
+    "lat": 44.041389,
+    "geojson": "knin"
+  },
+  "brisbane": {
     "zoom": 7,
     "lng": 153.021072,
     "lat": -27.470125

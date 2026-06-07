@@ -13,6 +13,8 @@
   import { Tween } from "svelte/motion";
   import { sineInOut } from "svelte/easing";
 
+  import ArcLayer from "./ArcLayer.svelte";
+
   const FADE_DURATION = 600;
 
   let dotReady = $state(false);
@@ -31,6 +33,7 @@
   import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
 
   import plumptonOutline from "../assets/geojson/plumpton.geojson?url";
+  import kninOutline from "../assets/geojson/knin.geojson?url";
 
   const INITIAL_ZOOM = 1;
   const INITIAL_LNG = 134.354806;
@@ -62,6 +65,7 @@
 
   const geojsonMap: Record<string, string> = {
     plumpton: plumptonOutline,
+    knin: kninOutline,
   };
 
   const geojsonUrl = $derived(geojson ? (geojsonMap[geojson] ?? null) : null);
@@ -208,4 +212,6 @@
       />
     </GeoJSONSource>
   {/if}
+
+  <!-- <ArcLayer /> -->
 </MapLibre>

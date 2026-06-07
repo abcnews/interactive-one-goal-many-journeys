@@ -28,7 +28,6 @@
   const SCROLL_OFFSET = 0.1; // fraction of window height
 
   const ConfigSchema = v.object({
-    globe: v.optional(v.boolean()),
     zoom: v.number(),
     lng: v.number(),
     lat: v.number(),
