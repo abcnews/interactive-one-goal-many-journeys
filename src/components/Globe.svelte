@@ -4,7 +4,7 @@
 
   import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
   import PulsingDot from "./PulsingDot.svelte";
-  import GeojsonOverlay from "./GeojsonOverlay.svelte";
+  import GeoJsonOverlay from "./GeoJsonOverlay.svelte";
 
   const INITIAL_ZOOM = 1;
   const INITIAL_LNG = 134.354806;
@@ -55,5 +55,5 @@
     <PulsingDot {map} {dotLocation} {center} />
   {/if}
 
-  <GeojsonOverlay {geojson} />
+  <GeoJsonOverlay {geojson} />
 </MapLibre>

@@ -98,5 +98,33 @@
       "lng": 34.866667,
       "lat": 3.716667
     }
+  },
+  "southsudan": {
+    "zoom": 4,
+    "lng": 28.97131,
+    "lat": 7.2648643,
+    "geojson": "southsudan"
+  },
+  "scotland": {
+    "zoom": 1.1,
+    "lng": 3.5456822,
+    "lat": 48.3219165
+  },
+  "aberdeen": {
+    "zoom": 1.6,
+    "lng": 3.5456822,
+    "lat": 48.3219165,
+    "dot": { "lng": -2.11, "lat": 57.15 }
+  },
+  "aberdeensouttar": {
+    "zoom": 2.1,
+    "lng": 3.5456822,
+    "lat": 48.3219165,
+    "dot": { "lng": -2.11, "lat": 57.15 }
+  },
+  "liberia": {
+    "zoom": 4.1,
+    "lng": -9.937789,
+    "lat": 15.6061617
   }
 }

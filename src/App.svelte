@@ -74,7 +74,7 @@
   // Alternating case to object schema eg #startpanelNAMEsydneyZOOM100
   const PanelTagSchema = v.object({
     name: v.string(),
-    zoom: v.optional(v.number()),
+    zoom: v.optional(v.number()), // 100 percent = 1.0 zoom
   });
 
   type PanelTag = v.InferOutput<typeof PanelTagSchema>;
@@ -112,7 +112,7 @@
 
     const overriddenConfig: Config | null = configFromName
       ? zoomOverride
-        ? { ...configFromName, zoom: zoomOverride }
+        ? { ...configFromName, zoom: zoomOverride / 100 }
         : configFromName
       : null;
 

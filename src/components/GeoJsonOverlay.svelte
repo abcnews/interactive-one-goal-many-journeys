@@ -5,17 +5,22 @@
 
   import plumptonOutline from "../assets/geojson/plumpton.geojson?url";
   import kninOutline from "../assets/geojson/knin.geojson?url";
+  import southSudanOutline from "../assets/geojson/southsudan.geojson?url";
 
   const FADE_DURATION = 600;
 
   const geojsonMap: Record<string, string> = {
     plumpton: plumptonOutline,
     knin: kninOutline,
+    southsudan: southSudanOutline,
   };
 
   let { geojson = null }: { geojson?: string | null } = $props();
 
-  const geojsonOpacity = new Tween(0, { duration: FADE_DURATION, easing: sineInOut });
+  const geojsonOpacity = new Tween(0, {
+    duration: FADE_DURATION,
+    easing: sineInOut,
+  });
   let lastGeojsonUrl = $state<string | null>(null);
   let geojsonFadeTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -23,7 +28,10 @@
 
   $effect(() => {
     if (geojsonUrl) {
-      if (geojsonFadeTimeout) { clearTimeout(geojsonFadeTimeout); geojsonFadeTimeout = null; }
+      if (geojsonFadeTimeout) {
+        clearTimeout(geojsonFadeTimeout);
+        geojsonFadeTimeout = null;
+      }
       lastGeojsonUrl = geojsonUrl;
       geojsonOpacity.target = 1;
     } else {
