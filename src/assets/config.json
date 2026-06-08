@@ -30,12 +30,12 @@
     "lat": -33.753056
   },
   "croatiainitial": {
-    "zoom": 1,
+    "zoom": 1.5,
     "lng": 16.5,
     "lat": 44.45
   },
   "kninblip": {
-    "zoom": 1,
+    "zoom": 1.5,
     "lng": 16.5,
     "lat": 44.45,
     "dot": {
@@ -86,12 +86,12 @@
     }
   },
   "kenya": {
-    "zoom": 1.1,
+    "zoom": 1.6,
     "lng": 43.858783,
     "lat": 4.2967217
   },
   "kakuma": {
-    "zoom": 1.1,
+    "zoom": 1.6,
     "lng": 43.858783,
     "lat": 4.2967217,
     "dot": {
@@ -169,7 +169,7 @@
     }
   },
   "australianestoy": {
-    "zoom": 1.2,
+    "zoom": 1.4,
     "lng": 128.1672181,
     "lat": -21.4521515
   }
