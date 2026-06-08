@@ -2,9 +2,19 @@
   import { onMount } from "svelte";
 
   const doMount = () => {
-    const panels = document.querySelectorAll('[data-key="panel"]');
+    const panels = document.querySelectorAll<HTMLElement>('[data-key="panel"]');
     panels[0]?.classList.add("is-first");
     panels[panels.length - 1]?.classList.add("is-last");
+
+    const panelArray = Array.from(panels);
+
+    panelArray.forEach((panel) => {
+      if (!(panel instanceof HTMLElement)) return;
+      const tag = panel.dataset.tag ?? "";
+        if (tag.includes("MARGINreduce")) {
+          panel.classList.add("reduced-margin-block-end")
+        }
+    });
   };
   onMount(doMount);
 </script>
@@ -24,13 +34,12 @@
       line-height: 1.8em;
 
       // Mobile: 16px gutters on each side
-      margin-inline: 8px !important;
-      width: calc(100% - 16px);
+      margin-inline: 16px !important;
+      width: calc(100% - 32px);
 
       strong {
         font-weight: 900;
       }
-
 
       @include breakpoints.for-size(tablet-portrait-up) {
         // non-mobile: re-center
@@ -40,9 +49,6 @@
         // Extra padding
         padding: 8px 32px;
       }
-
-
-
 
       @include breakpoints.for-size(desktop-up) {
         // Push to right on Desktop
@@ -58,6 +64,10 @@
 
       &.is-last {
         margin-block-end: 115vh;
+      }
+
+      &.reduced-margin-block-end {
+        margin-block-end: 2em;
       }
     }
   }

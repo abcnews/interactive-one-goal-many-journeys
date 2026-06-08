@@ -5,6 +5,9 @@
   import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
   import PulsingDot from "./PulsingDot.svelte";
   import GeoJsonOverlay from "./GeoJsonOverlay.svelte";
+  import MapLabel from "./MapLabel.svelte";
+  import MapMarkerLabel from "./MapMarkerLabel.svelte";
+  import GeoLine from "./GeoLine.svelte";
 
   const INITIAL_ZOOM = 1;
   const INITIAL_LNG = 134.354806;
@@ -34,6 +37,7 @@
   {center}
   style={mapStyles}
   scrollZoom={false}
+  fadeDuration={100}
   onload={() => {
     if (
       view.zoom === INITIAL_ZOOM &&
@@ -53,7 +57,14 @@
 
   {#if map}
     <PulsingDot {map} {dotLocation} {center} />
+    <GeoJsonOverlay {geojson} />
+    <!-- <GeoLine
+      id="knin-to-belgrade"
+      from={[16.197, 44.041]}
+      to={[20.457, 44.787]}
+      color="#f3bc00"
+    /> -->
+    <!-- <MapLabel id="knin-label" lngLat={[16.197, 44.041]} label="Knin" />
+    <MapMarkerLabel lngLat={[16.197, 44.041]} label="Knin" visible={true} /> -->
   {/if}
-
-  <GeoJsonOverlay {geojson} />
 </MapLibre>

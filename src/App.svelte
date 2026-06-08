@@ -18,6 +18,7 @@
   import Panels from "./components/Panels.svelte";
   import Globe from "./components/Globe.svelte";
   import Image from "./components/Image.svelte";
+  import Pictures from "./components/Pictures.svelte"
 
   import configData from "./assets/config.json";
 
@@ -238,6 +239,7 @@
 <Image imageName={backgroundImage.name} />
 <Panels />
 <Utils />
+<Pictures />
 
 <svelte:window bind:innerHeight={windowInnerHeight} />
 
