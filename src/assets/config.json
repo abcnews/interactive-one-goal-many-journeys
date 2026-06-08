@@ -4,6 +4,7 @@
     "zoom": 1,
     "lng": 134.354806,
     "lat": -25.610111,
+    "//image": "//babymatthewryan",
     "dot": {
       "lng": 150.839167,
       "lat": -33.753056
@@ -167,6 +168,11 @@
       "lng": 29.633333,
       "lat": -4.883333
     }
+  },
+  "australianestory": {
+    "zoom": 1.4,
+    "lng": 128.1672181,
+    "lat": -21.4521515
   },
   "australianestoy": {
     "zoom": 1.4,
