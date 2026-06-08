@@ -6,6 +6,7 @@
   import plumptonOutline from "../assets/geojson/plumpton.geojson?url";
   import kninOutline from "../assets/geojson/knin.geojson?url";
   import southSudanOutline from "../assets/geojson/southsudan.geojson?url";
+  import salalaOutline from "../assets/geojson/salala.geojson?url";
 
   const FADE_DURATION = 600;
 
@@ -13,6 +14,7 @@
     plumpton: plumptonOutline,
     knin: kninOutline,
     southsudan: southSudanOutline,
+    salala: salalaOutline,
   };
 
   let { geojson = null }: { geojson?: string | null } = $props();
