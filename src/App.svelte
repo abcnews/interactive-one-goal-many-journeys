@@ -77,13 +77,6 @@
     lat: INITIAL_LAT,
   };
 
-  const zoomOffset = $derived.by(() => {
-    const screenBoost = Math.min(ZOOM_OFFSET_MAX, Math.max(0, Math.log2(window.innerWidth / 375)));
-    const targetZoom = targetConfig.zoom; // or zoomFromWidth(width) if you want it mid-transition
-    const falloff = Math.max(0, 1 - targetZoom / ZOOM_OFFSET_CUTOFF);
-    return screenBoost * falloff;
-  });
-
   const widthFromZoom = (zoom: number) => BASE / Math.pow(2, zoom);
   const zoomFromWidth = (width: number) => Math.log2(BASE / width);
 
@@ -247,11 +240,6 @@
     };
   });
 
-  const ZOOM_OFFSET_MAX = 2; // max boost at zoom 0
-  const ZOOM_OFFSET_CUTOFF = 4; // no boost at this zoom and above
-
-
-
   // Start reactive observation of reduced motion toggle setting
   onMount(() => reducedMotion.observe());
 
@@ -265,6 +253,7 @@
     geojson={currentWithThreshold.geojson ?? null}
     geoline={currentWithThreshold.geoline ?? null}
     staticDots={currentWithThreshold.staticDots ?? []}
+    panelName={currentPanel ? currentPanel.name : null}
   />
 </BackgroundStage>
 

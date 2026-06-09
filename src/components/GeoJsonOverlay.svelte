@@ -38,8 +38,27 @@
         clearTimeout(geojsonFadeTimeout);
         geojsonFadeTimeout = null;
       }
-      lastGeojsonUrl = geojsonUrl;
-      geojsonOpacity.target = 1;
+
+      const isSame = lastGeojsonUrl === geojsonUrl;
+
+      if (isSame) {
+        geojsonOpacity.target = 1;
+        return;
+      }
+
+      if (lastGeojsonUrl) {
+        // Different URL, currently visible — fade out first then swap
+        geojsonOpacity.target = 0;
+        geojsonFadeTimeout = setTimeout(() => {
+          lastGeojsonUrl = geojsonUrl;
+          geojsonOpacity.target = 1;
+          geojsonFadeTimeout = null;
+        }, FADE_DURATION);
+      } else {
+        // Nothing showing — fade straight in
+        lastGeojsonUrl = geojsonUrl;
+        geojsonOpacity.target = 1;
+      }
     } else {
       geojsonOpacity.target = 0;
       geojsonFadeTimeout = setTimeout(() => {

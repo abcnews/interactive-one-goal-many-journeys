@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { SvelteMap } from "svelte/reactivity";
   import type { Map, LngLatLike } from "maplibre-gl";
   import {
     MapLibre,
@@ -42,6 +43,7 @@
     geojson?: string | null;
     geoline?: GeoLineData;
     staticDots?: DotData[];
+    panelName?: string | null;
   };
 
   let {
@@ -50,11 +52,22 @@
     geojson = null,
     geoline = null,
     staticDots = [],
+    panelName = null,
   }: Props = $props();
 
   let map: Map | undefined = $state.raw();
 
   const center = $derived({ lng: view.lng, lat: view.lat });
+
+  const knownDots = new SvelteMap<string, { color?: string }>();
+
+  $effect(() => {
+    for (const dot of staticDots) {
+      if (dot && !knownDots.has(dot.id)) {
+        knownDots.set(dot.id, { color: dot.color });
+      }
+    }
+  });
 </script>
 
 <MapLibre
@@ -77,9 +90,10 @@
     // So maybe instead check the panel is null if causing issues
     // null means "initial" in the config
     if (
-      view.zoom === INITIAL_ZOOM &&
-      view.lng === INITIAL_LNG &&
-      view.lat === INITIAL_LAT
+      // view.zoom === INITIAL_ZOOM &&
+      // view.lng === INITIAL_LNG &&
+      // view.lat === INITIAL_LAT
+      !panelName
     ) {
       map?.jumpTo({
         zoom: INITIAL_ZOOM,
@@ -100,12 +114,12 @@
       from={geoline?.from ?? null}
       to={geoline?.to ?? null}
     />
-    {#each staticDots as dot (dot?.id ?? "empty")}
+    {#each [...knownDots.entries()] as [dotId, dotMeta] (dotId)}
       <StaticDot
-        id={dot?.id ?? "empty"}
-        dotLocation={dot ? { lng: dot.lng, lat: dot.lat } : null}
+        id={dotId}
+        dotLocation={staticDots.find(d => d?.id === dotId) ?? null}
         {center}
-        color={dot?.color}
+        color={dotMeta.color ?? "#f3bc00"}
       />
     {/each}
     <!-- <MapLabel id="knin-label" lngLat={[16.197, 44.041]} label="Knin" />

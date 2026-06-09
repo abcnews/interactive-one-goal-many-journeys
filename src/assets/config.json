@@ -122,15 +122,15 @@
     "lat": 49.3219165
   },
   "aberdeen": {
-    "zoom": 2.9,
-    "lng": -2,
-    "lat": 49.3219165,
+    "zoom": 3.4,
+    "lng": -2.11,
+    "lat": 57.15,
     "dot": { "lng": -2.11, "lat": 57.15 }
   },
   "aberdeensouttar": {
-    "zoom": 3.6,
-    "lng": -2,
-    "lat": 49.3219165,
+    "zoom": 3.9,
+    "lng": -2.11,
+    "lat": 57.15,
     "dot": { "lng": -2.11, "lat": 57.15 }
   },
   "liberia": {
