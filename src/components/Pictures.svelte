@@ -6,7 +6,11 @@
   :global {
     [data-component="Figure"] {
       transform: unset !important;
-      max-width: 500px !important;
+      max-width: 360px !important;
+
+      figcaption {
+        color: white;
+      }
     }
 
     [data-component="Figure"] [data-component="AspectRatioContainer"] img {

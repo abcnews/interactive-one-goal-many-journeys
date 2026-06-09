@@ -24,6 +24,7 @@
 
   :global {
     .u-layout > [data-key="panel"] {
+      position: relative;
       border: 1px solid #333;
       border-radius: 16px;
       margin-block-start: 90vh;

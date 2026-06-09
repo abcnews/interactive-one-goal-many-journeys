@@ -8,6 +8,7 @@
   import southSudanOutline from "../assets/geojson/southsudan.geojson?url";
   import salalaOutline from "../assets/geojson/salala.geojson?url";
   import conakryOutline from "../assets/geojson/conakry.geojson?url";
+  import westernsydneyOutline from "../assets/geojson/westernsydney.geojson?url";
 
   const FADE_DURATION = 600;
 
@@ -17,6 +18,7 @@
     southsudan: southSudanOutline,
     salala: salalaOutline,
     conakry: conakryOutline,
+    westernsydney: westernsydneyOutline,
   };
 
   let { geojson = null }: { geojson?: string | null } = $props();

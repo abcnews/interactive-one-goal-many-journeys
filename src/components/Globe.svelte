@@ -1,6 +1,12 @@
 <script lang="ts">
   import type { Map, LngLatLike } from "maplibre-gl";
-  import { MapLibre, Projection, Sky, Light } from "svelte-maplibre-gl";
+  import {
+    MapLibre,
+    Projection,
+    Sky,
+    Light,
+    AttributionControl,
+  } from "svelte-maplibre-gl";
 
   import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
   import PulsingDot from "./PulsingDot.svelte";
@@ -57,15 +63,26 @@
   {center}
   style={mapStyles}
   scrollZoom={false}
+  boxZoom={false}
+  dragRotate={false}
+  dragPan={false}
+  keyboard={false}
+  doubleClickZoom={false}
+  touchZoomRotate={false}
+  touchPitch={false}
   fadeDuration={100}
+  attributionControl={false}
   onload={() => {
+    // view.zoom sometimes is off by micro decimals like 0.9999998
+    // So maybe instead check the panel is null if causing issues
+    // null means "initial" in the config
     if (
       view.zoom === INITIAL_ZOOM &&
       view.lng === INITIAL_LNG &&
       view.lat === INITIAL_LAT
     ) {
       map?.jumpTo({
-        zoom: view.zoom,
+        zoom: INITIAL_ZOOM,
         center: { lng: INITIAL_LNG, lat: INITIAL_LAT },
       });
     }
@@ -94,4 +111,15 @@
     <!-- <MapLabel id="knin-label" lngLat={[16.197, 44.041]} label="Knin" />
     <MapMarkerLabel lngLat={[16.197, 44.041]} label="Knin" visible={true} /> -->
   {/if}
+  <AttributionControl compact={false} />
 </MapLibre>
+
+<style lang="scss">
+  :global {
+    // MapLibre copyright dark mode
+    .maplibregl-ctrl.maplibregl-ctrl-attrib {
+      color: rgba(0, 0, 0, 0.75);
+      filter: invert(1);
+    }
+  }
+</style>

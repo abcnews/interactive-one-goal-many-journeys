@@ -40,7 +40,8 @@
     inset: 0;
     background: hsl(0, 0%, 5.9%);
     margin-block: 0 !important;
-    z-index: -1;
+    /* z-index: -1; */
+    /* isolation: isolate; */
   }
   .floating {
     position: sticky;
