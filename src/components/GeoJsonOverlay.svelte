@@ -7,6 +7,7 @@
   import kninOutline from "../assets/geojson/knin.geojson?url";
   import southSudanOutline from "../assets/geojson/southsudan.geojson?url";
   import salalaOutline from "../assets/geojson/salala.geojson?url";
+  import conakryOutline from "../assets/geojson/conakry.geojson?url";
 
   const FADE_DURATION = 600;
 
@@ -15,6 +16,7 @@
     knin: kninOutline,
     southsudan: southSudanOutline,
     salala: salalaOutline,
+    conakry: conakryOutline,
   };
 
   let { geojson = null }: { geojson?: string | null } = $props();
