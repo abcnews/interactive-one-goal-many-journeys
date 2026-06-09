@@ -42,6 +42,7 @@
     margin-block: 0 !important;
     /* z-index: -1; */
     /* isolation: isolate; */
+    pointer-events: none;
   }
   .floating {
     position: sticky;

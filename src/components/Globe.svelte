@@ -125,7 +125,7 @@
     {/each}
     <!-- <MapLabel id="knin-label" lngLat={[16.197, 44.041]} label="Knin" />
     <MapMarkerLabel lngLat={[16.197, 44.041]} label="Knin" visible={true} /> -->
-    <!-- <ArcLayer></ArcLayer> -->
+    <ArcLayer></ArcLayer>
   {/if}
   <AttributionControl compact={false} />
 </MapLibre>
