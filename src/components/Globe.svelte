@@ -16,7 +16,7 @@
   import MapMarkerLabel from "./MapMarkerLabel.svelte";
   import GeoLine from "./GeoLine.svelte";
   import StaticDot from "./StaticDot.svelte";
-  import ArcLayer from "./ArcLayer.svelte";
+  import ArcOverlay from "./ArcOverlay.svelte";
 
   const INITIAL_ZOOM = 1;
   const INITIAL_LNG = 134.354806;
@@ -45,6 +45,7 @@
     geoline?: GeoLineData;
     staticDots?: DotData[];
     panelName?: string | null;
+    showArcs?: boolean;
   };
 
   let {
@@ -54,6 +55,7 @@
     geoline = null,
     staticDots = [],
     panelName = null,
+    showArcs = false,
   }: Props = $props();
 
   let map: Map | undefined = $state.raw();
@@ -125,7 +127,8 @@
     {/each}
     <!-- <MapLabel id="knin-label" lngLat={[16.197, 44.041]} label="Knin" />
     <MapMarkerLabel lngLat={[16.197, 44.041]} label="Knin" visible={true} /> -->
-    <ArcLayer></ArcLayer>
+
+    <ArcOverlay visible={showArcs} />
   {/if}
   <AttributionControl compact={false} />
 </MapLibre>

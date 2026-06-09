@@ -57,6 +57,7 @@
         }),
       ),
     ),
+    showArcs: v.optional(v.boolean()),
   });
 
   const ConfigMapSchema = v.record(v.string(), ConfigSchema);
@@ -103,6 +104,13 @@
     top: number;
     config: Config | null;
   };
+
+  function lngShortestPath(from: number, to: number): number {
+    let delta = to - from;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+    return from + delta;
+  }
 
   function filterMap<T, U>(
     arr: T[],
@@ -208,7 +216,7 @@
     const prev = previousConfig ?? targetConfig;
     const fromView: d3View = [prev.lng, prev.lat, widthFromZoom(prev.zoom)];
     const toView: d3View = [
-      targetConfig.lng,
+      lngShortestPath(prev.lng, targetConfig.lng),
       targetConfig.lat,
       widthFromZoom(targetConfig.zoom),
     ];
@@ -254,6 +262,7 @@
     geoline={currentWithThreshold.geoline ?? null}
     staticDots={currentWithThreshold.staticDots ?? []}
     panelName={currentPanel ? currentPanel.name : null}
+    showArcs={currentWithThreshold.showArcs}
   />
 </BackgroundStage>
 
