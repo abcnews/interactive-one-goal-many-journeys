@@ -1,6 +1,5 @@
 <script lang="ts">
-  const pictures = document.querySelectorAll('[data-component="Figure"]');
-  console.log(pictures);
+  // const pictures = document.querySelectorAll('[data-component="Figure"]');
 </script>
 
 <style lang="scss">
