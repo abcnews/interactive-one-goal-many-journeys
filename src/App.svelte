@@ -18,7 +18,7 @@
   import Panels from "./components/Panels.svelte";
   import Globe from "./components/Globe.svelte";
   import Image from "./components/Image.svelte";
-  import Pictures from "./components/Pictures.svelte"
+  import Pictures from "./components/Pictures.svelte";
 
   import configData from "./assets/config.json";
 
@@ -40,6 +40,23 @@
       }),
     ),
     geojson: v.optional(v.string()),
+    geoline: v.optional(
+      v.object({
+        from: v.tuple([v.number(), v.number()]),
+        to: v.tuple([v.number(), v.number()]),
+        color: v.optional(v.string()),
+      }),
+    ),
+    staticDots: v.optional(
+      v.array(
+        v.object({
+          id: v.string(),
+          lng: v.number(),
+          lat: v.number(),
+          color: v.optional(v.string()),
+        }),
+      ),
+    ),
   });
 
   const ConfigMapSchema = v.record(v.string(), ConfigSchema);
@@ -232,6 +249,8 @@
     view={reducedMotion.current ? viewReducedMotion : view}
     dotLocation={currentWithThreshold.dot ?? null}
     geojson={currentWithThreshold.geojson ?? null}
+    geoline={currentWithThreshold.geoline ?? null}
+    staticDots={currentWithThreshold.staticDots ?? []}
   />
 </BackgroundStage>
 

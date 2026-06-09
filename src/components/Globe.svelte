@@ -8,6 +8,7 @@
   import MapLabel from "./MapLabel.svelte";
   import MapMarkerLabel from "./MapMarkerLabel.svelte";
   import GeoLine from "./GeoLine.svelte";
+  import StaticDot from "./StaticDot.svelte";
 
   const INITIAL_ZOOM = 1;
   const INITIAL_LNG = 134.354806;
@@ -16,15 +17,34 @@
   const plumpton: LngLatLike = { lng: INITIAL_LNG, lat: INITIAL_LAT };
   const initialView = { ...plumpton, zoom: INITIAL_ZOOM };
 
+  type DotData = {
+    id: string;
+    lng: number;
+    lat: number;
+    color?: string;
+  } | null;
+
+  type GeoLineData = {
+    from: [number, number];
+    to: [number, number];
+    color?: string;
+  } | null;
+
+  type Props = {
+    view: typeof initialView;
+    dotLocation?: LngLatLike | null;
+    geojson?: string | null;
+    geoline?: GeoLineData;
+    staticDots?: DotData[];
+  };
+
   let {
     view = initialView,
     dotLocation = null,
     geojson = null,
-  } = $props<{
-    view: typeof initialView;
-    dotLocation?: LngLatLike | null;
-    geojson?: string | null;
-  }>();
+    geoline = null,
+    staticDots = [],
+  }: Props = $props();
 
   let map: Map | undefined = $state.raw();
 
@@ -58,12 +78,19 @@
   {#if map}
     <PulsingDot {map} {dotLocation} {center} />
     <GeoJsonOverlay {geojson} />
-    <!-- <GeoLine
-      id="knin-to-belgrade"
-      from={[16.197, 44.041]}
-      to={[20.457, 44.787]}
-      color="#f3bc00"
-    /> -->
+    <GeoLine
+      id="globe-geoline"
+      from={geoline?.from ?? null}
+      to={geoline?.to ?? null}
+    />
+    {#each staticDots as dot (dot?.id ?? "empty")}
+      <StaticDot
+        id={dot?.id ?? "empty"}
+        dotLocation={dot ? { lng: dot.lng, lat: dot.lat } : null}
+        {center}
+        color={dot?.color}
+      />
+    {/each}
     <!-- <MapLabel id="knin-label" lngLat={[16.197, 44.041]} label="Knin" />
     <MapMarkerLabel lngLat={[16.197, 44.041]} label="Knin" visible={true} /> -->
   {/if}
