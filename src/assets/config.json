@@ -1,6 +1,6 @@
 {
-  "initial": { "zoom": 1, "lng": 134.354806, "lat": -25.610111 },
-  "australiapullin": { "zoom": 2.1, "lng": 134.354806, "lat": -25.610111 },
+  "initial": { "zoom": 1, "lng": 132.354806, "lat": -25.610111 },
+  "australiapullin": { "zoom": 2.1, "lng": 132.354806, "lat": -25.610111 },
   "sydneyfocus": {
     "zoom": 4,
     "lng": 150.839167,
@@ -39,7 +39,7 @@
   },
   "sydneytransition": {
     "zoom": 2.6,
-    "lng": 134.354806,
+    "lng": 132.354806,
     "lat": -25.610111
   },
   "croatiainitial": {
