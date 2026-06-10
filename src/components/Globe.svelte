@@ -17,6 +17,8 @@
   import GeoLine from "./GeoLine.svelte";
   import StaticDot from "./StaticDot.svelte";
   import ArcOverlay from "./ArcOverlay.svelte";
+  import Arrow from "./Arrow.svelte";
+  import GeoArrow from "./GeoArrow.svelte";
 
   const INITIAL_ZOOM = 1;
   const INITIAL_ZOOM_DESKTOP = 2;
@@ -119,8 +121,18 @@
   {#if map}
     <PulsingDot {map} {dotLocation} {center} />
     <GeoJsonOverlay {geojson} />
-    <GeoLine
+    <!-- <GeoLine
       id="globe-geoline"
+      from={geoline?.from ?? null}
+      to={geoline?.to ?? null}
+    /> -->
+    <!-- <Arrow
+      id="globe-arrow"
+      from={geoline?.from ?? null}
+      to={geoline?.to ?? null}
+    /> -->
+    <GeoArrow
+      id="globe-arrow"
       from={geoline?.from ?? null}
       to={geoline?.to ?? null}
     />
