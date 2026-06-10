@@ -1,13 +1,13 @@
 {
   "initial": {
     "zoom": 1,
-    "desktopZoom": 2,
+    "//desktopZoom": 2,
     "lng": 132.354806,
     "lat": -25.610111
   },
   "australiapullin": {
     "zoom": 2.1,
-    "desktopZoom": 2.9,
+    "//desktopZoom": 2.9,
     "lng": 132.354806,
     "lat": -25.610111
   },

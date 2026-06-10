@@ -60,7 +60,7 @@
       }
 
       &.is-first {
-        margin-block-start: 140vh;
+        margin-block-start: 100vh;
       }
 
       &.is-last {

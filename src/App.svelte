@@ -2,7 +2,7 @@
   import { onMount, untrack } from "svelte";
   import { sineInOut } from "svelte/easing";
   import { ScrollState } from "runed";
-  import { interpolateZoom } from "d3-interpolate";
+  import { interpolateZoom, interpolateNumber } from "d3-interpolate";
   import { parse } from "@abcnews/alternating-case-to-object";
   import { SvelteMap } from "svelte/reactivity";
   import * as v from "valibot";
@@ -234,11 +234,22 @@
       widthFromZoom(resolveZoom(targetConfig)),
     ];
 
-    const [cx, cy, width] = interpolateZoom(
-      fromView,
-      toView,
-    )(sineInOut(progress));
-    return { lng: cx, lat: cy, zoom: zoomFromWidth(width) };
+    const t = sineInOut(progress);
+    const [zx, zy, zw] = interpolateZoom(fromView, toView)(t);
+
+    // Dampen the zoom-out by pulling width toward a weighted average of from/to widths
+    const targetWidth = interpolateNumber(fromView[2], toView[2])(t);
+    const dampen = 1; // 0 = no swoop (linear), 1 = full interpolateZoom swoop
+    const width = targetWidth + (zw - targetWidth) * dampen;
+
+    return { lng: zx, lat: zy, zoom: zoomFromWidth(width) };
+
+    // const [cx, cy, width] = interpolateZoom(
+    //   fromView,
+    //   toView,
+    // )(sineInOut(progress));
+
+    // return { lng: cx, lat: cy, zoom: zoomFromWidth(width) };
   });
 
   const currentWithThreshold = $derived(
@@ -263,8 +274,6 @@
 
   // Start reactive observation of reduced motion toggle setting
   onMount(() => reducedMotion.observe());
-
-  $inspect("Reduced:", reducedMotion.current);
 </script>
 
 <BackgroundStage>
