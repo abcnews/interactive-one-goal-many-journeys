@@ -7,6 +7,8 @@
     Sky,
     Light,
     AttributionControl,
+    GeoJSONSource,
+    SymbolLayer,
   } from "svelte-maplibre-gl";
 
   import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
@@ -148,6 +150,25 @@
     <MapMarkerLabel lngLat={[16.197, 44.041]} label="Knin" visible={true} /> -->
 
     <ArcOverlay visible={showArcs} />
+
+    <!-- Glyph warmer — forces ▲ to cache immediately -->
+    <GeoJSONSource
+      data={{
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [0, 0] },
+            properties: {},
+          },
+        ],
+      }}
+    >
+      <SymbolLayer
+        paint={{ "text-opacity": 0 }}
+        layout={{ "text-field": "▶", "text-allow-overlap": true }}
+      />
+    </GeoJSONSource>
   {/if}
   <AttributionControl compact={false} />
 </MapLibre>

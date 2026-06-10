@@ -239,7 +239,7 @@
 
     // Dampen the zoom-out by pulling width toward a weighted average of from/to widths
     const targetWidth = interpolateNumber(fromView[2], toView[2])(t);
-    const dampen = 1; // 0 = no swoop (linear), 1 = full interpolateZoom swoop
+    const dampen = 0.5; // 0 = no swoop (linear), 1 = full interpolateZoom swoop
     const width = targetWidth + (zw - targetWidth) * dampen;
 
     return { lng: zx, lat: zy, zoom: zoomFromWidth(width) };
