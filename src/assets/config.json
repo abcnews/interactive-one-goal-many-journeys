@@ -208,10 +208,6 @@
     "zoom": 1.8,
     "lng": -129,
     "lat": 29,
-    "showArcs": true,
-    "dot": {
-      "lng": -123.1124,
-      "lat": 49.2767
-    }
+    "showArcs": true
   }
 }
