@@ -11,7 +11,7 @@
     dotLocation = null,
     center,
     color = "#f3bc00",
-    radius = 6,
+    radius = 4,
   }: {
     id?: string;
     dotLocation?: { lng: number; lat: number } | null;

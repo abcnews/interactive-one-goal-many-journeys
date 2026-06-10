@@ -2,19 +2,17 @@
   import { onMount, untrack } from "svelte";
   import { sineInOut } from "svelte/easing";
   import { ScrollState } from "runed";
-  import { interpolateNumber, interpolateZoom } from "d3-interpolate";
-  import { parse, stringify } from "@abcnews/alternating-case-to-object";
+  import { interpolateZoom } from "d3-interpolate";
+  import { parse } from "@abcnews/alternating-case-to-object";
   import { SvelteMap } from "svelte/reactivity";
   import * as v from "valibot";
   import { Match } from "effect";
 
   import { reducedMotion } from "@stores/reducedMotion.svelte";
-  import { appState } from "@stores/appState.svelte";
   import { pageState } from "@stores/pageState.svelte";
 
   import Utils from "./components/Utils.svelte";
   import BackgroundStage from "./components/BackgroundStage.svelte";
-  import LandingCollage from "./components/LandingCollage/LandingCollage.svelte";
   import Panels from "./components/Panels.svelte";
   import Globe from "./components/Globe.svelte";
   import Image from "./components/Image.svelte";
@@ -27,9 +25,11 @@
   const BASE = 360;
   const UP_PAGE_THRESHOLD = 0.0; // No longer pushing trigger animations up so 0.0
   const SCROLL_OFFSET = 0.1; // fraction of window height
+  const DESKTOP_BREAKPOINT = 900;
 
   const ConfigSchema = v.object({
     zoom: v.number(),
+    desktopZoom: v.optional(v.number()),
     lng: v.number(),
     lat: v.number(),
     image: v.optional(v.string()),
@@ -82,6 +82,8 @@
   const zoomFromWidth = (width: number) => Math.log2(BASE / width);
 
   let windowInnerHeight = $state(600);
+  let windowInnerWidth = $state(800);
+
   const scroll = new ScrollState({
     element: () => window,
   });
@@ -120,6 +122,13 @@
       const result = fn(item, i);
       return result ? [result] : [];
     });
+  }
+
+  function resolveZoom(config: Config): number {
+    if (windowInnerWidth >= DESKTOP_BREAKPOINT && config.desktopZoom != null) {
+      return config.desktopZoom;
+    }
+    return config.zoom;
   }
 
   function parsePanelState(
@@ -214,11 +223,15 @@
 
   let view = $derived.by(() => {
     const prev = previousConfig ?? targetConfig;
-    const fromView: d3View = [prev.lng, prev.lat, widthFromZoom(prev.zoom)];
+    const fromView: d3View = [
+      prev.lng,
+      prev.lat,
+      widthFromZoom(resolveZoom(prev)),
+    ];
     const toView: d3View = [
       lngShortestPath(prev.lng, targetConfig.lng),
       targetConfig.lat,
-      widthFromZoom(targetConfig.zoom),
+      widthFromZoom(resolveZoom(targetConfig)),
     ];
 
     const [cx, cy, width] = interpolateZoom(
@@ -251,7 +264,7 @@
   // Start reactive observation of reduced motion toggle setting
   onMount(() => reducedMotion.observe());
 
-  $inspect(currentPanel);
+  $inspect("Reduced:", reducedMotion.current);
 </script>
 
 <BackgroundStage>
@@ -272,7 +285,10 @@
 <Utils />
 <Pictures />
 
-<svelte:window bind:innerHeight={windowInnerHeight} />
+<svelte:window
+  bind:innerHeight={windowInnerHeight}
+  bind:innerWidth={windowInnerWidth}
+/>
 
 <style lang="scss">
   :global(.maplibregl-map) {

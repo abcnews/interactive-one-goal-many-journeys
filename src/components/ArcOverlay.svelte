@@ -1,8 +1,17 @@
 <script lang="ts">
-  import { DeckGLOverlay } from "@svelte-maplibre-gl/deckgl";
   import { ArcLayer } from "@deck.gl/layers";
   import { GeoJSONSource, CircleLayer } from "svelte-maplibre-gl";
   import { scaleSqrt } from "d3-scale";
+
+  import { Tween } from "svelte/motion";
+  import { sineInOut } from "svelte/easing";
+
+  const FADE_DURATION = 600;
+  const opacity = new Tween(0, { duration: FADE_DURATION, easing: sineInOut });
+
+  $effect(() => {
+    opacity.target = visible ? 0.8 : 0;
+  });
 
   const widthScale = scaleSqrt().domain([1, 6]).range([1.5, 4]);
 
@@ -26,7 +35,7 @@
     { from: [29.673386, -4.893941], count: 1 }, // Kigoma
   ];
 
-  const to = [-123.111944, 49.276667]; // stadium
+  const to = [-123.1124, 49.2767]; // stadium
 
   const arcsPlusStadium = [...arcs, { from: to, count: 3 }];
 
@@ -35,11 +44,25 @@
 
   const { map } = getMapContext();
 
+  let overlay = $state<MapboxOverlay | null>(null);
+
   $effect(() => {
     if (!map) return;
 
-    const overlay = new MapboxOverlay({
-      interleaved: true,
+    const _overlay = new MapboxOverlay({ interleaved: true, layers: [] });
+    map.addControl(_overlay);
+    overlay = _overlay;
+
+    return () => {
+      map?.removeControl(_overlay);
+      overlay = null;
+    };
+  });
+
+  $effect(() => {
+    if (!overlay) return;
+
+    overlay.setProps({
       layers: [
         new ArcLayer({
           id: "arcs",
@@ -51,25 +74,19 @@
           getWidth: (d) => widthScale(d.count),
           getHeight: 0.2,
           greatCircle: true,
-          opacity: visible ? 0.8 : 0.0,
+          opacity: opacity.current,
         }),
       ],
     });
-
-    map.addControl(overlay);
-
-    return () => {
-      map?.removeControl(overlay);
-    };
   });
 </script>
 
-{#if visible}
+<!-- {#if visible}
   <GeoJSONSource
     id="arc-origins"
     data={{
       type: "FeatureCollection",
-      features: arcsPlusStadium.map((arc) => ({
+      features: arcs.map((arc) => ({
         type: "Feature",
         geometry: { type: "Point", coordinates: arc.from },
         properties: { count: arc.count },
@@ -92,24 +109,4 @@
       }}
     />
   </GeoJSONSource>
-{/if}
-
-<!-- <DeckGLOverlay
-  interleaved={false}
-  layers={[
-    new ArcLayer({
-      id: "arcs",
-      data: arcs,
-      getSourcePosition: (d) => d.from,
-      getTargetPosition: (d) => to as any,
-      getSourceColor: [243, 188, 0],
-      getTargetColor: [243, 188, 0],
-      getWidth: (d) => widthScale(d.count),
-      getHeight: 0.2,
-      // greatCircle: true,
-      opacity: visible ? 0.8 : 0.1,
-    }),
-  ]}
-/> -->
-
-<style lang="scss"></style>
+{/if} -->

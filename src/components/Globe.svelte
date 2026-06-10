@@ -19,7 +19,8 @@
   import ArcOverlay from "./ArcOverlay.svelte";
 
   const INITIAL_ZOOM = 1;
-  const INITIAL_LNG = 134.354806;
+  const INITIAL_ZOOM_DESKTOP = 2;
+  const INITIAL_LNG = 132.354806;
   const INITIAL_LAT = -25.610111;
 
   const plumpton: LngLatLike = { lng: INITIAL_LNG, lat: INITIAL_LAT };
@@ -99,7 +100,7 @@
       !panelName
     ) {
       map?.jumpTo({
-        zoom: INITIAL_ZOOM,
+        zoom: window.innerWidth < 900 ? INITIAL_ZOOM : INITIAL_ZOOM_DESKTOP,
         center: { lng: INITIAL_LNG, lat: INITIAL_LAT },
       });
     }

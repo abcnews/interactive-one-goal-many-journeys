@@ -1,6 +1,16 @@
 {
-  "initial": { "zoom": 1, "lng": 132.354806, "lat": -25.610111 },
-  "australiapullin": { "zoom": 2.1, "lng": 132.354806, "lat": -25.610111 },
+  "initial": {
+    "zoom": 1,
+    "desktopZoom": 2,
+    "lng": 132.354806,
+    "lat": -25.610111
+  },
+  "australiapullin": {
+    "zoom": 2.1,
+    "desktopZoom": 2.9,
+    "lng": 132.354806,
+    "lat": -25.610111
+  },
   "sydneyfocus": {
     "zoom": 4,
     "lng": 150.839167,
@@ -196,8 +206,12 @@
   },
   "arcs": {
     "zoom": 1.8,
-    "lng": -139.0216925,
-    "lat": 23.536562,
-    "showArcs": true
+    "lng": -129,
+    "lat": 29,
+    "showArcs": true,
+    "dot": {
+      "lng": -123.1124,
+      "lat": 49.2767
+    }
   }
 }
