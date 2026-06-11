@@ -204,10 +204,16 @@
       { "id": "adelaide", "lng": 138.59963, "lat": -34.92866 }
     ]
   },
+  "australiaarcs": {
+    "zoom": 1.4,
+    "lng": 128.1672181,
+    "lat": -21.4521515,
+    "showArcs": true
+  },
   "arcs": {
     "zoom": 1.8,
-    "lng": -129,
-    "lat": 29,
+    "lng": -119,
+    "lat": 35,
     "showArcs": true
   }
 }

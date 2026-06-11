@@ -1,22 +1,35 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { watch } from "runed";
+  import { reducedMotion } from "@stores/reducedMotion.svelte";
 
-  const doMount = () => {
-    const panels = document.querySelectorAll<HTMLElement>('[data-key="panel"]');
-    panels[0]?.classList.add("is-first");
-    panels[panels.length - 1]?.classList.add("is-last");
+  watch(
+    () => reducedMotion.current,
+    () => {
+      const panels =
+        document.querySelectorAll<HTMLElement>('[data-key="panel"]');
+      panels[0]?.classList.add("is-first");
+      panels[panels.length - 1]?.classList.add("is-last");
 
-    const panelArray = Array.from(panels);
+      const panelArray = Array.from(panels);
 
-    panelArray.forEach((panel) => {
-      if (!(panel instanceof HTMLElement)) return;
-      const tag = panel.dataset.tag ?? "";
+      panelArray.forEach((panel) => {
+        if (!(panel instanceof HTMLElement)) return;
+
+        const tag = panel.dataset.tag ?? "";
+
         if (tag.includes("MARGINreduce")) {
-          panel.classList.add("reduced-margin-block-end")
+          // Reduce margin (for photos below panels)
+          panel.classList.add("reduced-margin-block-end");
         }
-    });
-  };
-  onMount(doMount);
+
+        if (tag.includes("PANELhide")) {
+          panel.classList.toggle("nodisplay", reducedMotion.current);
+          panel.classList.toggle("hidden", !reducedMotion.current);
+        }
+      });
+    },
+  );
 </script>
 
 <style lang="scss">
@@ -69,6 +82,14 @@
 
       &.reduced-margin-block-end {
         margin-block-end: 2em;
+      }
+
+      &.hidden {
+        visibility: hidden;
+      }
+
+      &.nodisplay {
+        display: none;
       }
     }
   }

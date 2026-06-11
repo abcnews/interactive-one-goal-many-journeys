@@ -96,6 +96,7 @@
   const PanelTagSchema = v.object({
     name: v.string(),
     zoom: v.optional(v.number()), // 100 percent = 1.0 zoom
+    desktopzoom: v.optional(v.number()), // Same for Desktop
   });
 
   type PanelTag = v.InferOutput<typeof PanelTagSchema>;
@@ -139,23 +140,29 @@
     const result = v.safeParse(PanelTagSchema, parse(panel.dataset.tag || ""));
     if (!result.success) return null;
 
-    const panelState: PanelTag = result.output;
-    const name = panelState.name;
-    const zoomOverride = panelState.zoom;
+    const panelTag: PanelTag = result.output;
+    const {
+      name,
+      zoom: zoomOverride,
+      desktopzoom: zoomDesktopOverride,
+    } = panelTag;
 
-    const configFromName: Config | undefined = config.get(name);
+    const baseConfig = config.get(name);
+    if (!baseConfig) return null;
 
-    const overriddenConfig: Config | null = configFromName
-      ? zoomOverride
-        ? { ...configFromName, zoom: zoomOverride / 100 }
-        : configFromName
-      : null;
+    const finalConfig: Config = {
+      ...baseConfig,
+      ...(zoomOverride !== undefined && { zoom: zoomOverride / 100 }),
+      ...(zoomDesktopOverride !== undefined && {
+        desktopZoom: zoomDesktopOverride / 100,
+      }),
+    };
 
     return {
       index,
       name,
       top: panel.getBoundingClientRect().top + scrollY,
-      config: overriddenConfig,
+      config: finalConfig,
     };
   }
 
@@ -229,7 +236,8 @@
       widthFromZoom(resolveZoom(prev)),
     ];
     const toView: d3View = [
-      lngShortestPath(prev.lng, targetConfig.lng),
+      // We might still do shortest path. Keep function around...
+      targetConfig.lng, //lngShortestPath(prev.lng, targetConfig.lng),
       targetConfig.lat,
       widthFromZoom(resolveZoom(targetConfig)),
     ];
