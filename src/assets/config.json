@@ -55,7 +55,8 @@
   "croatiainitial": {
     "zoom": 3.6,
     "lng": 16.5,
-    "lat": 44.45
+    "lat": 44.45,
+    "dampenZoom": 0.3
   },
   "kninblip": {
     "zoom": 4.1,
