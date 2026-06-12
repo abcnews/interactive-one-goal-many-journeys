@@ -12,23 +12,24 @@
   let {
     color = "100, 160, 255",
     intensity = 0.5,
-    scale = 10,
+    scale = 1.8,
     blur = 40,
   }: Props = $props();
-
-  let baseSize = $state(0);
 
   let glowSize = $state(500);
   let glowX = $state(0);
   let glowY = $state(0);
-  let canvasSize = $state(500); // track viewport size for ratio
+  let canvasSize = $state(500);
 
-  const lerpFactor = 0.2;
-  const displaySize = $derived(baseSize + (glowSize - baseSize) * lerpFactor);
+  let baseSize = $state(0);
 
-  // Fade out as globe fills more of the screen
+  // clamp growth to 30% beyond starting size
+  const displaySize = $derived(
+    baseSize === 0 ? glowSize : Math.min(glowSize, baseSize * 1.3),
+  );
+
   const dynamicIntensity = $derived(
-    intensity * Math.min(1, (canvasSize * 0.25) / glowSize),
+    intensity * Math.min(1, (canvasSize * 0.3) / glowSize),
   );
 
   const { map } = getMapContext();
@@ -39,13 +40,10 @@
 
     const centre = m.project([0, 0]);
     const edge = m.project([90, 0]);
-    const radius = Math.abs(edge.x - centre.x);
-    const diameter = radius * 2;
+    const diameter = Math.abs(edge.x - centre.x) * 2;
 
-    // Capture the initial size once
-    if (baseSize === 0) baseSize = diameter;
-
-    glowSize = diameter; // still need this for centering
+    if (baseSize === 0) baseSize = diameter; // lock in at first render
+    glowSize = diameter;
 
     const canvas = m.getCanvas();
     glowX = canvas.offsetWidth / 2;
@@ -76,8 +74,8 @@
 <div
   class="globe-glow"
   style="
-    width: {displaySize * scale}px;
-    height: {displaySize * scale}px;
+   width: {displaySize * scale}px;
+   height: {displaySize * scale}px;
     left: {glowX}px;
     top: {glowY}px;
     --glow-color: {color};

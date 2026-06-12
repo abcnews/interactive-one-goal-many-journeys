@@ -233,7 +233,7 @@
           }}
         />
       </GeoJSONSource> -->
-      <GlobeGlow color="120, 200, 255" intensity={0.3} scale={10} blur={20} />
+      <GlobeGlow color="120, 200, 255" intensity={0.3} scale={8} blur={20} />
     {/if}
     <AttributionControl compact={false} />
   </MapLibre>
