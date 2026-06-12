@@ -1,6 +1,15 @@
 class AppState {
+  #windowInnerWidth = $state(800);
+
+  get windowInnerWidth() {
+    return this.#windowInnerWidth;
+  }
+
+  setWindowInnerWidth(width: number) {
+    this.#windowInnerWidth = width;
+  }
+
   isLoaded = $state(false);
-  // doubled = $derived(this.value * 2);
 
   setIsLoaded() {
     this.isLoaded = true;

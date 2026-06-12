@@ -11,6 +11,7 @@
 
   import { reducedMotion } from "@stores/reducedMotion.svelte";
   import { pageState } from "@stores/pageState.svelte";
+  import { appState } from "@stores/appState.svelte";
 
   import Utils from "./components/Utils.svelte";
   import BackgroundStage from "./components/BackgroundStage.svelte";
@@ -279,6 +280,10 @@
 
   // Start reactive observation of reduced motion toggle setting
   onMount(() => reducedMotion.observe());
+
+  $effect(() => {
+    appState.setWindowInnerWidth(windowInnerWidth);
+  });
 </script>
 
 <BackgroundStage>
