@@ -58,6 +58,7 @@
       ),
     ),
     showArcs: v.optional(v.boolean()),
+    dampenZoom: v.optional(v.number()),
   });
 
   const ConfigMapSchema = v.record(v.string(), ConfigSchema);
@@ -245,19 +246,14 @@
     const t = sineInOut(progress);
     const [zx, zy, zw] = interpolateZoom(fromView, toView)(t);
 
-    // Dampen the zoom-out by pulling width toward a weighted average of from/to widths
     const targetWidth = interpolateNumber(fromView[2], toView[2])(t);
-    const dampen = 0.5; // 0 = no swoop (linear), 1 = full interpolateZoom swoop
+
+    // Dampen the zoom-out by pulling width toward a weighted average of from/to widths
+    // 0 = no swoop (linear), 1 = full interpolateZoom swoop
+    const dampen = targetConfig.dampenZoom ?? 1;
     const width = targetWidth + (zw - targetWidth) * dampen;
 
     return { lng: zx, lat: zy, zoom: zoomFromWidth(width) };
-
-    // const [cx, cy, width] = interpolateZoom(
-    //   fromView,
-    //   toView,
-    // )(sineInOut(progress));
-
-    // return { lng: cx, lat: cy, zoom: zoomFromWidth(width) };
   });
 
   const currentWithThreshold = $derived(

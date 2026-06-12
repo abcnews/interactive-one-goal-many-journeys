@@ -158,7 +158,8 @@
     "zoom": 7.1,
     "lng": -13.712222,
     "lat": 9.409167,
-    "geojson": "conakry"
+    "geojson": "conakry",
+    "dampenZoom": 0.0
   },
   "conakry2": {
     "zoom": 8.1,
