@@ -1,6 +1,6 @@
 {
   "initial": {
-    "zoom": 1,
+    "zoom": 1.1,
     "desktopZoom": 2,
     "lng": 140.839167,
     "lat": -30.753056
@@ -24,9 +24,9 @@
     "geojson": "westernsydney"
   },
   "plumptonblip": {
-    "zoom": 6,
-    "lng": 150.839167,
-    "lat": -33.753056,
+    "zoom": 1,
+    "lng": 140.839167,
+    "lat": -30.753056,
     "dot": {
       "lng": 150.839167,
       "lat": -33.753056

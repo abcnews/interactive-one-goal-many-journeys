@@ -6,7 +6,7 @@
   import { untrack } from "svelte";
 
   const FADE_DURATION = 600;
-  const DOT_SIZE = 70;
+  const DOT_SIZE = 80;
 
   let {
     map,
@@ -84,7 +84,7 @@
   // Register image once map is available
   $effect(() => {
     map.addImage("pulsing-dot", createPulsingDot(map), {
-      pixelRatio: window.devicePixelRatio ?? 2,
+      pixelRatio: 2,
     });
     dotReady = true;
   });
