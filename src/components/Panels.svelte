@@ -3,26 +3,26 @@
   import { watch } from "runed";
   import { reducedMotion } from "@stores/reducedMotion.svelte";
 
+  onMount(() => {
+    const panels = document.querySelectorAll<HTMLElement>('[data-key="panel"]');
+    panels[0]?.classList.add("is-first");
+    panels[panels.length - 1]?.classList.add("is-last");
+
+    Array.from(panels).forEach((panel) => {
+      const tag = panel.dataset.tag ?? "";
+      if (tag.includes("MARGINreduce")) {
+        panel.classList.add("reduced-margin-block-end");
+      }
+    });
+  });
+
   watch(
     () => reducedMotion.current,
     () => {
       const panels =
         document.querySelectorAll<HTMLElement>('[data-key="panel"]');
-      panels[0]?.classList.add("is-first");
-      panels[panels.length - 1]?.classList.add("is-last");
-
-      const panelArray = Array.from(panels);
-
-      panelArray.forEach((panel) => {
-        if (!(panel instanceof HTMLElement)) return;
-
+      Array.from(panels).forEach((panel) => {
         const tag = panel.dataset.tag ?? "";
-
-        if (tag.includes("MARGINreduce")) {
-          // Reduce margin (for photos below panels)
-          panel.classList.add("reduced-margin-block-end");
-        }
-
         if (tag.includes("PANELhide")) {
           panel.classList.toggle("nodisplay", reducedMotion.current);
           panel.classList.toggle("hidden", !reducedMotion.current);
@@ -89,7 +89,15 @@
       }
 
       &.nodisplay {
-        display: none;
+        height: 0;
+        min-height: 0;
+        overflow: hidden;
+        margin-block-start: 0 !important;
+        margin-block-end: 0 !important;
+        padding: 0;
+        border: none;
+        /* Pull adjacent siblings' margins back in */
+        margin-block: calc(-45vh) !important;
       }
     }
   }

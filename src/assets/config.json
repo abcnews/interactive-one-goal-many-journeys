@@ -215,6 +215,7 @@
     "zoom": 1.8,
     "lng": -119,
     "lat": 35,
-    "showArcs": true
+    "showArcs": true,
+    "dampenZoom": 0.1
   }
 }
