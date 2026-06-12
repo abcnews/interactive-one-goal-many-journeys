@@ -38,13 +38,13 @@
   :global {
     .u-layout > [data-key="panel"] {
       position: relative;
-      border: 1px solid #333;
+      /* border: 1px solid #333; */
       border-radius: 16px;
       margin-block-start: 90vh;
       margin-block-end: 90vh;
       padding: 0px 18px;
-      background: hsla(0, 0%, 15%, 0.95);
-      color: white;
+      background: rgba(0, 4, 2, 0.75);
+      color: #f9f9f9;
       line-height: 1.8em;
 
       // Mobile: 16px gutters on each side
