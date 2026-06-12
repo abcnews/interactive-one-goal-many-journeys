@@ -114,7 +114,7 @@
           ["concat", ["get", "name:latin"], " ", ["get", "name:nonlatin"]],
           ["coalesce", ["get", "name_en"], ["get", "name"]]
         ],
-        "text-font": ["Noto Sans Italic"],
+        "text-font": ["ABC Sans Regular"],
         "text-letter-spacing": 0.2,
         "text-max-width": 5,
         "text-size": 13,
@@ -267,25 +267,6 @@
         "line-color": "rgba(130, 128, 145, 1)",
         "line-dasharray": [1, 2],
         "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1, 5, 1.2, 12, 3]
-      }
-    },
-    {
-      "id": "country-label",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "minzoom": 5,
-      "filter": ["==", ["get", "name_en"], "Liberia"],
-      "layout": {
-        "text-field": ["coalesce", ["get", "name_en"], ["get", "name"]],
-        "text-font": ["ABCSerif RegularItalic"],
-        "text-size": 12,
-        "visibility": "visible"
-      },
-      "paint": {
-        "text-color": "#ffffff",
-        "text-halo-color": "#000000",
-        "text-halo-width": 1
       }
     }
   ],

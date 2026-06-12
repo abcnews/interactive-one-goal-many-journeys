@@ -13,7 +13,7 @@
   import { untrack } from "svelte";
   import { Spring } from "svelte/motion";
 
-  import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
+  import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v9.json?url";
   import PulsingDot from "./PulsingDot.svelte";
   import GeoJsonOverlay from "./GeoJsonOverlay.svelte";
   import MapLabel from "./MapLabel.svelte";
@@ -23,6 +23,7 @@
   import ArcOverlay from "./ArcOverlay.svelte";
   import Arrow from "./Arrow.svelte";
   import GeoArrow from "./GeoArrow.svelte";
+  import GlobeGlow from "./GlobeGlow.svelte";
 
   import { reducedMotion } from "@stores/reducedMotion.svelte";
 
@@ -198,7 +199,7 @@
       <ArcOverlay visible={showArcs} />
 
       <!-- Glyph warmer — forces ▲ to cache immediately -->
-      <GeoJSONSource
+      <!-- <GeoJSONSource
         data={{
           type: "FeatureCollection",
           features: [
@@ -231,7 +232,8 @@
             "text-halo-width": 1,
           }}
         />
-      </GeoJSONSource>
+      </GeoJSONSource> -->
+      <GlobeGlow color="120, 200, 255" intensity={0.3} scale={10} blur={20} />
     {/if}
     <AttributionControl compact={false} />
   </MapLibre>
