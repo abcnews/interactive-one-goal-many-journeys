@@ -16,7 +16,7 @@
     }
   },
   "sprite": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm",
-  "glyphs": "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
+  "glyphs": "https://www.abc.net.au/res/sites/news-projects/map-vector-fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -267,6 +267,25 @@
         "line-color": "rgba(130, 128, 145, 1)",
         "line-dasharray": [1, 2],
         "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1, 5, 1.2, 12, 3]
+      }
+    },
+    {
+      "id": "country-label",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "place",
+      "minzoom": 5,
+      "filter": ["==", ["get", "name_en"], "Liberia"],
+      "layout": {
+        "text-field": ["coalesce", ["get", "name_en"], ["get", "name"]],
+        "text-font": ["ABCSerif RegularItalic"],
+        "text-size": 12,
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "#ffffff",
+        "text-halo-color": "#000000",
+        "text-halo-width": 1
       }
     }
   ],

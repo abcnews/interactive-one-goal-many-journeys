@@ -1,0 +1,4 @@
+<!-- arrowhead.svg — points right (→), so bearing 0 = up, -90 = right -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <polygon points="10,0 20,20 10,14 0,20" fill="white"/>
+</svg>

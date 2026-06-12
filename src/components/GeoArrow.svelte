@@ -1,10 +1,5 @@
 <script lang="ts">
-  import {
-    GeoJSONSource,
-    LineLayer,
-
-    SymbolLayer,
-  } from "svelte-maplibre-gl";
+  import { GeoJSONSource, LineLayer, SymbolLayer } from "svelte-maplibre-gl";
   import { Tween } from "svelte/motion";
   import { sineInOut } from "svelte/easing";
 
@@ -118,7 +113,7 @@
     />
   </GeoJSONSource> -->
 
-  <GeoJSONSource id="{id}-arrowhead" data={dotData}>
+  <!-- <GeoJSONSource id="{id}-arrowhead" data={dotData}>
     <SymbolLayer
       layout={{
         "text-field": "▶",
@@ -131,6 +126,23 @@
       paint={{
         "text-color": color,
         "text-opacity": fadeOpacity.current,
+      }}
+    />
+  </GeoJSONSource> -->
+
+  <GeoJSONSource id="{id}-arrowhead" data={dotData}>
+    <SymbolLayer
+      layout={{
+        "icon-image": "arrowhead",
+        "icon-rotate": ["get", "bearing"],
+        "icon-rotation-alignment": "map",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true,
+        "icon-size": 0.6,
+      }}
+      paint={{
+        "icon-color": color,
+        "icon-opacity": fadeOpacity.current,
       }}
     />
   </GeoJSONSource>

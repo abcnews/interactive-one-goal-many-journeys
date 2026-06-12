@@ -148,6 +148,18 @@
         });
       }
       setTimeout(() => (mapReady = true), 1);
+
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
+        <polygon points="20,10 0,0 4,10 0,20" fill="white"/>
+      </svg>`;
+      const blob = new Blob([svg], { type: "image/svg+xml" });
+      const url = URL.createObjectURL(blob);
+      const img = new Image(20, 20);
+      img.onload = () => {
+        map?.addImage("arrowhead", img, { sdf: true });
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
     }}
   >
     <Projection type="globe" />
@@ -210,7 +222,7 @@
             : ["==", ["get", "class"], "none"]}
           layout={{
             "text-field": ["coalesce", ["get", "name_en"], ["get", "name"]],
-            "text-font": ["Noto Sans Regular"],
+            "text-font": ["ABCSans Regular"],
             "text-size": 12,
           }}
           paint={{
