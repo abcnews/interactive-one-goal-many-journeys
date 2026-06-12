@@ -10,6 +10,7 @@
 
       figcaption {
         color: white;
+        display: none;
       }
     }
 

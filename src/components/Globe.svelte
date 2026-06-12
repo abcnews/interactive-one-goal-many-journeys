@@ -10,6 +10,8 @@
     GeoJSONSource,
     SymbolLayer,
   } from "svelte-maplibre-gl";
+  import { untrack } from "svelte";
+  import { Spring } from "svelte/motion";
 
   import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v7.json?url";
   import PulsingDot from "./PulsingDot.svelte";
@@ -21,6 +23,8 @@
   import ArcOverlay from "./ArcOverlay.svelte";
   import Arrow from "./Arrow.svelte";
   import GeoArrow from "./GeoArrow.svelte";
+
+  import { reducedMotion } from "@stores/reducedMotion.svelte";
 
   const INITIAL_ZOOM = 1;
   const INITIAL_ZOOM_DESKTOP = 2;
@@ -65,6 +69,35 @@
     showArcs = false,
   }: Props = $props();
 
+  const lngSpring = new Spring(
+    untrack(() => view.lng),
+    { stiffness: 0.8, damping: 0.9 },
+  );
+  const latSpring = new Spring(
+    untrack(() => view.lat),
+    { stiffness: 0.8, damping: 0.9 },
+  );
+  const zoomSpring = new Spring(
+    untrack(() => view.zoom),
+    { stiffness: 0.8, damping: 0.9 },
+  );
+
+  $effect(() => {
+    lngSpring.target = view.lng;
+    latSpring.target = view.lat;
+    zoomSpring.target = view.zoom;
+  });
+
+  const smoothCenter = $derived(
+    reducedMotion.current
+      ? { lng: view.lng, lat: view.lat }
+      : { lng: lngSpring.current, lat: latSpring.current },
+  );
+
+  const smoothZoom = $derived(
+    reducedMotion.current ? view.zoom : zoomSpring.current,
+  );
+
   let map: Map | undefined = $state.raw();
 
   const center = $derived({ lng: view.lng, lat: view.lat });
@@ -82,8 +115,8 @@
 
 <MapLibre
   bind:map
-  zoom={view.zoom}
-  {center}
+  zoom={zoomSpring.current}
+  center={smoothCenter}
   style={mapStyles}
   scrollZoom={false}
   boxZoom={false}

@@ -30,6 +30,8 @@
       });
     },
   );
+
+  $inspect(reducedMotion.current)
 </script>
 
 <style lang="scss">

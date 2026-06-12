@@ -7,6 +7,7 @@
   import { SvelteMap } from "svelte/reactivity";
   import * as v from "valibot";
   import { Match } from "effect";
+  import { Spring } from "svelte/motion";
 
   import { reducedMotion } from "@stores/reducedMotion.svelte";
   import { pageState } from "@stores/pageState.svelte";
