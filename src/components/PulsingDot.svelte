@@ -42,21 +42,37 @@
         const t = (performance.now() % duration) / duration;
         const ctx = this.context!;
         const center = DOT_SIZE / 2;
-        const innerRadius = DOT_SIZE * 0.15;
+        const innerRadius = DOT_SIZE * 0.1; // smaller dot (was 0.15)
         const maxRadius = DOT_SIZE * 0.45;
         const radius = innerRadius + (maxRadius - innerRadius) * t;
 
         ctx.clearRect(0, 0, DOT_SIZE, DOT_SIZE);
 
+        // Pulse ring fill
         ctx.beginPath();
         ctx.arc(center, center, radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(243, 188, 0, ${1 - t})`;
+        ctx.fillStyle = `rgba(243, 188, 0, ${(1 - t) * 0.4})`;
         ctx.fill();
 
+        // Pulse ring border
+        ctx.beginPath();
+        ctx.arc(center, center, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(243, 188, 0, ${1 - t})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Inner dot
         ctx.beginPath();
         ctx.arc(center, center, innerRadius, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(243, 188, 0, 1)";
         ctx.fill();
+
+        // Inner dot border
+        // ctx.beginPath();
+        // ctx.arc(center, center, innerRadius, 0, Math.PI * 2);
+        // ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+        // ctx.lineWidth = 1.5;
+        // ctx.stroke();
 
         this.data = ctx.getImageData(0, 0, DOT_SIZE, DOT_SIZE).data;
         map.triggerRepaint();
@@ -67,7 +83,9 @@
 
   // Register image once map is available
   $effect(() => {
-    map.addImage("pulsing-dot", createPulsingDot(map), { pixelRatio: 2 });
+    map.addImage("pulsing-dot", createPulsingDot(map), {
+      pixelRatio: window.devicePixelRatio ?? 2,
+    });
     dotReady = true;
   });
 
