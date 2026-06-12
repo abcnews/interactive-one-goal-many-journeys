@@ -1,9 +1,9 @@
 {
   "initial": {
     "zoom": 1,
-    "//desktopZoom": 2,
-    "lng": 132.354806,
-    "lat": -25.610111
+    "desktopZoom": 2,
+    "lng": 140.839167,
+    "lat": -30.753056
   },
   "australiapullin": {
     "zoom": 2.1,
@@ -157,14 +157,14 @@
   "liberia": {
     "zoom": 3.9,
     "lng": -10,
-    "lat": 8,
-    "dampenZoom": 0.3
+    "lat": 8
   },
   "salala": {
     "zoom": 6.1,
     "lng": -10.1065636,
     "lat": 6.7500211,
-    "geojson": "salala"
+    "geojson": "salala",
+    "dampenZoom": 0.35
   },
   "conakry": {
     "zoom": 7.1,

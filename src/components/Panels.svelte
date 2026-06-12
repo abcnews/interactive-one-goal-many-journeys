@@ -38,7 +38,7 @@
   :global {
     .u-layout > [data-key="panel"] {
       position: relative;
-      /* border: 1px solid #333; */
+      border: 1px solid transparent;
       border-radius: 16px;
       margin-block-start: 90vh;
       margin-block-end: 90vh;
