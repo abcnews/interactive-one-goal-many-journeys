@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "metadata": {"maputnik:renderer": "mbgljs"},
+  "metadata": { "maputnik:renderer": "mbgljs" },
   "sources": {
     "ne2_shaded": {
       "maxzoom": 6,
@@ -21,7 +21,7 @@
     {
       "id": "background",
       "type": "background",
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "background-color": "rgba(72, 71, 79, 1)",
         "background-opacity": 1
@@ -40,7 +40,7 @@
         true,
         false
       ],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "fill-color": "rgba(25, 36, 28, 0.5)",
         "fill-opacity": 0.5,
@@ -57,7 +57,7 @@
         ["match", ["geometry-type"], ["MultiPolygon", "Polygon"], true, false],
         ["!=", ["get", "brunnel"], "tunnel"]
       ],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "fill-antialias": true,
         "fill-color": "rgba(25, 27, 43, 1)",
@@ -76,7 +76,7 @@
         ["match", ["geometry-type"], ["MultiPolygon", "Polygon"], true, false],
         ["==", ["get", "class"], "residential"]
       ],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "fill-color": "rgba(101, 99, 112, 0.6)",
         "fill-opacity": [
@@ -139,7 +139,7 @@
         true,
         false
       ],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "line-color": "rgba(103, 138, 209, .75)",
         "line-opacity": 0.5,
@@ -157,7 +157,7 @@
         ["match", ["geometry-type"], ["MultiPolygon", "Polygon"], true, false],
         ["==", ["get", "subclass"], "ice_shelf"]
       ],
-      "layout": {"visibility": "none"},
+      "layout": { "visibility": "none" },
       "paint": {
         "fill-color": "rgba(133, 133, 133, 1)",
         "fill-opacity": 0.7,
@@ -175,7 +175,7 @@
         ["match", ["geometry-type"], ["MultiPolygon", "Polygon"], true, false],
         ["==", ["get", "subclass"], "glacier"]
       ],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "fill-opacity": ["interpolate", ["linear"], ["zoom"], 0, 1, 8, 0.5],
         "fill-color": "rgba(154, 154, 154, 0.5)",
@@ -194,7 +194,7 @@
         ["match", ["geometry-type"], ["MultiPolygon", "Polygon"], true, false],
         ["==", ["get", "class"], "wood"]
       ],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "fill-color": "rgba(30, 61, 37, 0.75)",
         "fill-opacity": ["interpolate", ["linear"], ["zoom"], 8, 0, 12, 1]
@@ -214,7 +214,7 @@
         ["!=", ["get", "disputed"], 1],
         ["!", ["has", "claimed_by"]]
       ],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "line-width": ["interpolate", ["linear", 1], ["zoom"], 7, 1, 11, 2],
         "line-opacity": 1,

@@ -111,6 +111,8 @@
       }
     }
   });
+
+  const visibleLabels = ["Australia", "Japan", "Croatia"];
 </script>
 
 <MapLibre
@@ -200,6 +202,23 @@
       <SymbolLayer
         paint={{ "text-opacity": 0 }}
         layout={{ "text-field": "▶", "text-allow-overlap": true }}
+      />
+
+      <SymbolLayer
+        sourceLayer="place"
+        filter={visibleLabels.length > 0
+          ? ["in", ["get", "name_en"], ["literal", visibleLabels]]
+          : ["==", ["get", "class"], "none"]}
+        layout={{
+          "text-field": ["coalesce", ["get", "name_en"], ["get", "name"]],
+          "text-font": ["Noto Sans Regular"],
+          "text-size": 12,
+        }}
+        paint={{
+          "text-color": "#ffffff",
+          "text-halo-color": "#000000",
+          "text-halo-width": 1,
+        }}
       />
     </GeoJSONSource>
   {/if}
