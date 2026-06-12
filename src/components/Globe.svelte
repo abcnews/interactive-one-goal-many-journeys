@@ -23,7 +23,7 @@
   import ArcOverlay from "./ArcOverlay.svelte";
   import Arrow from "./Arrow.svelte";
   import GeoArrow from "./GeoArrow.svelte";
-  import GlobeGlow from "./GlobeGlow.svelte";
+  import GlobeGlow from "./GlobeGlowSimple.svelte";
 
   import { reducedMotion } from "@stores/reducedMotion.svelte";
 

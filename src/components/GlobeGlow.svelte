@@ -1,3 +1,5 @@
+<!-- THIS IS FRUSTRATINGLY BROKEN DO NOT USE -->
+
 <script lang="ts">
   import { getMapContext } from "svelte-maplibre-gl";
   import { onMount } from "svelte";
@@ -5,15 +7,15 @@
   type Props = {
     color?: string;
     intensity?: number;
-    scale?: number;
+    glowWidth?: number; // how many px wide the halo extends beyond the globe edge
     blur?: number;
   };
 
   let {
     color = "120, 200, 255",
-    intensity = 0.3,
-    scale = 8,
-    blur = 20,
+    intensity = 0.2,
+    glowWidth = 200, // fixed px, doesn't scale with zoom
+    blur = 10,
   }: Props = $props();
 
   let diameter = $state(0);
@@ -32,14 +34,26 @@
     const m = map;
     if (!m) return;
 
-    const centre = m.project([0, 0]);
-    const edge = m.project([90, 0]);
-    diameter = Math.abs(edge.x - centre.x) * 2;
-
     const canvas = m.getCanvas();
+    const tr = m.transform;
+
+    // Globe radius in pixels — directly from the transform, unaffected by rotation/pan
+    // @ts-ignore
+    const r = tr.globeRadius ?? tr._globeRadius;
+
+    if (r != null) {
+      diameter = r * 2;
+    } else {
+      // non-globe projection fallback
+      const centre = m.project([0, 0]);
+      const pole = m.project([0, 90]);
+      diameter = Math.abs(pole.y - centre.y) * 2;
+    }
+
+    // Always use the globe diameter itself as the reference — not canvas size
     glowX = canvas.offsetWidth / 2;
     glowY = canvas.offsetHeight / 2;
-    canvasSize = Math.min(canvas.offsetWidth, canvas.offsetHeight);
+    canvasSize = diameter; // <-- key fix: ratio is now globe-relative, not screen-relative
   }
 
   onMount(() => {
@@ -47,7 +61,7 @@
     if (!m) return;
 
     m.on("zoom", updateGlow);
-    m.on("move", updateGlow);
+    // m.on("move", updateGlow);  <-- remove this, causes spin artifacts
     m.on("resize", updateGlow);
     m.on("load", updateGlow);
 
@@ -55,37 +69,24 @@
 
     return () => {
       m.off("zoom", updateGlow);
-      m.off("move", updateGlow);
       m.off("resize", updateGlow);
       m.off("load", updateGlow);
     };
   });
 </script>
 
-<!-- Ambient glow — large, soft, fades with zoom -->
 <div
   class="globe-glow"
   style="
-    width: {diameter * scale}px;
-    height: {diameter * scale}px;
+    width: {diameter + glowWidth * 2}px;
+    height: {diameter + glowWidth * 2}px;
     left: {glowX}px;
     top: {glowY}px;
     --glow-color: {color};
     --glow-intensity: {dynamicIntensity};
     --glow-blur: {blur}px;
-  "
-></div>
-
-<!-- Rim light — tight to the globe edge, almost solid -->
-<div
-  class="globe-rim"
-  style="
-    width: {diameter}px;
-    height: {diameter}px;
-    left: {glowX}px;
-    top: {glowY}px;
-    --glow-color: {color};
-    --glow-intensity: {dynamicIntensity};
+    --globe-radius: {diameter / 2}px;
+    --glow-width: {glowWidth}px;
   "
 ></div>
 
@@ -96,27 +97,13 @@
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      rgba(var(--glow-color), var(--glow-intensity)) 0%,
-      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.4)) 25%,
-      transparent 45%
+      transparent calc(var(--globe-radius) * 0.7),
+      rgba(var(--glow-color), var(--glow-intensity)) var(--globe-radius),
+      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.5))
+        calc(var(--globe-radius) + var(--glow-width) * 0.4),
+      transparent calc(var(--globe-radius) + var(--glow-width))
     );
     filter: blur(var(--glow-blur));
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .globe-rim {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      transparent 82%,
-      rgba(var(--glow-color), calc(var(--glow-intensity) * 2)) 90%,
-      rgba(var(--glow-color), calc(var(--glow-intensity) * 3)) 95%,
-      rgba(var(--glow-color), var(--glow-intensity)) 100%
-    );
-    filter: blur(2px);
     pointer-events: none;
     z-index: 0;
   }
