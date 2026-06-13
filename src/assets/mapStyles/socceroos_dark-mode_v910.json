@@ -108,7 +108,7 @@
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "boundary",
-      "minzoom": 3,
+      "minzoom": 2,
       "filter": [
         "all",
         ["!=", ["get", "maritime"], 1],
