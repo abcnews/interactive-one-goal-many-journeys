@@ -1,10 +1,11 @@
 {
   "version": 8,
-  "metadata": {"maputnik:renderer": "mbgljs"},
+  "metadata": { "maputnik:renderer": "mbgljs" },
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "https://tiles.openfreemap.org/planet"
+      "url": "https://www.abc.net.au/res/sites/news-projects/map-vector-tiles-world/world.json",
+      "attribution": ""
     }
   },
   "sprite": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm",
@@ -13,7 +14,7 @@
     {
       "id": "background",
       "type": "background",
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "background-color": "rgba(7, 25, 28, 1)",
         "background-opacity": 1
@@ -29,8 +30,8 @@
         ["match", ["geometry-type"], ["MultiPolygon", "Polygon"], true, false],
         ["!=", ["get", "brunnel"], "tunnel"]
       ],
-      "layout": {"visibility": "visible"},
-      "paint": {"fill-antialias": true, "fill-color": "rgba(26, 48, 77, 1)"}
+      "layout": { "visibility": "visible" },
+      "paint": { "fill-antialias": true, "fill-color": "rgba(26, 48, 77, 1)" }
     },
     {
       "id": "waterway",
@@ -45,7 +46,7 @@
         true,
         false
       ],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "line-color": "rgba(52, 100, 125, 0.2)",
         "line-opacity": 1,
@@ -59,8 +60,8 @@
       "source-layer": "landcover",
       "minzoom": 5,
       "filter": ["all", ["==", "class", "grass"]],
-      "layout": {"visibility": "visible"},
-      "paint": {"fill-color": "rgba(47, 76, 82, 0.2)", "fill-opacity": 0.6}
+      "layout": { "visibility": "visible" },
+      "paint": { "fill-color": "rgba(47, 76, 82, 0.2)", "fill-opacity": 0.6 }
     },
     {
       "id": "landcover_wood",
@@ -69,7 +70,7 @@
       "source-layer": "landcover",
       "minzoom": 5,
       "filter": ["all", ["==", "class", "wood"]],
-      "layout": {"visibility": "visible"},
+      "layout": { "visibility": "visible" },
       "paint": {
         "fill-antialias": false,
         "fill-color": "rgba(172, 227, 140, 0.1)",
@@ -132,8 +133,8 @@
       "source-layer": "transportation",
       "minzoom": 7,
       "filter": ["all"],
-      "layout": {"visibility": "visible"},
-      "paint": {"line-color": "rgba(58, 61, 70, 0.25)", "line-opacity": 0.7}
+      "layout": { "visibility": "visible" },
+      "paint": { "line-color": "rgba(58, 61, 70, 0.25)", "line-opacity": 0.7 }
     },
     {
       "id": "label_country_all",
