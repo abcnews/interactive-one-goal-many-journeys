@@ -101,7 +101,7 @@
       paint={{
         "circle-radius": 12,
         "circle-color": "rgba(249, 249, 249, 0.3)",
-        "circle-stroke-color": "rgba(249, 249, 249, 0.7)",
+        "circle-stroke-color": "rgba(249, 249, 249, 0.5)",
         "circle-stroke-width": 0.5,
         "circle-opacity": dotOpacity.current,
         "circle-stroke-opacity": dotOpacity.current,

@@ -14,6 +14,10 @@
   import unitedKingdomOutline from "../assets/geojson/uk-outline.geojson?url";
   import guineaOutline from "../assets/geojson/guinea-outline.geojson?url";
   import croatiaOutline from "../assets/geojson/croatia.geojson?url";
+  import kenyaOutline from "../assets/geojson/kenya-outline.geojson?url";
+  import burundiOutline from "../assets/geojson/burundi.geojson?url";
+  import australiaOutline from "../assets/geojson/australia-outline.geojson?url";
+  import scotlandOutline from "../assets/geojson/scotland-outline.geojson?url";
 
   type GeoJsonLayer = {
     name: string;
@@ -45,6 +49,10 @@
     unitedkingdom: unitedKingdomOutline,
     guinea: guineaOutline,
     croatia: croatiaOutline,
+    kenya: kenyaOutline,
+    burundi: burundiOutline,
+    australia: australiaOutline,
+    scotland: scotlandOutline,
   };
 
   let {
@@ -92,7 +100,7 @@
             url,
             fill: geo.fill ?? "rgba(0,0,0,0)",
             outline: geo.outline ?? "rgba(0,0,0,0)",
-            outlineWidth: geo.outlineWidth ?? 2,
+            outlineWidth: geo.outlineWidth ?? 1,
             opacity,
           },
         ];

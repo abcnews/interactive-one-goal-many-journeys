@@ -3,7 +3,14 @@
     "zoom": 1.1,
     "desktopZoom": 2,
     "lng": 134,
-    "lat": -25
+    "lat": -25,
+    "geojsons": [
+      {
+        "name": "australia",
+        "outline": "rgba(203, 211, 222, 0.5)",
+        "outlineWidth": 1
+      }
+    ]
   },
   "australiapullin": {
     "zoom": 2.1,
@@ -30,7 +37,14 @@
     "dot": {
       "lng": 150.839167,
       "lat": -33.753056
-    }
+    },
+    "geojsons": [
+      {
+        "name": "australia",
+        "outline": "rgba(203, 211, 222, 0.5)",
+        "outlineWidth": 1
+      }
+    ]
   },
   "sydneyblip": {
     "zoom": 8,
@@ -49,7 +63,8 @@
     "geojsons": [
       {
         "name": "plumpton",
-        "outline": "rgba(74,175,192, 0.5)"
+        "outline": "rgba(74,175,192, 0.5)",
+        "outlineWidth": 2
       }
     ]
   },
@@ -128,8 +143,9 @@
     "zoom": 1.6,
     "lng": 35.26,
     "lat": 0.15,
-    "dampenZoom": 0.4,
-    "countries": ["Kenya", "South Sudan"]
+    "dampenZoom": 0.5,
+    "countries": ["Kenya", "South Sudan"],
+    "geojsons": [{ "name": "kenya", "fill": "rgba(25,59,65,0.5)" }]
   },
   "kakuma": {
     "zoom": 1.6,
@@ -139,7 +155,8 @@
       "lng": 34.866667,
       "lat": 3.716667
     },
-    "countries": ["Kenya", "South Sudan"]
+    "countries": ["Kenya", "South Sudan"],
+    "geojsons": [{ "name": "kenya", "fill": "rgba(25,59,65,0.5)" }]
   },
   "kakuma2": {
     "zoom": 1.6,
@@ -149,7 +166,8 @@
       "lng": 34.866667,
       "lat": 3.716667
     },
-    "countries": ["Kenya", "South Sudan"]
+    "countries": ["Kenya", "South Sudan"],
+    "geojsons": [{ "name": "kenya", "fill": "rgba(25,59,65,0.5)" }]
   },
   "southsudan": {
     "zoom": 4.1,
@@ -176,7 +194,7 @@
   "aberdeen": {
     "zoom": 3.4,
     "lng": -2.11,
-    "lat": 57.15,
+    "lat": 55,
     "dot": { "lng": -2.11, "lat": 57.15 },
     "geojsons": [
       {
@@ -189,13 +207,12 @@
   "aberdeensouttar": {
     "zoom": 3.9,
     "lng": -2.11,
-    "lat": 57.15,
+    "lat": 55,
     "dot": { "lng": -2.11, "lat": 57.15 },
     "geojsons": [
       {
-        "name": "unitedkingdom",
-        "outline": "rgba(203, 211, 222, 0.5)",
-        "outlineWidth": 1
+        "name": "scotland",
+        "fill": "rgba(25, 59, 65, 0.5)"
       }
     ]
   },
@@ -262,7 +279,13 @@
       "from": [30, -3.5],
       "to": [29.7, -4.665]
     },
-    "countries": ["Burundi", "Tanzania"]
+    "countries": ["Burundi", "Tanzania"],
+    "geojsons": [
+      {
+        "name": "burundi",
+        "fill": "rgba(25, 59, 65, 0.5)"
+      }
+    ]
   },
   "kigoma": {
     "zoom": 6.2,
@@ -272,7 +295,13 @@
       "lng": 29.633333,
       "lat": -4.883333
     },
-    "countries": ["Burundi", "Tanzania"]
+    "countries": ["Burundi", "Tanzania"],
+    "geojsons": [
+      {
+        "name": "burundi",
+        "fill": "rgba(25, 59, 65, 0.5)"
+      }
+    ]
   },
   "australianestory": {
     "zoom": 1.4,
