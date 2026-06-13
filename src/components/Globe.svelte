@@ -191,11 +191,11 @@
       from={geoline?.from ?? null}
       to={geoline?.to ?? null}
     /> -->
-      <GeoArrow
+      <!-- <GeoArrow
         id="globe-arrow"
         from={geoline?.from ?? null}
         to={geoline?.to ?? null}
-      />
+      /> -->
       {#each [...knownDots.entries()] as [dotId, dotMeta] (dotId)}
         <StaticDot
           id={dotId}

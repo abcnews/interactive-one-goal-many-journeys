@@ -9,6 +9,8 @@
   import salalaOutline from "../assets/geojson/salala.geojson?url";
   import conakryOutline from "../assets/geojson/conakry.geojson?url";
   import westernsydneyOutline from "../assets/geojson/westernsydney.geojson?url";
+  import liberiaOutline from "../assets/geojson/liberia-outline_EPSG4326.geojson?url";
+  import serbiaOutline from "../assets/geojson/serbia-outline.geojson?url";
 
   type GeoJsonLayer = {
     name: string;
@@ -35,6 +37,8 @@
     salala: salalaOutline,
     conakry: conakryOutline,
     westernsydney: westernsydneyOutline,
+    liberia: liberiaOutline,
+    serbia: serbiaOutline,
   };
 
   let { geojsons = [] }: { geojsons?: GeoJsonLayer[] } = $props();

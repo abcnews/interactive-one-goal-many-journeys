@@ -90,12 +90,13 @@
   },
   "croatiaserbia": {
     "zoom": 4.2,
-    "lng": 17.7595961,
+    "lng": 20.7595961,
     "lat": 45.1797254,
     "geoline": {
       "from": [16.1801, 44.0313],
       "to": [20.3, 44.3]
-    }
+    },
+    "geojsons": [{ "name": "serbia", "fill": "rgba(25,59,65,0.5)" }]
   },
   "sydneywide": {
     "zoom": 2,
@@ -172,6 +173,10 @@
     "geojson": "salala",
     "geojsons": [
       {
+        "name": "liberia",
+        "fill": "rgba(25,59,65,0.5)"
+      },
+      {
         "name": "salala",
         "outline": "rgba(74, 175, 192, 0.5)"
       }
@@ -184,6 +189,10 @@
     "lat": 9.409167,
     "geojson": "conakry",
     "geojsons": [
+      {
+        "name": "liberia",
+        "fill": "rgba(25,59,65,0.5)"
+      },
       {
         "name": "salala",
         "outline": "rgba(74, 175, 192, 0.5)"
@@ -242,6 +251,20 @@
     "showArcs": true
   },
   "arcs": {
+    "zoom": 1.8,
+    "lng": -119,
+    "lat": 35,
+    "showArcs": true,
+    "dampenZoom": 0.1
+  },
+  "arcs2": {
+    "zoom": 1.8,
+    "lng": -119,
+    "lat": 35,
+    "showArcs": true,
+    "dampenZoom": 0.1
+  },
+  "arcs3": {
     "zoom": 1.8,
     "lng": -119,
     "lat": 35,
