@@ -131,6 +131,8 @@
         "line-color": layer.outline,
         "line-width": layer.outlineWidth,
         "line-opacity": layer.opacity.current,
+        "line-blur": 0.4,
+        "line-offset": 0,
       }}
     />
   </GeoJSONSource>

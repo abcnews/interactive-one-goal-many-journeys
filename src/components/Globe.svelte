@@ -28,8 +28,8 @@
 
   import { reducedMotion } from "@stores/reducedMotion.svelte";
 
-  const INITIAL_ZOOM = 1.1;
-  const INITIAL_ZOOM_DESKTOP = 2;
+  const INITIAL_ZOOM = 1.2;
+  const INITIAL_ZOOM_DESKTOP = 1.4;
   const INITIAL_LNG = 134;
   const INITIAL_LAT = -25;
   const DESKTOP_ZOOM_ENABLED = true;
