@@ -3,7 +3,7 @@
 
   let { children = null } = $props();
 
-  const TOP_OFFSET = 300;
+  const TOP_OFFSET = 64;
 
   const containerHeight = $derived.by(() => {
     if (!pageState.bodySize.height) return null;

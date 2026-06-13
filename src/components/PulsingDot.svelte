@@ -165,23 +165,6 @@
       }, FADE_DURATION);
     }
   });
-
-  // $effect(() => {
-  //   if (dotLocation) {
-  //     if (dotFadeTimeout) {
-  //       clearTimeout(dotFadeTimeout);
-  //       dotFadeTimeout = null;
-  //     }
-  //     lastDotLocation = dotLocation;
-  //     dotOpacity.target = 1;
-  //   } else {
-  //     dotOpacity.target = 0;
-  //     dotFadeTimeout = setTimeout(() => {
-  //       lastDotLocation = null;
-  //       dotFadeTimeout = null;
-  //     }, FADE_DURATION);
-  //   }
-  // });
 </script>
 
 {#if dotReady}
