@@ -56,7 +56,13 @@
   "sydneytransition": {
     "zoom": 2.6,
     "lng": 132.354806,
-    "lat": -25.610111
+    "lat": -25.610111,
+    "geojsons": [
+      {
+        "name": "plumpton",
+        "outline": "rgba(74,175,192, 0.5)"
+      }
+    ]
   },
   "croatiainitial": {
     "zoom": 3.6,
@@ -163,7 +169,8 @@
     "geojsons": [
       {
         "name": "unitedkingdom",
-        "fill": "rgba(25,59,65,0.5)"
+        "outline": "rgba(203, 211, 222, 0.5)",
+        "outlineWidth": 1
       }
     ]
   },
@@ -175,7 +182,8 @@
     "geojsons": [
       {
         "name": "unitedkingdom",
-        "fill": "rgba(25,59,65,0.5)"
+        "outline": "rgba(203, 211, 222, 0.5)",
+        "outlineWidth": 1
       }
     ]
   },
@@ -205,15 +213,12 @@
     "zoom": 7.1,
     "lng": -13.712222,
     "lat": 9.409167,
+    "staticDots": [{ "id": "conkary", "lng": -13.712222, "lat": 9.509167 }],
     "geojson": "conakry",
     "geojsons": [
       {
-        "name": "liberia",
+        "name": "guinea",
         "fill": "rgba(25,59,65,0.5)"
-      },
-      {
-        "name": "salala",
-        "outline": "rgba(74, 175, 192, 0.5)"
       }
     ],
     "dampenZoom": 0.0
@@ -222,7 +227,8 @@
     "zoom": 8.1,
     "lng": -13.712222,
     "lat": 9.409167,
-    "geojson": "conakry"
+    "geojson": "conakry",
+    "staticDots": [{ "id": "conkary", "lng": -13.712222, "lat": 9.509167 }]
   },
   "conakry3": {
     "zoom": 8.7,

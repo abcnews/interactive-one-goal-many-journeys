@@ -10,7 +10,7 @@
     id = "static-dot",
     dotLocation = null,
     center,
-    color = "#f3bc00",
+    color = "f9f9f9",
     radius = 4,
   }: {
     id?: string;
@@ -25,7 +25,8 @@
   let dotFadeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   const dotGeoJSON = $derived.by(() => {
-    if (!lastDotLocation) return { type: "FeatureCollection" as const, features: [] };
+    if (!lastDotLocation)
+      return { type: "FeatureCollection" as const, features: [] };
 
     const toRad = (d: number) => (d * Math.PI) / 180;
     const dotLat = toRad(lastDotLocation.lat);
@@ -39,17 +40,28 @@
 
     return {
       type: "FeatureCollection" as const,
-      features: dotProduct > 0 ? [{
-        type: "Feature" as const,
-        geometry: { type: "Point" as const, coordinates: [lastDotLocation.lng, lastDotLocation.lat] },
-        properties: {},
-      }] : [],
+      features:
+        dotProduct > 0
+          ? [
+              {
+                type: "Feature" as const,
+                geometry: {
+                  type: "Point" as const,
+                  coordinates: [lastDotLocation.lng, lastDotLocation.lat],
+                },
+                properties: {},
+              },
+            ]
+          : [],
     };
   });
 
   $effect(() => {
     if (dotLocation) {
-      if (dotFadeTimeout) { clearTimeout(dotFadeTimeout); dotFadeTimeout = null; }
+      if (dotFadeTimeout) {
+        clearTimeout(dotFadeTimeout);
+        dotFadeTimeout = null;
+      }
 
       const isSameLocation =
         lastDotLocation?.lng === dotLocation.lng &&
@@ -83,10 +95,23 @@
 
 {#if lastDotLocation}
   <GeoJSONSource id="{id}-source" data={dotGeoJSON}>
+    <!-- Outer ring -->
     <CircleLayer
-      id="{id}-layer"
+      id="{id}-layer-ring"
       paint={{
-        "circle-radius": radius,
+        "circle-radius": 12,
+        "circle-color": "rgba(249, 249, 249, 0.3)",
+        "circle-stroke-color": "rgba(249, 249, 249, 0.7)",
+        "circle-stroke-width": 0.5,
+        "circle-opacity": dotOpacity.current,
+        "circle-stroke-opacity": dotOpacity.current,
+      }}
+    />
+    <!-- Inner dot -->
+    <CircleLayer
+      id="{id}-layer-dot"
+      paint={{
+        "circle-radius": 4,
         "circle-color": color,
         "circle-opacity": dotOpacity.current,
       }}

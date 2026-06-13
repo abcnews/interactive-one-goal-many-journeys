@@ -207,13 +207,30 @@
     ) ?? null,
   );
 
+  // const progress = $derived.by(() => {
+  //   const panel = currentPanel ?? nextPanel;
+  //   if (!panel) return 0;
+
+  //   const totalDistance = window.innerHeight;
+  //   const scrolled =
+  //     scroll.y + windowInnerHeight * (1 - SCROLL_OFFSET) - panel.top;
+
+  //   return Math.min(1, Math.max(0, scrolled / totalDistance));
+  // });
+
   const progress = $derived.by(() => {
     const panel = currentPanel ?? nextPanel;
     if (!panel) return 0;
 
-    const totalDistance = window.innerHeight;
+    // Distance from panel trigger point to next panel trigger point
+    // (or one full window height if there's no next panel)
+    const panelStart = panel.top;
+    const panelEnd = nextPanel ? nextPanel.top : panel.top + windowInnerHeight;
+
+    const totalDistance = panelEnd - panelStart;
+
     const scrolled =
-      scroll.y + windowInnerHeight * (1 - SCROLL_OFFSET) - panel.top;
+      scroll.y + windowInnerHeight * (1 - SCROLL_OFFSET) - panelStart;
 
     return Math.min(1, Math.max(0, scrolled / totalDistance));
   });
@@ -295,7 +312,7 @@
     appState.setWindowInnerWidth(windowInnerWidth);
   });
 
-  $inspect(currentPanel)
+  $inspect(currentPanel);
 </script>
 
 <BackgroundStage>

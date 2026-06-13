@@ -201,7 +201,7 @@
           id={dotId}
           dotLocation={staticDots.find((d) => d?.id === dotId) ?? null}
           {center}
-          color={dotMeta.color ?? "#f3bc00"}
+          color={dotMeta.color ?? "#f9f9f9"}
         />
       {/each}
       <!-- <MapLabel id="knin-label" lngLat={[16.197, 44.041]} label="Knin" />

@@ -12,6 +12,7 @@
   import liberiaOutline from "../assets/geojson/liberia-outline_EPSG4326.geojson?url";
   import serbiaOutline from "../assets/geojson/serbia-outline.geojson?url";
   import unitedKingdomOutline from "../assets/geojson/uk-outline.geojson?url";
+  import guineaOutline from "../assets/geojson/guinea-outline.geojson?url";
 
   type GeoJsonLayer = {
     name: string;
@@ -41,6 +42,7 @@
     liberia: liberiaOutline,
     serbia: serbiaOutline,
     unitedkingdom: unitedKingdomOutline,
+    guinea: guineaOutline,
   };
 
   let { geojsons = [] }: { geojsons?: GeoJsonLayer[] } = $props();

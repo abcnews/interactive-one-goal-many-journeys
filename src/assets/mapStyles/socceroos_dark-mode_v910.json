@@ -1,0 +1,184 @@
+{
+  "version": 8,
+  "metadata": {"maputnik:renderer": "mbgljs"},
+  "sources": {
+    "openmaptiles": {
+      "type": "vector",
+      "url": "https://tiles.openfreemap.org/planet"
+    }
+  },
+  "sprite": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm",
+  "glyphs": "https://www.abc.net.au/res/sites/news-projects/map-vector-fonts/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "background-color": "rgba(7, 25, 28, 1)",
+        "background-opacity": 1
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "water",
+      "filter": [
+        "all",
+        ["match", ["geometry-type"], ["MultiPolygon", "Polygon"], true, false],
+        ["!=", ["get", "brunnel"], "tunnel"]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-antialias": true, "fill-color": "rgba(26, 48, 77, 1)"}
+    },
+    {
+      "id": "waterway",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "waterway",
+      "minzoom": 8,
+      "filter": [
+        "match",
+        ["geometry-type"],
+        ["LineString", "MultiLineString"],
+        true,
+        false
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "rgba(52, 100, 125, 0.2)",
+        "line-opacity": 1,
+        "line-width": 1.5
+      }
+    },
+    {
+      "id": "landcover_grass",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "landcover",
+      "minzoom": 5,
+      "filter": ["all", ["==", "class", "grass"]],
+      "layout": {"visibility": "visible"},
+      "paint": {"fill-color": "rgba(47, 76, 82, 0.2)", "fill-opacity": 0.6}
+    },
+    {
+      "id": "landcover_wood",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "landcover",
+      "minzoom": 5,
+      "filter": ["all", ["==", "class", "wood"]],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-antialias": false,
+        "fill-color": "rgba(172, 227, 140, 0.1)",
+        "fill-opacity": 0.2
+      }
+    },
+    {
+      "id": "boundary_2",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "boundary",
+      "minzoom": 3,
+      "filter": [
+        "all",
+        ["==", ["get", "admin_level"], 2],
+        ["!=", ["get", "maritime"], 1],
+        ["!=", ["get", "disputed"], 1],
+        ["!", ["has", "claimed_by"]]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-opacity": 1,
+        "line-blur": 0.4,
+        "line-offset": 0,
+        "line-width": 0.8,
+        "line-color": "#4A515D"
+      }
+    },
+    {
+      "id": "boundary_disputed",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "boundary",
+      "minzoom": 3,
+      "filter": [
+        "all",
+        ["!=", ["get", "maritime"], 1],
+        ["==", ["get", "disputed"], 1]
+      ],
+      "layout": {
+        "visibility": "visible",
+        "line-cap": "round",
+        "line-join": "bevel",
+        "line-miter-limit": 2
+      },
+      "paint": {
+        "line-color": "rgba(112, 107, 160, 1)",
+        "line-dasharray": [1, 2],
+        "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1, 5, 1.2, 12, 3]
+      }
+    },
+    {
+      "id": "transportation",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 7,
+      "filter": ["all"],
+      "layout": {"visibility": "visible"},
+      "paint": {"line-color": "rgba(58, 61, 70, 0.25)", "line-opacity": 0.7}
+    },
+    {
+      "id": "label_country_all",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "place",
+      "minzoom": 3,
+      "filter": [
+        "all",
+        ["==", ["get", "class"], "country"],
+        ["==", ["get", "rank"], 1],
+        ["==", ["get", "rank"], 2],
+        [">=", ["get", "rank"], 3]
+      ],
+      "layout": {
+        "text-field": ["coalesce", ["get", "name_en"], ["get", "name"]],
+        "text-font": ["ABC Sans Bold"],
+        "text-size": {
+          "stops": [
+            [0, 1.2],
+            [4, 11],
+            [5, 11],
+            [6, 14],
+            [7, 14],
+            [8, 14],
+            [9, 18]
+          ]
+        },
+        "text-max-width": 6,
+        "visibility": "none",
+        "text-transform": "uppercase",
+        "text-letter-spacing": 0.4,
+        "text-line-height": 1.2,
+        "text-justify": "center",
+        "text-anchor": "center",
+        "text-offset": [0, 0]
+      },
+      "paint": {
+        "text-color": "rgba(249, 249, 249, 0.6)",
+        "text-halo-color": "rgba(17, 42, 78, 1)",
+        "text-opacity": 1,
+        "text-halo-width": 1,
+        "text-halo-blur": 0
+      }
+    }
+  ],
+  "id": "n4qcrgptc"
+}
