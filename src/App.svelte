@@ -1,6 +1,12 @@
 <script lang="ts">
   import { onMount, untrack } from "svelte";
-  import { sineInOut, cubicInOut, linear, sineOut, cubicOut } from "svelte/easing";
+  import {
+    sineInOut,
+    cubicInOut,
+    linear,
+    sineOut,
+    cubicOut,
+  } from "svelte/easing";
   import { ScrollState } from "runed";
   import { interpolateZoom, interpolateNumber } from "d3-interpolate";
   import { parse } from "@abcnews/alternating-case-to-object";
@@ -320,10 +326,25 @@
   $effect(() => {
     endPanelProgressSpring.set(endPanelProgress);
   });
+
+  const pixelsPastFinalPanel = $derived.by(() => {
+    if (endPanelProgress < 1) return 0;
+
+    return scroll.y - (currentPanel?.top ?? 0);
+  });
+
+  const normalize = (value: number, max: number) =>
+    Math.min(1, Math.max(0, value / max));
+
+
+  const postFadeProgress = $derived.by(() => {
+    if (!pixelsPastFinalPanel) return 0;
+    return Math.min(1, Math.max(0, pixelsPastFinalPanel / 600));
+  });
 </script>
 
 <BackgroundStage>
-  <div style:opacity={1 - sineOut(endPanelProgressSpring.current)}>
+  <div style:opacity={1 - sineOut(postFadeProgress)}>
     <Globe
       view={reducedMotion.current ? viewReducedMotion : view}
       dotLocation={currentWithThreshold.dot ?? null}
