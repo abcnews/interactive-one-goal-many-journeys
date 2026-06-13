@@ -5,14 +5,14 @@
   type Props = {
     color?: string;
     intensity?: number;
-    spread?: number;  // how far the glow extends beyond the globe, as a multiplier
+    spread?: number; // how far the glow extends beyond the globe, as a multiplier
     blur?: number;
   };
 
   let {
     color = "120, 200, 255",
     intensity = 0.2,
-    spread = 1.1,   // glow div is spread× the globe diameter
+    spread = 1.1, // glow div is spread× the globe diameter
     blur = 40,
   }: Props = $props();
 
@@ -24,7 +24,9 @@
 
   // Only fades on zoom, not pan/spin
   const zoomIntensity = $derived(
-    diameter > 0 ? intensity * Math.max(0, 1 - (diameter / 800) ** 2) : intensity
+    diameter > 0
+      ? intensity * Math.max(0, 1 - (diameter / 800) ** 2)
+      : intensity,
   );
 
   function updateGlow() {
@@ -90,10 +92,13 @@
       circle,
       transparent calc(var(--globe-r) * 0.75),
       rgba(var(--glow-color), var(--glow-intensity)) var(--globe-r),
-      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.3)) calc(var(--globe-r) * 1.3),
+      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.3))
+        calc(var(--globe-r) * 1.3),
       transparent calc(var(--globe-r) * 1.6)
     );
     filter: blur(var(--glow-blur));
+    will-change: transform;
+    -webkit-transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 0;
   }
