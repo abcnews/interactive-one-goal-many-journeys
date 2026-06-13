@@ -332,7 +332,7 @@
     "showArcs": true,
     "dampenZoom": 0.1
   },
-  "arcs3": {
+  "endpanelfade": {
     "zoom": 1.8,
     "lng": -119,
     "lat": 35,

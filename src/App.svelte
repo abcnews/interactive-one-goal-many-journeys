@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, untrack } from "svelte";
-  import { sineInOut } from "svelte/easing";
+  import { sineInOut, cubicInOut } from "svelte/easing";
   import { ScrollState } from "runed";
   import { interpolateZoom, interpolateNumber } from "d3-interpolate";
   import { parse } from "@abcnews/alternating-case-to-object";
@@ -21,6 +21,7 @@
   import Pictures from "./components/Pictures.svelte";
 
   import configData from "./assets/config.json";
+  import headerImage from "./assets/images/header.png";
 
   const { when, orElse } = Match;
 
@@ -208,17 +209,6 @@
     ) ?? null,
   );
 
-  // const progress = $derived.by(() => {
-  //   const panel = currentPanel ?? nextPanel;
-  //   if (!panel) return 0;
-
-  //   const totalDistance = window.innerHeight;
-  //   const scrolled =
-  //     scroll.y + windowInnerHeight * (1 - SCROLL_OFFSET) - panel.top;
-
-  //   return Math.min(1, Math.max(0, scrolled / totalDistance));
-  // });
-
   const progress = $derived.by(() => {
     const panel = currentPanel ?? nextPanel;
     if (!panel) return 0;
@@ -314,20 +304,46 @@
   });
 
   $inspect(currentPanel);
+
+  // Should we fade the globe?
+  const endPanelProgress = $derived.by(() => {
+    if (currentPanel?.name !== "endpanelfade") return 0;
+    return progress;
+  });
+
+  const endPanelProgressSpring = new Spring(
+    untrack(() => endPanelProgress),
+    { stiffness: 0.8, damping: 0.9 },
+  );
+
+  $effect(() => {
+    endPanelProgressSpring.set(endPanelProgress);
+  });
 </script>
 
 <BackgroundStage>
-  <Globe
-    view={reducedMotion.current ? viewReducedMotion : view}
-    dotLocation={currentWithThreshold.dot ?? null}
-    geojson={currentWithThreshold.geojson ?? null}
-    geojsons={currentWithThreshold.geojsons}
-    geoline={currentWithThreshold.geoline ?? null}
-    staticDots={currentWithThreshold.staticDots ?? []}
-    panelName={currentPanel ? currentPanel.name : null}
-    showArcs={currentWithThreshold.showArcs}
-    countries={currentWithThreshold.countries ?? []}
-  />
+  <div style:opacity={1 - cubicInOut(endPanelProgressSpring.current)}>
+    <Globe
+      view={reducedMotion.current ? viewReducedMotion : view}
+      dotLocation={currentWithThreshold.dot ?? null}
+      geojson={currentWithThreshold.geojson ?? null}
+      geojsons={currentWithThreshold.geojsons}
+      geoline={currentWithThreshold.geoline ?? null}
+      staticDots={currentWithThreshold.staticDots ?? []}
+      panelName={currentPanel ? currentPanel.name : null}
+      showArcs={currentWithThreshold.showArcs}
+      countries={currentWithThreshold.countries ?? []}
+    />
+  </div>
+
+  <div
+    class="header-image"
+    style:opacity={cubicInOut(endPanelProgressSpring.current)}
+    style:transform={`scale(${1.05 - cubicInOut(endPanelProgressSpring.current) * 0.05})`}
+    style:pointer-events="none"
+  >
+    <img src={headerImage} alt="Header" />
+  </div>
 </BackgroundStage>
 
 <!-- <LandingCollage /> -->
@@ -344,5 +360,19 @@
 <style lang="scss">
   :global(.maplibregl-map) {
     height: 100dvh;
+  }
+
+  .header-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 </style>
