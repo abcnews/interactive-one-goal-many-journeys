@@ -13,6 +13,9 @@
       if (tag.includes("MARGINreduce")) {
         panel.classList.add("reduced-margin-block-end");
       }
+      if (tag.includes("MARGINreducetop")) {
+        panel.classList.add("reduced-margin-block-start");
+      }
     });
   });
 
@@ -82,6 +85,10 @@
 
       &.reduced-margin-block-end {
         margin-block-end: 2em;
+      }
+
+      &.reduced-margin-block-start {
+        margin-block-start: 2em;
       }
 
       &.hidden {
