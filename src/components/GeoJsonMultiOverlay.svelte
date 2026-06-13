@@ -13,6 +13,7 @@
   import serbiaOutline from "../assets/geojson/serbia-outline.geojson?url";
   import unitedKingdomOutline from "../assets/geojson/uk-outline.geojson?url";
   import guineaOutline from "../assets/geojson/guinea-outline.geojson?url";
+  import croatiaOutline from "../assets/geojson/croatia.geojson?url";
 
   type GeoJsonLayer = {
     name: string;
@@ -43,9 +44,13 @@
     serbia: serbiaOutline,
     unitedkingdom: unitedKingdomOutline,
     guinea: guineaOutline,
+    croatia: croatiaOutline,
   };
 
-  let { geojsons = [] }: { geojsons?: GeoJsonLayer[] } = $props();
+  let {
+    geojsons = [],
+    beforeId,
+  }: { geojsons?: GeoJsonLayer[]; beforeId?: string } = $props();
 
   // Track each layer's opacity individually so they can fade independently
   let activeLayers = $state<ActiveLayer[]>([]);
@@ -106,12 +111,14 @@
 {#each activeLayers as layer (layer.id)}
   <GeoJSONSource id="geojson-multi-source-{layer.id}" data={layer.url}>
     <FillLayer
+      {beforeId}
       paint={{
         "fill-color": layer.fill,
         "fill-opacity": layer.opacity.current,
       }}
     />
     <LineLayer
+      {beforeId}
       paint={{
         "line-color": layer.outline,
         "line-width": layer.outlineWidth,

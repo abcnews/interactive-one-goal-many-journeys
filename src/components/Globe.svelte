@@ -127,21 +127,22 @@
     }
   });
 
-  $effect(() => {
-    const currentCountries = countries ?? [];
-    const m = map; // however you access the map instance
-    if (!m || !m.getLayer("label_country_all")) return;
+  // $effect(() => {
+  //   const currentCountries = countries ?? [];
+  //   const m = map; // however you access the map instance
+  //   if (!m || !m.getLayer("label_country_all")) return;
 
-    if (currentCountries.length === 0) {
-      m.setFilter("label_country_all", ["==", ["get", "class"], "none"]);
-    } else {
-      m.setFilter("label_country_all", [
-        "all",
-        ["==", ["get", "class"], "country"],
-        ["in", ["get", "name_en"], ["literal", currentCountries]],
-      ]);
-    }
-  });
+  //   if (currentCountries.length === 0) {
+  //     m.setFilter("label_country_all", ["==", ["get", "class"], "none"]);
+  //     // m.setFilter("label_country_all", ["==", ["get", "class"], "country"]);
+  //   } else {
+  //     m.setFilter("label_country_all", [
+  //       "all",
+  //       ["==", ["get", "class"], "country"],
+  //       ["in", ["get", "name_en"], ["literal", currentCountries]],
+  //     ]);
+  //   }
+  // });
 </script>
 
 <div class={{ ready: mapReady, "map-container": true }}>
@@ -195,7 +196,7 @@
 
     {#if map}
       <!-- <GeoJsonOverlay {geojson} /> -->
-      <GeoJsonMultiOverlay {geojsons} />
+      <GeoJsonMultiOverlay {geojsons} beforeId="pulsing-dot" />
       <PulsingDot {map} {dotLocation} {center} />
       <!-- <GeoLine
       id="globe-geoline"

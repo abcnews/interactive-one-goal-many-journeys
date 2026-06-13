@@ -77,7 +77,14 @@
     "dot": {
       "lng": 16.1801,
       "lat": 44.0313
-    }
+    },
+    "countries": ["Croatia"],
+    "geojsons": [
+      {
+        "name": "croatia",
+        "fill": "rgba(25, 59, 65, 0.5)"
+      }
+    ]
   },
   "kninoutline": {
     "zoom": 7,
@@ -102,7 +109,8 @@
       "from": [16.1801, 44.0313],
       "to": [20.3, 44.3]
     },
-    "geojsons": [{ "name": "serbia", "fill": "rgba(25,59,65,0.5)" }]
+    "geojsons": [{ "name": "serbia", "fill": "rgba(25,59,65,0.5)" }],
+    "countries": ["Croatia", "Serbia"]
   },
   "sydneywide": {
     "zoom": 2,
@@ -120,7 +128,8 @@
     "zoom": 1.6,
     "lng": 35.26,
     "lat": 0.15,
-    "dampenZoom": 0.4
+    "dampenZoom": 0.4,
+    "countries": ["Kenya", "South Sudan"]
   },
   "kakuma": {
     "zoom": 1.6,
@@ -129,7 +138,8 @@
     "dot": {
       "lng": 34.866667,
       "lat": 3.716667
-    }
+    },
+    "countries": ["Kenya", "South Sudan"]
   },
   "kakuma2": {
     "zoom": 1.6,
@@ -138,7 +148,8 @@
     "dot": {
       "lng": 34.866667,
       "lat": 3.716667
-    }
+    },
+    "countries": ["Kenya", "South Sudan"]
   },
   "southsudan": {
     "zoom": 4.1,
@@ -250,7 +261,8 @@
     "geoline": {
       "from": [30, -3.5],
       "to": [29.7, -4.665]
-    }
+    },
+    "countries": ["Burundi", "Tanzania"]
   },
   "kigoma": {
     "zoom": 6.2,
@@ -259,7 +271,8 @@
     "dot": {
       "lng": 29.633333,
       "lat": -4.883333
-    }
+    },
+    "countries": ["Burundi", "Tanzania"]
   },
   "australianestory": {
     "zoom": 1.4,
