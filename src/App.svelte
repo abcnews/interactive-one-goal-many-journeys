@@ -42,6 +42,16 @@
       }),
     ),
     geojson: v.optional(v.string()),
+    geojsons: v.optional(
+      v.array(
+        v.object({
+          name: v.string(),
+          fill: v.optional(v.string()),
+          outline: v.optional(v.string()),
+          outlineWidth: v.optional(v.number()),
+        }),
+      ),
+    ),
     geoline: v.optional(
       v.object({
         from: v.tuple([v.number(), v.number()]),
@@ -291,6 +301,7 @@
     view={reducedMotion.current ? viewReducedMotion : view}
     dotLocation={currentWithThreshold.dot ?? null}
     geojson={currentWithThreshold.geojson ?? null}
+    geojsons={currentWithThreshold.geojsons}
     geoline={currentWithThreshold.geoline ?? null}
     staticDots={currentWithThreshold.staticDots ?? []}
     panelName={currentPanel ? currentPanel.name : null}

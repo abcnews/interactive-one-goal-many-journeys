@@ -13,9 +13,10 @@
   import { untrack } from "svelte";
   import { Spring } from "svelte/motion";
 
-  import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v9.json?url";
+  import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v9.1.json?url";
   import PulsingDot from "./PulsingDot.svelte";
   import GeoJsonOverlay from "./GeoJsonOverlay.svelte";
+  import GeoJsonMultiOverlay from "./GeoJsonMultiOverlay.svelte";
   import MapLabel from "./MapLabel.svelte";
   import MapMarkerLabel from "./MapMarkerLabel.svelte";
   import GeoLine from "./GeoLine.svelte";
@@ -50,10 +51,18 @@
     color?: string;
   } | null;
 
+  type GeoJsonLayer = {
+    name: string;
+    fill?: string;
+    outline?: string;
+    outlineWidth?: number;
+  };
+
   type Props = {
     view: typeof initialView;
     dotLocation?: LngLatLike | null;
     geojson?: string | null;
+    geojsons?: GeoJsonLayer[];
     geoline?: GeoLineData;
     staticDots?: DotData[];
     panelName?: string | null;
@@ -64,6 +73,7 @@
     view = initialView,
     dotLocation = null,
     geojson = null,
+    geojsons = [],
     geoline = null,
     staticDots = [],
     panelName = null,
@@ -169,7 +179,8 @@
 
     {#if map}
       <PulsingDot {map} {dotLocation} {center} />
-      <GeoJsonOverlay {geojson} />
+      <!-- <GeoJsonOverlay {geojson} /> -->
+      <GeoJsonMultiOverlay {geojsons} />
       <!-- <GeoLine
       id="globe-geoline"
       from={geoline?.from ?? null}

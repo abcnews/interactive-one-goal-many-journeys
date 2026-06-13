@@ -45,7 +45,19 @@
     "zoom": 11,
     "lng": 150.839167,
     "lat": -33.753056,
-    "geojson": "plumpton"
+    "geojson": "plumpton",
+    "geojsons": [
+      {
+        "name": "plumpton",
+        "fill": "rgba(255, 255, 255, 0.1)",
+        "outline": "rgba(255, 255, 255, 0.8)"
+      },
+      {
+        "name": "westernsydney",
+        "fill": "rgba(0, 0, 0, 0)",
+        "outline": "rgba(255, 200, 0, 0.6)"
+      }
+    ]
   },
   "sydneytransition": {
     "zoom": 2.6,
