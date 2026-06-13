@@ -71,6 +71,7 @@
     ),
     showArcs: v.optional(v.boolean()),
     dampenZoom: v.optional(v.number()),
+    countries: v.optional(v.array(v.string())),
   });
 
   const ConfigMapSchema = v.record(v.string(), ConfigSchema);
@@ -325,6 +326,7 @@
     staticDots={currentWithThreshold.staticDots ?? []}
     panelName={currentPanel ? currentPanel.name : null}
     showArcs={currentWithThreshold.showArcs}
+    countries={currentWithThreshold.countries ?? []}
   />
 </BackgroundStage>
 

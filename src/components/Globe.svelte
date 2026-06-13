@@ -13,7 +13,7 @@
   import { untrack } from "svelte";
   import { Spring } from "svelte/motion";
 
-  import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v9.1.json?url";
+  import mapStyles from "../assets/mapStyles/socceroos_dark-mode_v910.json?url";
   import PulsingDot from "./PulsingDot.svelte";
   import GeoJsonOverlay from "./GeoJsonOverlay.svelte";
   import GeoJsonMultiOverlay from "./GeoJsonMultiOverlay.svelte";
@@ -67,6 +67,7 @@
     staticDots?: DotData[];
     panelName?: string | null;
     showArcs?: boolean;
+    countries?: string[];
   };
 
   let {
@@ -78,6 +79,7 @@
     staticDots = [],
     panelName = null,
     showArcs = false,
+    countries = [],
   }: Props = $props();
 
   const lngSpring = new Spring(
@@ -125,7 +127,21 @@
     }
   });
 
-  const visibleLabels = ["Australia", "Japan", "Croatia"];
+  $effect(() => {
+    const currentCountries = countries ?? [];
+    const m = map; // however you access the map instance
+    if (!m || !m.getLayer("label_country_all")) return;
+
+    if (currentCountries.length === 0) {
+      m.setFilter("label_country_all", ["==", ["get", "class"], "none"]);
+    } else {
+      m.setFilter("label_country_all", [
+        "all",
+        ["==", ["get", "class"], "country"],
+        ["in", ["get", "name_en"], ["literal", currentCountries]],
+      ]);
+    }
+  });
 </script>
 
 <div class={{ ready: mapReady, "map-container": true }}>

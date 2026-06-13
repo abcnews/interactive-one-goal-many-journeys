@@ -140,14 +140,7 @@
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "place",
-      "minzoom": 3,
-      "filter": [
-        "all",
-        ["==", ["get", "class"], "country"],
-        ["==", ["get", "rank"], 1],
-        ["==", ["get", "rank"], 2],
-        [">=", ["get", "rank"], 3]
-      ],
+      "filter": ["==", ["get", "class"], "none"],
       "layout": {
         "text-field": ["coalesce", ["get", "name_en"], ["get", "name"]],
         "text-font": ["ABC Sans Bold"],
@@ -163,7 +156,7 @@
           ]
         },
         "text-max-width": 6,
-        "visibility": "none",
+        "visibility": "visible",
         "text-transform": "uppercase",
         "text-letter-spacing": 0.4,
         "text-line-height": 1.2,

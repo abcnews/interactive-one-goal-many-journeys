@@ -157,7 +157,8 @@
     "geojsons": [
       {
         "name": "unitedkingdom",
-        "fill": "rgba(25,59,65,0.5)"
+        "outline": "rgba(203, 211, 222, 0.5)",
+        "outlineWidth": 1
       }
     ]
   },
@@ -207,7 +208,8 @@
         "outline": "rgba(74, 175, 192, 0.5)"
       }
     ],
-    "dampenZoom": 0.35
+    "dampenZoom": 0.35,
+    "countries": ["Liberia", "Sierra Leone", "Guinea", "Ivory Coast"]
   },
   "conakry": {
     "zoom": 7.1,

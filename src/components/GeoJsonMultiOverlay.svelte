@@ -106,14 +106,12 @@
 {#each activeLayers as layer (layer.id)}
   <GeoJSONSource id="geojson-multi-source-{layer.id}" data={layer.url}>
     <FillLayer
-      beforeId="label_country_2"
       paint={{
         "fill-color": layer.fill,
         "fill-opacity": layer.opacity.current,
       }}
     />
     <LineLayer
-      beforeId="label_country_2"
       paint={{
         "line-color": layer.outline,
         "line-width": layer.outlineWidth,
@@ -121,4 +119,6 @@
       }}
     />
   </GeoJSONSource>
+  <!-- Use to paint before labels etc -->
+  <!-- beforeId="label_country_2" -->
 {/each}
