@@ -12,10 +12,12 @@
     map,
     dotLocation = null,
     center,
+    opacity = 1,
   }: {
     map: Map;
     dotLocation?: any;
     center: { lng: number; lat: number };
+    opacity?: number;
   } = $props();
 
   let dotReady = $state(false);
@@ -185,9 +187,9 @@
 {#if dotReady}
   <GeoJSONSource id="dot-source" data={dotGeoJSON}>
     <SymbolLayer
-      id="dot-layer"
+      id="pulsing-dot"
       layout={{ "icon-image": "pulsing-dot", "icon-allow-overlap": true }}
-      paint={{ "icon-opacity": dotOpacity.current }}
+      paint={{ "icon-opacity": dotOpacity.current * opacity }}
     />
   </GeoJSONSource>
 {/if}
