@@ -82,6 +82,8 @@
     countries = [],
   }: Props = $props();
 
+  let mapLoaded = $state(false);
+
   const lngSpring = new Spring(
     untrack(() => view.lng),
     { stiffness: 0.8, damping: 0.9 },
@@ -127,22 +129,26 @@
     }
   });
 
-  // $effect(() => {
-  //   const currentCountries = countries ?? [];
-  //   const m = map; // however you access the map instance
-  //   if (!m || !m.getLayer("label_country_all")) return;
+  /**
+  Country labels dynamic filtering
+  */
 
-  //   if (currentCountries.length === 0) {
-  //     m.setFilter("label_country_all", ["==", ["get", "class"], "none"]);
-  //     // m.setFilter("label_country_all", ["==", ["get", "class"], "country"]);
-  //   } else {
-  //     m.setFilter("label_country_all", [
-  //       "all",
-  //       ["==", ["get", "class"], "country"],
-  //       ["in", ["get", "name_en"], ["literal", currentCountries]],
-  //     ]);
-  //   }
-  // });
+  $effect(() => {
+    const currentCountries = countries ?? [];
+    const m = map; // however you access the map instance
+    if (!m || !mapLoaded || !m.getLayer("label_country_all")) return;
+
+    if (currentCountries.length === 0) {
+      m.setFilter("label_country_all", ["==", ["get", "class"], "none"]);
+      // m.setFilter("label_country_all", ["==", ["get", "class"], "country"]);
+    } else {
+      m.setFilter("label_country_all", [
+        "all",
+        ["==", ["get", "class"], "country"],
+        ["in", ["get", "name_en"], ["literal", currentCountries]],
+      ]);
+    }
+  });
 </script>
 
 <div class={{ ready: mapReady, "map-container": true }}>
@@ -177,6 +183,7 @@
       }
       setTimeout(() => (mapReady = true), 1);
 
+      // Load an arrow head
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20">
         <polygon points="20,10 0,0 4,10 0,20" fill="white"/>
       </svg>`;
@@ -188,6 +195,9 @@
         URL.revokeObjectURL(url);
       };
       img.src = url;
+
+      // Set reactive mapLoaded var
+      mapLoaded = true;
     }}
   >
     <Projection type="globe" />

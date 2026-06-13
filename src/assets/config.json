@@ -4,6 +4,7 @@
     "desktopZoom": 2,
     "lng": 134,
     "lat": -25,
+    "countries": ["Australia"],
     "geojsons": [
       {
         "name": "australia",
@@ -34,6 +35,7 @@
     "zoom": 1,
     "lng": 140.839167,
     "lat": -30.753056,
+    "countries": ["Australia"],
     "dot": {
       "lng": 150.839167,
       "lat": -33.753056
@@ -50,6 +52,7 @@
     "zoom": 8,
     "lng": 150.839167,
     "lat": -33.753056,
+    "countries": ["Australia"],
     "dot": {
       "lng": 150.839167,
       "lat": -33.753056
@@ -72,6 +75,7 @@
     "zoom": 2.6,
     "lng": 132.354806,
     "lat": -25.610111,
+    "countries": ["Australia"],
     "geojsons": [
       {
         "name": "plumpton",
@@ -83,7 +87,8 @@
     "zoom": 3.6,
     "lng": 16.5,
     "lat": 44.45,
-    "dampenZoom": 0.3
+    "dampenZoom": 0.3,
+    "countries": ["Croatia"]
   },
   "kninblip": {
     "zoom": 4.1,
@@ -125,7 +130,7 @@
       "to": [20.3, 44.3]
     },
     "geojsons": [{ "name": "serbia", "fill": "rgba(25,59,65,0.5)" }],
-    "countries": ["Croatia", "Serbia"]
+    "countries": ["Serbia"]
   },
   "sydneywide": {
     "zoom": 2,
@@ -144,7 +149,7 @@
     "lng": 35.26,
     "lat": 0.15,
     "dampenZoom": 0.5,
-    "countries": ["Kenya", "South Sudan"],
+    "countries": [],
     "geojsons": [{ "name": "kenya", "fill": "rgba(25,59,65,0.5)" }]
   },
   "kakuma": {
@@ -183,6 +188,7 @@
     "zoom": 2.6,
     "lng": -3,
     "lat": 49.3219165,
+    "countries": ["United Kingdom"],
     "geojsons": [
       {
         "name": "unitedkingdom",
@@ -236,8 +242,8 @@
         "outline": "rgba(74, 175, 192, 0.5)"
       }
     ],
-    "dampenZoom": 0.35,
-    "countries": ["Liberia", "Sierra Leone", "Guinea", "Ivory Coast"]
+    "dampenZoom": 0.7,
+    "countries": ["Liberia", "Guinea"]
   },
   "conakry": {
     "zoom": 7.1,
@@ -245,6 +251,7 @@
     "lat": 9.409167,
     "staticDots": [{ "id": "conkary", "lng": -13.712222, "lat": 9.509167 }],
     "geojson": "conakry",
+    "countries": ["Liberia", "Guinea"],
     "geojsons": [
       {
         "name": "guinea",
@@ -269,7 +276,8 @@
   "africa": {
     "zoom": 3.7,
     "lng": 19.1082415,
-    "lat": -4.4593571
+    "lat": -4.4593571,
+    "dampenZoom": 0.7
   },
   "burunditanzania": {
     "zoom": 5.2,
@@ -307,6 +315,7 @@
     "zoom": 1.4,
     "lng": 128.1672181,
     "lat": -21.4521515,
+    "countries": ["Australia"],
     "staticDots": [
       { "id": "perth", "lng": 115.8614, "lat": -31.95224 },
       { "id": "adelaide", "lng": 138.59963, "lat": -34.92866 }
