@@ -69,7 +69,7 @@
   });
 </script>
 
-<div
+<!-- <div
   class="globe-glow"
   style="
     width: {diameter * spread}px;
@@ -81,25 +81,50 @@
     --globe-r: {diameter / 2}px;
     --glow-blur: {blur}px;
   "
-></div>
+></div> -->
+
+<div class="globe-glow-wrapper" style="
+  width: {diameter * spread * 2}px;
+  height: {diameter * spread * 2}px;
+  left: {glowX}px;
+  top: {glowY}px;
+">
+  <div
+    class="globe-glow"
+    style="
+      width: {diameter * spread}px;
+      height: {diameter * spread}px;
+      --glow-color: {color};
+      --glow-intensity: {zoomIntensity};
+      --globe-r: {diameter / 2}px;
+      --glow-blur: {blur}px;
+    "
+  ></div>
+</div>
 
 <style>
+  .globe-glow-wrapper {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
   .globe-glow {
     position: absolute;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
     background: radial-gradient(
       circle,
       transparent calc(var(--globe-r) * 0.75),
       rgba(var(--glow-color), var(--glow-intensity)) var(--globe-r),
-      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.3))
-        calc(var(--globe-r) * 1.3),
+      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.3)) calc(var(--globe-r) * 1.3),
       transparent calc(var(--globe-r) * 1.6)
     );
     filter: blur(var(--glow-blur));
-    will-change: transform;
-    -webkit-transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 0;
   }
 </style>
