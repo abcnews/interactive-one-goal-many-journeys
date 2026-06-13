@@ -30,8 +30,8 @@
 
   const INITIAL_ZOOM = 1.1;
   const INITIAL_ZOOM_DESKTOP = 2;
-  const INITIAL_LNG = 140.839167;
-  const INITIAL_LAT = -30.753056;
+  const INITIAL_LNG = 134;
+  const INITIAL_LAT = -25;
   const DESKTOP_ZOOM_ENABLED = true;
   const DESKTOP_BREAKPOINT = 900;
 
@@ -131,7 +131,7 @@
 <div class={{ ready: mapReady, "map-container": true }}>
   <MapLibre
     bind:map
-    zoom={zoomSpring.current}
+    zoom={smoothZoom}
     center={smoothCenter}
     style={mapStyles}
     scrollZoom={false}

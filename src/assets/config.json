@@ -2,8 +2,8 @@
   "initial": {
     "zoom": 1.1,
     "desktopZoom": 2,
-    "lng": 140.839167,
-    "lat": -30.753056
+    "lng": 134,
+    "lat": -25
   },
   "australiapullin": {
     "zoom": 2.1,
@@ -49,13 +49,7 @@
     "geojsons": [
       {
         "name": "plumpton",
-        "fill": "rgba(255, 255, 255, 0.1)",
-        "outline": "rgba(255, 255, 255, 0.8)"
-      },
-      {
-        "name": "westernsydney",
-        "fill": "rgba(0, 0, 0, 0)",
-        "outline": "rgba(255, 200, 0, 0.6)"
+        "outline": "rgba(74,175,192, 0.5)"
       }
     ]
   },
@@ -176,6 +170,12 @@
     "lng": -10.1065636,
     "lat": 6.7500211,
     "geojson": "salala",
+    "geojsons": [
+      {
+        "name": "salala",
+        "outline": "rgba(74, 175, 192, 0.5)"
+      }
+    ],
     "dampenZoom": 0.35
   },
   "conakry": {
@@ -183,6 +183,12 @@
     "lng": -13.712222,
     "lat": 9.409167,
     "geojson": "conakry",
+    "geojsons": [
+      {
+        "name": "salala",
+        "outline": "rgba(74, 175, 192, 0.5)"
+      }
+    ],
     "dampenZoom": 0.0
   },
   "conakry2": {

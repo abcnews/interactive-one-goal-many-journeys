@@ -23,6 +23,7 @@
     fill: string;
     outline: string;
     outlineWidth: number;
+    opacity: Tween<number>;
   };
 
   const FADE_DURATION = 600;
@@ -38,62 +39,75 @@
 
   let { geojsons = [] }: { geojsons?: GeoJsonLayer[] } = $props();
 
+  // Track each layer's opacity individually so they can fade independently
   let activeLayers = $state<ActiveLayer[]>([]);
-  let fadeTimeout: ReturnType<typeof setTimeout> | null = null;
-
-  // Single shared opacity tween for all layers
-  const opacity = new Tween(0, { duration: FADE_DURATION, easing: sineInOut });
+  let cleanupTimeout: ReturnType<typeof setTimeout> | null = null;
 
   $effect(() => {
-    // Only depend on geojsons, not activeLayers or opacity
-    const incoming = geojsons;
+    const incomingNames = new Set(geojsons.map((g) => g.name));
+    const activeNames = new Set(activeLayers.map((l) => l.id));
 
-    if (fadeTimeout) {
-      clearTimeout(fadeTimeout);
-      fadeTimeout = null;
+    // Cancel any pending cleanup — incoming may have changed before it fired
+    if (cleanupTimeout) {
+      clearTimeout(cleanupTimeout);
+      cleanupTimeout = null;
     }
 
-    if (incoming.length > 0) {
-      opacity.target = 0;
+    // Fade out layers that are no longer in incoming
+    for (const layer of activeLayers) {
+      if (!incomingNames.has(layer.id)) {
+        layer.opacity.target = 0;
+      } else {
+        // Make sure layers that should be visible are faded back in
+        layer.opacity.target = 1;
+      }
+    }
 
-      fadeTimeout = setTimeout(() => {
-        activeLayers = incoming.flatMap((geo) => {
-          const url = geojsonMap[geo.name];
-          if (!url) return [];
-          return [{
+    // Add layers that are new
+    for (const geo of geojsons) {
+      if (!activeNames.has(geo.name)) {
+        const url = geojsonMap[geo.name];
+        if (!url) continue;
+        const opacity = new Tween(0, {
+          duration: FADE_DURATION,
+          easing: sineInOut,
+        });
+        activeLayers = [
+          ...activeLayers,
+          {
             id: geo.name,
             url,
             fill: geo.fill ?? "rgba(0,0,0,0)",
             outline: geo.outline ?? "rgba(0,0,0,0)",
-            outlineWidth: geo.outlineWidth ?? 1,
-          }];
-        });
+            outlineWidth: geo.outlineWidth ?? 2,
+            opacity,
+          },
+        ];
         opacity.target = 1;
-        fadeTimeout = null;
-      }, FADE_DURATION);
-    } else {
-      opacity.target = 0;
-      fadeTimeout = setTimeout(() => {
-        activeLayers = [];
-        fadeTimeout = null;
-      }, FADE_DURATION);
+      }
     }
+
+    // Schedule cleanup — but only after fade is complete
+    cleanupTimeout = setTimeout(() => {
+      activeLayers = activeLayers.filter((l) => incomingNames.has(l.id));
+      cleanupTimeout = null;
+    }, FADE_DURATION);
   });
 </script>
 
-{#each activeLayers as layer}
+{#each activeLayers as layer (layer.id)}
   <GeoJSONSource id="geojson-multi-source-{layer.id}" data={layer.url}>
     <FillLayer
       paint={{
         "fill-color": layer.fill,
-        "fill-opacity": opacity.current,
+        "fill-opacity": layer.opacity.current,
       }}
     />
     <LineLayer
       paint={{
         "line-color": layer.outline,
         "line-width": layer.outlineWidth,
-        "line-opacity": opacity.current,
+        "line-opacity": layer.opacity.current,
       }}
     />
   </GeoJSONSource>
