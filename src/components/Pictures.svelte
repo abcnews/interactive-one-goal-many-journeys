@@ -7,7 +7,7 @@
     figures.forEach((img) => {
       const el = img as HTMLImageElement;
       const apply = () => {
-        if (el.naturalWidth > el.naturalHeight) {
+        if (el.naturalWidth >= el.naturalHeight) {
           // Landscape
           el.closest('[data-component="Figure"]')?.classList.add(
             "is-landscape",

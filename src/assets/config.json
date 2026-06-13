@@ -147,19 +147,37 @@
   "scotland": {
     "zoom": 2.6,
     "lng": -3,
-    "lat": 49.3219165
+    "lat": 49.3219165,
+    "geojsons": [
+      {
+        "name": "unitedkingdom",
+        "fill": "rgba(25,59,65,0.5)"
+      }
+    ]
   },
   "aberdeen": {
     "zoom": 3.4,
     "lng": -2.11,
     "lat": 57.15,
-    "dot": { "lng": -2.11, "lat": 57.15 }
+    "dot": { "lng": -2.11, "lat": 57.15 },
+    "geojsons": [
+      {
+        "name": "unitedkingdom",
+        "fill": "rgba(25,59,65,0.5)"
+      }
+    ]
   },
   "aberdeensouttar": {
     "zoom": 3.9,
     "lng": -2.11,
     "lat": 57.15,
-    "dot": { "lng": -2.11, "lat": 57.15 }
+    "dot": { "lng": -2.11, "lat": 57.15 },
+    "geojsons": [
+      {
+        "name": "unitedkingdom",
+        "fill": "rgba(25,59,65,0.5)"
+      }
+    ]
   },
   "liberia": {
     "zoom": 3.9,

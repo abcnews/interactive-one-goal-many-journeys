@@ -178,9 +178,9 @@
     <Light anchor="viewport" position={[1, 0, 0]} intensity={0} />
 
     {#if map}
-      <PulsingDot {map} {dotLocation} {center} />
       <!-- <GeoJsonOverlay {geojson} /> -->
       <GeoJsonMultiOverlay {geojsons} />
+      <PulsingDot {map} {dotLocation} {center} />
       <!-- <GeoLine
       id="globe-geoline"
       from={geoline?.from ?? null}

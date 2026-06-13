@@ -11,6 +11,7 @@
   import westernsydneyOutline from "../assets/geojson/westernsydney.geojson?url";
   import liberiaOutline from "../assets/geojson/liberia-outline_EPSG4326.geojson?url";
   import serbiaOutline from "../assets/geojson/serbia-outline.geojson?url";
+  import unitedKingdomOutline from "../assets/geojson/uk-outline.geojson?url";
 
   type GeoJsonLayer = {
     name: string;
@@ -39,6 +40,7 @@
     westernsydney: westernsydneyOutline,
     liberia: liberiaOutline,
     serbia: serbiaOutline,
+    unitedkingdom: unitedKingdomOutline,
   };
 
   let { geojsons = [] }: { geojsons?: GeoJsonLayer[] } = $props();
@@ -102,12 +104,14 @@
 {#each activeLayers as layer (layer.id)}
   <GeoJSONSource id="geojson-multi-source-{layer.id}" data={layer.url}>
     <FillLayer
+      beforeId="label_country_2"
       paint={{
         "fill-color": layer.fill,
         "fill-opacity": layer.opacity.current,
       }}
     />
     <LineLayer
+      beforeId="label_country_2"
       paint={{
         "line-color": layer.outline,
         "line-width": layer.outlineWidth,

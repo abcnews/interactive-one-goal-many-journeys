@@ -294,6 +294,8 @@
   $effect(() => {
     appState.setWindowInnerWidth(windowInnerWidth);
   });
+
+  $inspect(currentPanel)
 </script>
 
 <BackgroundStage>
