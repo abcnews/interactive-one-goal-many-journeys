@@ -82,7 +82,7 @@
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "boundary",
-      "minzoom": 3,
+      "minzoom": 2,
       "filter": [
         "all",
         ["==", ["get", "admin_level"], 2],
@@ -97,10 +97,10 @@
       },
       "paint": {
         "line-opacity": 1,
-        "line-blur": 0.4,
+        "line-color": "rgba(74, 81, 93, 1)",
+        "line-blur": 1,
         "line-offset": 0,
-        "line-width": 0.8,
-        "line-color": "#4A515D"
+        "line-width": 0.75
       }
     },
     {

@@ -24,6 +24,7 @@
     fill?: string;
     outline?: string;
     outlineWidth?: number;
+    outlineBlur?: number;
   };
 
   type ActiveLayer = {
@@ -32,6 +33,7 @@
     fill: string;
     outline: string;
     outlineWidth: number;
+    outlineBlur: number;
     opacity: Tween<number>;
   };
 
@@ -57,8 +59,7 @@
 
   let {
     geojsons = [],
-    beforeId,
-  }: { geojsons?: GeoJsonLayer[]; beforeId?: string } = $props();
+  }: { geojsons?: GeoJsonLayer[]; } = $props();
 
   // Track each layer's opacity individually so they can fade independently
   let activeLayers = $state<ActiveLayer[]>([]);
@@ -101,6 +102,7 @@
             fill: geo.fill ?? "rgba(0,0,0,0)",
             outline: geo.outline ?? "rgba(0,0,0,0)",
             outlineWidth: geo.outlineWidth ?? 1,
+            outlineBlur: geo.outlineBlur ?? 0.4,
             opacity,
           },
         ];
@@ -131,7 +133,7 @@
         "line-color": layer.outline,
         "line-width": layer.outlineWidth,
         "line-opacity": layer.opacity.current,
-        "line-blur": 0.4,
+        "line-blur": layer.outlineBlur,
         "line-offset": 0,
       }}
     />

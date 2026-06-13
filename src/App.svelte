@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, untrack } from "svelte";
-  import { sineInOut, cubicInOut } from "svelte/easing";
+  import { sineInOut, cubicInOut, linear, sineOut, cubicOut } from "svelte/easing";
   import { ScrollState } from "runed";
   import { interpolateZoom, interpolateNumber } from "d3-interpolate";
   import { parse } from "@abcnews/alternating-case-to-object";
@@ -50,6 +50,7 @@
           fill: v.optional(v.string()),
           outline: v.optional(v.string()),
           outlineWidth: v.optional(v.number()),
+          outlineBlur: v.optional(v.number()),
         }),
       ),
     ),
@@ -322,7 +323,7 @@
 </script>
 
 <BackgroundStage>
-  <div style:opacity={1 - cubicInOut(endPanelProgressSpring.current)}>
+  <div style:opacity={1 - sineOut(endPanelProgressSpring.current)}>
     <Globe
       view={reducedMotion.current ? viewReducedMotion : view}
       dotLocation={currentWithThreshold.dot ?? null}
@@ -336,14 +337,14 @@
     />
   </div>
 
-  <div
+  <!-- <div
     class="header-image"
     style:opacity={cubicInOut(endPanelProgressSpring.current)}
     style:transform={`scale(${1.05 - cubicInOut(endPanelProgressSpring.current) * 0.05})`}
     style:pointer-events="none"
   >
     <img src={headerImage} alt="Header" />
-  </div>
+  </div> -->
 </BackgroundStage>
 
 <!-- <LandingCollage /> -->
@@ -362,7 +363,7 @@
     height: 100dvh;
   }
 
-  .header-image {
+  /* .header-image {
     position: absolute;
     top: 0;
     left: 0;
@@ -374,5 +375,5 @@
       height: 100%;
       object-fit: cover;
     }
-  }
+  } */
 </style>

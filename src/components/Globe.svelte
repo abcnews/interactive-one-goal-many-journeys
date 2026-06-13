@@ -207,7 +207,7 @@
     {#if map}
       <!-- <GeoJsonOverlay {geojson} /> -->
       <PulsingDot {map} {dotLocation} {center} opacity={dotLocation ? 1 : 0} />
-      <GeoJsonMultiOverlay {geojsons} beforeId="pulsing-dot" />
+      <GeoJsonMultiOverlay {geojsons} />
 
       <!-- <GeoLine
       id="globe-geoline"
