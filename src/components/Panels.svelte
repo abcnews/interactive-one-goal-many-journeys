@@ -80,7 +80,7 @@
       }
 
       &.is-last {
-        margin-block-end: 60vh;
+        margin-block-end: 80vh;
       }
 
       &.reduced-margin-block-end {

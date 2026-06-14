@@ -6,6 +6,7 @@
     linear,
     sineOut,
     cubicOut,
+    quadIn
   } from "svelte/easing";
   import { ScrollState } from "runed";
   import { interpolateZoom, interpolateNumber } from "d3-interpolate";
@@ -310,7 +311,7 @@
     appState.setWindowInnerWidth(windowInnerWidth);
   });
 
-  $inspect(currentPanel);
+  // $inspect(currentPanel);
 
   // Should we fade the globe?
   const endPanelProgress = $derived.by(() => {
@@ -344,7 +345,7 @@
 </script>
 
 <BackgroundStage>
-  <div style:opacity={1 - sineOut(postFadeProgress)}>
+  <div style:opacity={1 - quadIn(postFadeProgress)}>
     <Globe
       view={reducedMotion.current ? viewReducedMotion : view}
       dotLocation={currentWithThreshold.dot ?? null}
