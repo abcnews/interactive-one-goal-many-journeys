@@ -80,33 +80,3 @@
     });
   });
 </script>
-
-<!-- {#if visible}
-  <GeoJSONSource
-    id="arc-origins"
-    data={{
-      type: "FeatureCollection",
-      features: arcs.map((arc) => ({
-        type: "Feature",
-        geometry: { type: "Point", coordinates: arc.from },
-        properties: { count: arc.count },
-      })),
-    }}
-  >
-    <CircleLayer
-      id="arc-origin-dots"
-      paint={{
-        "circle-radius": [
-          "interpolate",
-          ["exponential", 0.5],
-          ["get", "count"],
-          1,
-          3,
-          6,
-          5,
-        ],
-        "circle-color": "#F3BC00",
-      }}
-    />
-  </GeoJSONSource>
-{/if} -->

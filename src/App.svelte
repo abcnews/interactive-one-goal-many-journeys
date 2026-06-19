@@ -6,7 +6,7 @@
     linear,
     sineOut,
     cubicOut,
-    quadIn
+    quadIn,
   } from "svelte/easing";
   import { ScrollState } from "runed";
   import { interpolateZoom, interpolateNumber } from "d3-interpolate";
@@ -29,6 +29,7 @@
 
   import configData from "./assets/config.json";
   import headerImage from "./assets/images/header.png";
+  import { cons } from "effect/List";
 
   const { when, orElse } = Match;
 
@@ -120,6 +121,8 @@
     name: v.string(),
     zoom: v.optional(v.number()), // 100 percent = 1.0 zoom
     desktopzoom: v.optional(v.number()), // Same for Desktop
+    lat: v.optional(v.number()),
+    lng: v.optional(v.number()),
   });
 
   type PanelTag = v.InferOutput<typeof PanelTagSchema>;
@@ -131,6 +134,13 @@
     config: Config | null;
   };
 
+  /**
+   * Returns the shortest distance between two longitudes, accounting for the Earth's circumference.
+   *
+   * @param from - The starting longitude.
+   * @param to - The ending longitude.
+   * @returns The shortest distance between the two longitudes.
+   */
   function lngShortestPath(from: number, to: number): number {
     let delta = to - from;
     if (delta > 180) delta -= 360;
@@ -164,10 +174,15 @@
     if (!result.success) return null;
 
     const panelTag: PanelTag = result.output;
+
+    console.log("panelTag", panelTag);
+
     const {
       name,
-      zoom: zoomOverride,
-      desktopzoom: zoomDesktopOverride,
+      zoom: zoomOverride, // as
+      desktopzoom: zoomDesktopOverride, // as
+      lat,
+      lng,
     } = panelTag;
 
     const baseConfig = config.get(name);
@@ -179,6 +194,8 @@
       ...(zoomDesktopOverride !== undefined && {
         desktopZoom: zoomDesktopOverride / 100,
       }),
+      ...(lat !== undefined && { lat: lat }),
+      ...(lng !== undefined && { lng: lng }),
     };
 
     return {
@@ -337,11 +354,12 @@
   const normalize = (value: number, max: number) =>
     Math.min(1, Math.max(0, value / max));
 
-
   const postFadeProgress = $derived.by(() => {
     if (!pixelsPastFinalPanel) return 0;
     return Math.min(1, Math.max(0, pixelsPastFinalPanel / 600));
   });
+
+  $inspect(currentPanel);
 </script>
 
 <BackgroundStage>
