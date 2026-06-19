@@ -11,6 +11,7 @@
   import { ScrollState } from "runed";
   import { interpolateZoom, interpolateNumber } from "d3-interpolate";
   import { parse } from "@abcnews/alternating-case-to-object";
+  import { parse as parseConfigHash } from "@lib/configHashParser";
   import { SvelteMap } from "svelte/reactivity";
   import * as v from "valibot";
   import { Match } from "effect";
@@ -121,8 +122,6 @@
     name: v.string(),
     zoom: v.optional(v.number()), // 100 percent = 1.0 zoom
     desktopzoom: v.optional(v.number()), // Same for Desktop
-    lat: v.optional(v.number()),
-    lng: v.optional(v.number()),
   });
 
   type PanelTag = v.InferOutput<typeof PanelTagSchema>;
@@ -154,7 +153,7 @@
   ): U[] {
     return arr.flatMap((item, i) => {
       const result = fn(item, i);
-      return result ? [result] : [];
+      return result !== null && result !== undefined ? [result] : [];
     });
   }
 
@@ -173,17 +172,24 @@
     const result = v.safeParse(PanelTagSchema, parse(panel.dataset.tag || ""));
     if (!result.success) return null;
 
-    const panelTag: PanelTag = result.output;
+    const configEl = panel.querySelector('[id^="config"]');
 
-    console.log("panelTag", panelTag);
+    type ExtraConfig = {
+      lat?: number;
+      lng?: number;
+    };
+
+    const extraConfig: ExtraConfig = parseConfigHash(configEl?.id || "");
+
+    const panelTag: PanelTag = result.output;
 
     const {
       name,
       zoom: zoomOverride, // as
       desktopzoom: zoomDesktopOverride, // as
-      lat,
-      lng,
     } = panelTag;
+
+    const { lat, lng } = extraConfig ?? {};
 
     const baseConfig = config.get(name);
     if (!baseConfig) return null;
@@ -210,6 +216,7 @@
     if (!pageState.bodySize.height) return [];
 
     const currentScrollY = untrack(() => scroll.y);
+
     const panels = Array.from(
       document.querySelectorAll(
         '[data-key^="panel"]',
@@ -328,8 +335,6 @@
     appState.setWindowInnerWidth(windowInnerWidth);
   });
 
-  // $inspect(currentPanel);
-
   // Should we fade the globe?
   const endPanelProgress = $derived.by(() => {
     if (currentPanel?.name !== "endpanelfade") return 0;
@@ -358,8 +363,6 @@
     if (!pixelsPastFinalPanel) return 0;
     return Math.min(1, Math.max(0, pixelsPastFinalPanel / 600));
   });
-
-  $inspect(currentPanel);
 </script>
 
 <BackgroundStage>

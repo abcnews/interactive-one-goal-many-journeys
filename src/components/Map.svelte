@@ -43,7 +43,6 @@
     // setTimeout(() => {
     //   map?.getStyle().layers.forEach((l) => console.log(l.id, l.type));
     // }, 500);
-
     // map?.on("load", () => {
     //   ["label_country_1", "label_country_2"].forEach((id) => {
     //     map?.setLayoutProperty(id, "visibility", "visible");

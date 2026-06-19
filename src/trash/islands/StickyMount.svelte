@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
   import Globe from "../components/Globe.svelte";
   import Panels from "../components/Panels.svelte";
 </script>
@@ -38,4 +38,4 @@
     position: relative;
     z-index: 2;
   }
-</style>
+</style> -->
