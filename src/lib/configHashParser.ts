@@ -19,7 +19,9 @@ Into:
 
 */
 
-export function parse(src: string): Record<string, unknown> {
+type Coerced = boolean | null | number | string;
+
+export function parse(src: string): Record<string, Coerced> {
   return src.split("_").reduce(
     (acc, pair) => {
       const i = pair.indexOf(":");
@@ -28,11 +30,9 @@ export function parse(src: string): Record<string, unknown> {
       const raw = pair.slice(i + 1);
       return { ...acc, [key]: coerce(raw) };
     },
-    {} as Record<string, unknown>,
+    {} as Record<string, Coerced>,
   );
 }
-
-type Coerced = boolean | null | number | string;
 
 function coerce(raw: string): Coerced {
   if (raw === "true") return true;
