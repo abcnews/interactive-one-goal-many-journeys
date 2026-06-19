@@ -32,10 +32,12 @@ export function parse(src: string): Record<string, unknown> {
   );
 }
 
-function coerce(raw: string): unknown {
+type Coerced = boolean | null | number | string;
+
+function coerce(raw: string): Coerced {
   if (raw === "true") return true;
   if (raw === "false") return false;
-  if (raw === "null" || raw === "nil") return null;
+  if (raw === "null") return null;
   if (raw !== "" && !isNaN(Number(raw))) return Number(raw);
   return raw;
 }
